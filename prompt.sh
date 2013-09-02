@@ -1,13 +1,25 @@
+function enrich {
+    flag=$1
+    symbol=$2
+    if [[ $flag == "true" ]]
+    then
+	color="${on}"
+    else
+	color="${off}"
+    fi
+    PS1="${PS1}${color}${symbol} "
+}
 function enrich_if_not_null {
     symbol=$1
     variable=$2
-    if [[ -z "$variable" ]]
+    flag=false
+    if [[ -n "$variable" ]]
     then
-        flag=${off}
+        flag="true"
     else
-        flag=${on}
+	flag="false"
     fi
-    PS1="${PS1} ${flag}${symbol}"
+    enrich "${flag}" "${symbol}"
 }
 
 function enrich_if_equal {
@@ -16,11 +28,11 @@ function enrich_if_equal {
     condition=$3
     if [[ $variable == "${condition}" ]]
     then
-        flag=${on}
+        flag="true"
     else
-        flag=${off}
+	flag="false"
     fi
-    PS1="${PS1} ${flag}${symbol}"
+    enrich "${flag}" "${symbol}"
 }
 
 function enrich_if_greater_than_zero {
@@ -28,16 +40,18 @@ function enrich_if_greater_than_zero {
     variable=$2
     if [[ $variable -gt 0 ]]
     then
-        flag=${on}
+        flag="true"
     else
-        flag=${off}
+	flag="false"
     fi
-    PS1="${PS1} ${flag}${symbol}"
+    enrich "${flag}" "${symbol}"
 }
+
 function build_prompt {
     PS1=""
-    on="\[\033[1;37m\]"
-    off="\[\033[0;30m\]"
+    off="\[\033[1;30m\]"
+    on="\[\033[0;37m\]"
+    branch_color="\[\033[0;34m\]"
     blinking="\[\033[1;5;17m\]"
     reset="\[\033[0m\]"
 
@@ -54,8 +68,9 @@ function build_prompt {
     number_of_untracked=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
     enrich_if_greater_than_zero "∿" "${number_of_untracked}"
 
+    #PS1="${PS1} - ${on}${current_branch}"
+    PS1="${PS1}${reset} :"
 
-    PS1="${PS1}${reset} ${current_branch}:"
 }
 
 
