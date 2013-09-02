@@ -10,31 +10,7 @@ function enrich {
     if [[ $flag == true ]]; then color="${coloron}"; else color="${off}"; fi
     PS1="${PS1}${color}${symbol} "
 }
-function enrich_if_not_null {
-    symbol=$1
-    variable=$2
-    flag=false
-    if [[ -n "$variable" ]]
-    then
-        flag="true"
-    else
-	flag="false"
-    fi
-    enrich "${flag}" "${symbol}"
-}
 
-function enrich_if_equal {
-    symbol=$1
-    variable=$2
-    condition=$3
-    if [[ $variable == "${condition}" ]]
-    then
-        flag="true"
-    else
-	flag="false"
-    fi
-    enrich "${flag}" "${symbol}"
-}
 
 function enrich_if_greater_than_zero {
     symbol=$1
@@ -69,28 +45,34 @@ function build_prompt {
 	if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
 	upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
 	if [[ $upstream != "@{upstream}" ]]; then has_upstream=true; else has_upstream=false; upstream=""; fi
+    
+	number_of_modifications=$(git status --short 2> /dev/null|grep --count -e ^\.M)
+	if [[ ${number_of_modifications} -gt 0 ]] ; then  has_modifications=true; else has_modifications=false;  fi
+	number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^M)
+	if [[ ${number_of_modifications_cached} -gt 0 ]] ; then has_modifications_cached=true; else has_modifications_cached=false;  fi
+
+	number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
+	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
     fi
-    echo "is a git repo: ${is_a_git_repo}"
-    echo "current commit hash: ${current_commit_hash}"
-    echo "current branch: ${current_branch}"
-    echo "is detached: ${detached}"
-    echo "upstream branch: ${upstream}"
-    echo "Has upstream: ${has_upstream}"
+
+    echo "is a git repo:                ${is_a_git_repo}"
+    echo "current commit hash:          ${current_commit_hash}"
+    echo "current branch:               ${current_branch}"
+    echo "is detached:                  ${detached}"
+    echo "upstream branch:              ${upstream}"
+    echo "Has upstream:                 ${has_upstream}"
+    echo "Has mofications:              ${has_modifications}"
+    echo "Has mofications_cached:       ${has_modifications_cached}"
+    echo "Has untracked files:          ${has_untracked_files}"
     echo "-------------"
 
 
     enrich ${is_a_git_repo} "❤"
     enrich ${detached} "⚯" "${alert}"
+    enrich ${has_modifications} "✎"
+    enrich ${has_modifications_cached} "→"
+    enrich ${has_untracked_files} "∿"
 
-    number_of_modifications=$(git status --short 2> /dev/null|grep --count -e ^\.M)
-    if [[ ${number_of_modifications} -gt 0 ]] ; then  has_modifications=true;    else	has_modifications=false;  fi
-    enrich $has_modifications "✎"
-
-    number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^M)
-    enrich_if_greater_than_zero "→" "${number_of_modifications_cached}"
-
-    number_of_untracked=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
-    enrich_if_greater_than_zero "∿" "${number_of_untracked}"
 
     if [[ ${is_a_git_repo} == true ]]
     then
