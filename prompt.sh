@@ -80,7 +80,12 @@ function build_prompt {
 	then
 	    PS1="${PS1} ${on}($current_commit_hash_abbrev)"
 	else
-	    PS1="${PS1} ${on}(${current_branch})"
+	    if [[ $has_upstream == true ]]
+	    then
+		PS1="${PS1} ${on}(${current_branch} => ${upstream})"
+	    else
+		PS1="${PS1} ${on}(${current_branch})"
+	    fi
 	fi
 
     fi
