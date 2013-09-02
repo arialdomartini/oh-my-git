@@ -11,19 +11,6 @@ function enrich {
     PS1="${PS1}${color}${symbol} "
 }
 
-
-function enrich_if_greater_than_zero {
-    symbol=$1
-    variable=$2
-    if [[ $variable -gt 0 ]]
-    then
-        flag="true"
-    else
-	flag="false"
-    fi
-    enrich "${flag}" "${symbol}"
-}
-
 function build_prompt {
     PS1=""
     # Colors
@@ -35,7 +22,6 @@ function build_prompt {
     reset="\[\033[0m\]"
 
     # Git info
-    echo 1
     current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
     current_commit_hash_abbrev=$(git rev-parse --short HEAD 2> /dev/null)
     if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
@@ -48,34 +34,48 @@ function build_prompt {
     
 	number_of_modifications=$(git status --short 2> /dev/null|grep --count -e ^\.M)
 	if [[ ${number_of_modifications} -gt 0 ]] ; then  has_modifications=true; else has_modifications=false;  fi
-	number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^M)
+	
+	number_of_adds=$(git status --short 2> /dev/null|grep --count -e ^\A)
+	if [[ ${number_of_adds} -gt 0 ]] ; then  has_adds=true; else has_adds=false;  fi
+
+
+	number_of_deletions=$(git status --short 2> /dev/null|grep --count -e ^.D)
+	if [[ ${number_of_deletions} -gt 0 ]] ; then  has_deletions=true; else has_deletions=false;  fi
+	number_of_deletions_cached=$(git status --short 2> /dev/null|grep --count -e ^D)
+	if [[ ${number_of_deletions_cached} -gt 0 ]] ; then  has_deletions_cached=true; else has_deletions_cached=false;  fi
+
+	number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^[MA])
 	if [[ ${number_of_modifications_cached} -gt 0 ]] ; then has_modifications_cached=true; else has_modifications_cached=false;  fi
+
 
 	number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
 	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
     fi
 
-    echo "is a git repo:                ${is_a_git_repo}"
-    echo "current commit hash:          ${current_commit_hash}"
-    echo "current branch:               ${current_branch}"
-    echo "is detached:                  ${detached}"
-    echo "upstream branch:              ${upstream}"
-    echo "Has upstream:                 ${has_upstream}"
-    echo "Has mofications:              ${has_modifications}"
-    echo "Has mofications_cached:       ${has_modifications_cached}"
-    echo "Has untracked files:          ${has_untracked_files}"
-    echo "-------------"
-
-
-    enrich ${is_a_git_repo} "❤"
-    enrich ${detached} "⚯" "${alert}"
-    enrich ${has_modifications} "✎"
-    enrich ${has_modifications_cached} "→"
-    enrich ${has_untracked_files} "∿"
-
+#    echo "is a git repo:                ${is_a_git_repo}"
+#    echo "current commit hash:          ${current_commit_hash}"
+#    echo "current branch:               ${current_branch}"
+#    echo "is detached:                  ${detached}"
+#    echo "upstream branch:              ${upstream}"
+#    echo "Has upstream:                 ${has_upstream}"
+#    echo "Has mofications:              ${has_modifications}"
+#    echo "Has mofications_cached:       ${has_modifications_cached}"
+#    echo "Has untracked files:          ${has_untracked_files}"
+#    echo "Has deletions:                ${has_deletions}"
+#    echo "Has adds:                     ${has_adds}"
 
     if [[ ${is_a_git_repo} == true ]]
     then
+	enrich ${is_a_git_repo} "❤"
+	enrich ${detached} "⚯" "${alert}"
+	enrich ${has_modifications} "✎"
+	enrich ${has_adds} "+"
+	enrich ${has_deletions} "-"
+	enrich ${has_deletions_cached} "✖"
+	enrich ${has_modifications_cached} "→"
+	enrich ${has_untracked_files} "∿"
+
+
 	if [[ ${detached} == true ]]
 	then
 	    PS1="${PS1} ${on}($current_commit_hash_abbrev)"
@@ -89,7 +89,7 @@ function build_prompt {
 	fi
 
     fi
-    PS1="${PS1}${reset} :"
+    PS1="${PS1}${reset}${PREVIOUS_PS1}"
 
 }
 
