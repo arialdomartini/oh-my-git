@@ -82,7 +82,7 @@ function build_prompt {
 	else
 	    if [[ $has_upstream == true ]]
 	    then
-		PS1="${PS1} ${on}(${current_branch} => ${upstream})"
+		PS1="${PS1} ${on}(${current_branch} => ${upstream//\/$current_branch/})"
 	    else
 		PS1="${PS1} ${on}(${current_branch})"
 	    fi
