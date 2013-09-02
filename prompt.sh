@@ -1,8 +1,13 @@
 function enrich {
     flag=$1
     symbol=$2
-
-    if [[ $flag == true ]]; then color="${on}"; else color="${off}"; fi
+    if [[ -n $3 ]]
+    then
+	coloron=$3
+    else
+	coloron=${on}
+    fi
+    if [[ $flag == true ]]; then color="${coloron}"; else color="${off}"; fi
     PS1="${PS1}${color}${symbol} "
 }
 function enrich_if_not_null {
@@ -45,22 +50,37 @@ function enrich_if_greater_than_zero {
 
 function build_prompt {
     PS1=""
+    # Colors
     on="\[\033[0;37m\]"    
     off="\[\033[1;30m\]"
-    red="\[\033[0;31m\]"
+    alert="\[\033[0;31m\]"
     branch_color="\[\033[0;34m\]"
     blinking="\[\033[1;5;17m\]"
     reset="\[\033[0m\]"
 
-    current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-    if [[ -n "${current_branch}" ]]
-    then
-	is_a_git_repo=true
-    else
-	is_a_git_repo=false
+    # Git info
+    echo 1
+    current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
+    current_commit_hash_abbrev=$(git rev-parse --short HEAD 2> /dev/null)
+    if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
+    
+    if [[ $is_a_git_repo == true ]]; then 
+	current_branch=$(git rev-parse --abbrev-ref HEAD); 
+	if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
+	upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
+	if [[ $upstream != "@{upstream}" ]]; then has_upstream=true; else has_upstream=false; upstream=""; fi
     fi
-    enrich_if_not_null "❤" $current_branch
-    enrich_if_equal "⚯" "${current_branch}" "HEAD"
+    echo "is a git repo: ${is_a_git_repo}"
+    echo "current commit hash: ${current_commit_hash}"
+    echo "current branch: ${current_branch}"
+    echo "is detached: ${detached}"
+    echo "upstream branch: ${upstream}"
+    echo "Has upstream: ${has_upstream}"
+    echo "-------------"
+
+
+    enrich ${is_a_git_repo} "❤"
+    enrich ${detached} "⚯" "${alert}"
 
     number_of_modifications=$(git status --short 2> /dev/null|grep --count -e ^\.M)
     if [[ ${number_of_modifications} -gt 0 ]] ; then  has_modifications=true;    else	has_modifications=false;  fi
@@ -74,7 +94,13 @@ function build_prompt {
 
     if [[ ${is_a_git_repo} == true ]]
     then
-	PS1="${PS1} ${on}(${current_branch})"
+	if [[ ${detached} == true ]]
+	then
+	    PS1="${PS1} ${on}($current_commit_hash_abbrev)"
+	else
+	    PS1="${PS1} ${on}(${current_branch})"
+	fi
+
     fi
     PS1="${PS1}${reset} :"
 
