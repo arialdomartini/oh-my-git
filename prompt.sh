@@ -153,7 +153,10 @@ function build_prompt {
 	    then
 		if [[ ${will_rebase} ]]; then type_of_upstream="${rebase_tracking_branch_symbol}"; fi
 		if [[ ${will_merge} ]]; then type_of_upstream="${merge_tracking_branch_symbol}"; fi
-		PS1="${PS1} ${on}(${behind_ahead} ${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})"
+		if [[ -n "${behind_ahead}" ]]; then
+		    behind_ahead="${behind_ahead} "
+		fi
+		PS1="${PS1} ${on}(${behind_ahead}${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})"
 	    else
 		PS1="${PS1} ${on}(${current_branch})"
 	    fi
