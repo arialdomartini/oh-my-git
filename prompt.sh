@@ -11,6 +11,26 @@ function enrich {
     PS1="${PS1}${color}${symbol} "
 }
 
+function behind_ahead {
+    git for-each-ref --format="%(refname:short) %(upstream:short)" refs/heads | \
+	while read local remote
+    do
+	[ -z "$remote" ] && continue
+	delta=$(git rev-list --left-right ${local}...${remote} -- 2>/dev/null || continue)
+	commits_ahead=$(echo $delta|grep -c '^<' )
+	commits_behind=$(echo $delta | grep -c '^>' )
+	if [[ ${commits_ahead} -gt 0 ]]
+	then
+	    echo "+${commits_ahead}"
+	fi
+	if [[ ${commits_behind} -gt 0 ]]
+	then
+	    echo "-${commits_behind}"
+	fi
+    done
+
+}
+
 function build_prompt {
     PS1=""
     # Symbols
@@ -29,7 +49,6 @@ function build_prompt {
     if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
     if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
     if [[ -z "${finally}" ]]; then finally="\w ∙ "; fi
-
 
     # Colors
     on="\[\033[0;37m\]"    
@@ -62,7 +81,6 @@ function build_prompt {
 	number_of_adds=$(git status --short 2> /dev/null|grep --count -e ^\A)
 	if [[ ${number_of_adds} -gt 0 ]] ; then  has_adds=true; else has_adds=false;  fi
 
-
 	number_of_deletions=$(git status --short 2> /dev/null|grep --count -e ^.D)
 	if [[ ${number_of_deletions} -gt 0 ]] ; then  has_deletions=true; else has_deletions=false;  fi
 	number_of_deletions_cached=$(git status --short 2> /dev/null|grep --count -e ^D)
@@ -71,23 +89,28 @@ function build_prompt {
 	number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^[MA])
 	if [[ ${number_of_modifications_cached} -gt 0 ]] ; then has_modifications_cached=true; else has_modifications_cached=false;  fi
 
-
 	number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
 	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
+	
+
+	behind_ahead=$(behind_ahead)
+	
+	
+
     fi
 
-#    echo "is a git repo:                ${is_a_git_repo}"
-#    echo "current commit hash:          ${current_commit_hash}"
-#    echo "current branch:               ${current_branch}"
-#    echo "is detached:                  ${detached}"
-#    echo "upstream branch:              ${upstream}"
-#    echo "Has upstream:                 ${has_upstream}"
-#    echo "Has mofications:              ${has_modifications}"
-#    echo "Has mofications_cached:       ${has_modifications_cached}"
-#    echo "Has untracked files:          ${has_untracked_files}"
-#    echo "Has deletions:                ${has_deletions}"
-#    echo "Has adds:                     ${has_adds}"
-#echo "Just init:                        ${just_init}"
+    #    echo "is a git repo:                ${is_a_git_repo}"
+    #    echo "current commit hash:          ${current_commit_hash}"
+    #    echo "current branch:               ${current_branch}"
+    #    echo "is detached:                  ${detached}"
+    #    echo "upstream branch:              ${upstream}"
+    #    echo "Has upstream:                 ${has_upstream}"
+    #    echo "Has mofications:              ${has_modifications}"
+    #    echo "Has mofications_cached:       ${has_modifications_cached}"
+    #    echo "Has untracked files:          ${has_untracked_files}"
+    #    echo "Has deletions:                ${has_deletions}"
+    #    echo "Has adds:                     ${has_adds}"
+    #echo "Just init:                        ${just_init}"
 
 	
 
@@ -128,11 +151,9 @@ function build_prompt {
 	else
 	    if [[ $has_upstream == true ]]
 	    then
-
-#		if [[ ${will_rebase} ]]; then type_of_upstream="${rebase_tracking_branch_symbol}"; fi
+		if [[ ${will_rebase} ]]; then type_of_upstream="${rebase_tracking_branch_symbol}"; fi
 		if [[ ${will_merge} ]]; then type_of_upstream="${merge_tracking_branch_symbol}"; fi
-
-		PS1="${PS1} ${on}(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})"
+		PS1="${PS1} ${on}(${behind_ahead} ${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})"
 	    else
 		PS1="${PS1} ${on}(${current_branch})"
 	    fi
