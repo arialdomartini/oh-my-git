@@ -26,6 +26,7 @@ function build_prompt {
     if [[ -z "${has_upstream_symbol}" ]]; then has_upstream_symbol="⇅"; fi
     if [[ -z "${detached_symbol}" ]]; then detached_symbol="⚯"; fi
     if [[ -z "${can_fast_forward_symbol}" ]]; then can_fast_forward_symbol="»"; fi
+    if [[ -z "${has_diverged_symbol}" ]]; then has_diverged_symbol="Ⴤ"; fi
     if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
     if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
     if [[ -z "${display_tag_name}" ]]; then display_tag_name=true; fi
@@ -51,6 +52,7 @@ function build_prompt {
     current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); 
 
     if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
+
 
     if [ $is_a_git_repo == true -a $number_of_logs == 0 ]; then just_init=true; fi
 
@@ -83,15 +85,18 @@ function build_prompt {
 	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
 
-	commits_from_current_to_remote=$(git log --topo-order --format='%H' ${upstream} | grep ${current_commit_hash}|wc -l)
-	if [[ ${commits_from_current_to_remote} -gt 0 ]]; then
-	    can_fast_forward=true
-	else
-	    can_fast_forward=false
+	has_diverged=true
+	can_fast_forward=false
+	if [[ $(git log --topo-order --format='%H' ${current_commit_hash}^..${upstream} | grep -c ${current_commit_hash}) == 1 ]]; then has_diverged=false; fi
+	if [[ ${has_diverged} == false ]];
+	then
+	    commits_from_current_to_remote=$(git log --topo-order --format='%H' ${current_commit_hash}..${upstream} | wc -l )
+	    if [[ ${commits_from_current_to_remote} -gt 0 ]]; then
+		can_fast_forward=true
+	    fi
 	fi
 
-
-
+	will_rebase=$(git config --get branch.${current_branch}.rebase 2>/dev/null)
     fi
 	
 
@@ -107,24 +112,10 @@ function build_prompt {
 	enrich ${has_modifications} "${has_modifications_symbol}"
 	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}"
 
-	# XXX fix
-	needs_to_merge=false
-	will_merge=false
-	will_rebase=false
-
 	enrich ${is_on_a_tag} "${is_on_a_tag_symbol}"
 	enrich ${detached} "${detached_symbol}" "${alert}"
 
-
-	enrich ${needs_to_merge} "${needs_to_merge_symbol}" "${alert}"
-	enrich ${can_fast_forward} "${can_fast_forward_symbol}"
-
 	enrich ${has_upstream} "${has_upstream_symbol}"
-
-	if [ ${display_tag_name} == true -a ${is_on_a_tag} == true ]; 
-	then
-	    PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
-	fi
 
 	if [[ ${detached} == true ]]
 	then
@@ -136,22 +127,41 @@ function build_prompt {
 	else
 	    if [[ $has_upstream == true ]]
 	    then
-		if [[ ${will_rebase} ]]; then type_of_upstream="${rebase_tracking_branch_symbol}"; fi
-		if [[ ${will_merge} ]]; then type_of_upstream="${merge_tracking_branch_symbol}"; fi
-		behind_ahead_value=""
-		if [[ ${commits_ahead} -gt 0 ]]; then
-		    behind_ahead_value="+${commits_ahead} "
+		if [[ ${will_rebase} ]]; 
+		then 
+		    type_of_upstream="${rebase_tracking_branch_symbol}"; 
+		else
+		    type_of_upstream="${merge_tracking_branch_symbol}"; 
 		fi
-		if [[ ${commits_behind} -gt 0 ]]; then
-		    behind_ahead_value="-${commits_behind} "
+
+		if [[ ${has_diverged} == true ]]; then
+		    PS1="${PS1} ${has_diverged_symbol}"
+		else
+
+		    behind_ahead_value=""
+		    if [[ ${commits_ahead} -gt 0 ]]; then
+			behind_ahead_value="+${commits_ahead}"
+		    fi
+		    if [[ ${commits_behind} -gt 0 ]]; then
+			behind_ahead_value="-${commits_behind}"
+		    fi
+		    PS1="${PS1} ${on} ${can_fast_forward_symbol} ${behind_ahead_value}"
+		
 		fi
-		PS1="${PS1} ${on}(${behind_ahead_value}${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
+
+		PS1="${PS1} (${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
 	    else
 		PS1="${PS1} ${on}(${green}${current_branch}${reset})"
 	    fi
 	fi
 
+	if [ ${display_tag_name} == true -a ${is_on_a_tag} == true ];
+	then
+	    PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
+	fi
+
     fi
+
     if [[ ${two_lines} ]]; then break="\n\r"; fi
     PS1="${PS1}${reset}${break}${finally}"
 
