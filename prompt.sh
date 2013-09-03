@@ -13,6 +13,24 @@ function enrich {
 
 function build_prompt {
     PS1=""
+    # Symbols
+    if [[ -z "${is_a_git_repo_symbol}" ]]; then is_a_git_repo_symbol="❤"; fi
+    if [[ -z "${has_untracked_files_symbol}" ]]; then has_untracked_files_symbol="∿"; fi
+    if [[ -z "${has_adds_symbol}" ]]; then has_adds_symbol="+"; fi
+    if [[ -z "${has_deletions_symbol}" ]]; then has_deletions_symbol="-"; fi
+    if [[ -z "${has_deletions_cached_symbol}" ]]; then has_deletions_cached_symbol="✖"; fi
+    if [[ -z "${has_modifications_symbol}" ]]; then has_modifications_symbol="✎"; fi
+    if [[ -z "${has_modifications_cached_symbol}" ]]; then has_modifications_cached_symbol="→"; fi
+    if [[ -z "${is_on_a_tag_symbol}" ]]; then is_on_a_tag_symbol="⌫"; fi
+    if [[ -z "${needs_to_merge_symbol}" ]]; then needs_to_merge_symbol="ᄉ"; fi
+    if [[ -z "${has_upstream_symbol}" ]]; then has_upstream_symbol="⇅"; fi
+    if [[ -z "${detached_symbol}" ]]; then detached_symbol="⚯"; fi
+    if [[ -z "${can_fast_forward_symbol}" ]]; then can_fast_forward_symbol="»"; fi
+    if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
+    if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
+    if [[ -z "${finally}" ]]; then finally="\w ∙ "; fi
+
+
     # Colors
     on="\[\033[0;37m\]"    
     off="\[\033[1;30m\]"
@@ -71,46 +89,48 @@ function build_prompt {
 #    echo "Has adds:                     ${has_adds}"
 #echo "Just init:                        ${just_init}"
 
+	
+
     if [[ ${is_a_git_repo} == true ]]
     then
-	enrich ${is_a_git_repo} "❤"
-	enrich ${has_untracked_files} "∿"
-	enrich ${has_adds} "+"
+	enrich ${is_a_git_repo} "${is_a_git_repo_symbol}"
+	enrich ${has_untracked_files} "${has_untracked_files_symbol}"
+	enrich ${has_adds} "${has_adds_symbol}"
 
-	enrich ${has_deletions} "-"
-	enrich ${has_deletions_cached} "✖"
+	enrich ${has_deletions} "${has_deletions_symbol}"
+	enrich ${has_deletions_cached} "${has_deletions_cached_symbol}"
 
+	enrich ${has_modifications} "${has_modifications_symbol}"
+	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}"
 
-	enrich ${has_modifications} "✎"
-	enrich ${has_modifications_cached} "→"
-
-	need_to_merge=true
+	needs_to_merge=true
 	can_fast_forward=true
 	will_merge=true
 	will_rebase=true
 	two_lines=true
+	is_on_a_tag=true
 
-	enrich ${on_a_tag} "⌫"
-	enrich ${detached} "⚯" "${alert}"
+	enrich ${is_on_a_tag} "${is_on_a_tag_symbol}"
+	enrich ${detached} "${detached_symbol}" "${alert}"
 
 
-	enrich ${need_to_merge} "ᄉ" "${alert}"
-	enrich ${can_fast_forward} "»"
+	enrich ${needs_to_merge} "${needs_to_merge_symbol}" "${alert}"
+	enrich ${can_fast_forward} "${can_fast_forward_symbol}"
 
-	enrich ${has_upstream} "↕"
+	enrich ${has_upstream} "${has_upstream_symbol}"
 	if [[ ${detached} == true ]]
 	then
 	    if [[ ${just_init} == true ]]; then
 		PS1="${PS1} ${alert}detached"
 	    else
-		PS1="${PS1} ${on}($current_commit_hash_abbrev)"
+		PS1="${PS1} ${on}(${current_commit_hash_abbrev})"
 	    fi
 	else
 	    if [[ $has_upstream == true ]]
 	    then
 
-#		if [[ ${will_rebase} ]]; then type_of_upstream="↶"; fi
-		if [[ ${will_merge} ]]; then type_of_upstream="ᄉ"; fi
+#		if [[ ${will_rebase} ]]; then type_of_upstream="${rebase_tracking_branch_symbol}"; fi
+		if [[ ${will_merge} ]]; then type_of_upstream="${merge_tracking_branch_symbol}"; fi
 
 		PS1="${PS1} ${on}(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})"
 	    else
@@ -120,11 +140,11 @@ function build_prompt {
 
     fi
     if [[ ${two_lines} ]]; then break="\n\r"; fi
-    PS1="${PS1}${reset}${break}∙ \w"
-
+    PS1="${PS1}${reset}${break}${finally}"
 
 }
 
 
 #PREVIOUS_PROMPT=$PS1
 PROMPT_COMMAND=build_prompt
+
