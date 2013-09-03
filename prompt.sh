@@ -8,7 +8,7 @@ function enrich {
 	coloron=${on}
     fi
     if [[ $flag == true ]]; then color="${coloron}"; else color="${off}"; fi
-    PS1="${PS1}${color}${symbol} "
+    PS1="${PS1}${color}${symbol}${reset} "
 }
 
 function build_prompt {
@@ -29,6 +29,10 @@ function build_prompt {
     if [[ -z "${has_diverged_symbol}" ]]; then has_diverged_symbol="Ⴤ"; fi
     if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
     if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
+
+    # flags
+    if [[ -z "${display_has_upstream}" ]]; then display_has_upstream=false; fi
+    if [[ -z "${display_tag}" ]]; then display_tag=false; fi
     if [[ -z "${display_tag_name}" ]]; then display_tag_name=true; fi
     if [[ -z "${two_lines}" ]]; then two_lines=true; fi
     if [[ -z "${finally}" ]]; then finally="\w ∙ "; fi
@@ -81,9 +85,9 @@ function build_prompt {
 	commits_ahead=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^<')
 	commits_behind=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^>')
 
-	tag_at_current_commit=$(git describe --tags ${current_commit_hash} 2>/dev/null)
-	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
+	tag_at_current_commit=$(git describe --exact-match --tags ${current_commit_hash} 2>/dev/null)
+	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
 	has_diverged=true
 	can_fast_forward=false
@@ -112,10 +116,15 @@ function build_prompt {
 	enrich ${has_modifications} "${has_modifications_symbol}"
 	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}"
 
-	enrich ${is_on_a_tag} "${is_on_a_tag_symbol}"
+
+	if [[ ${display_tag} == true ]]; then
+	    enrich ${is_on_a_tag} "${is_on_a_tag_symbol}"
+	fi
 	enrich ${detached} "${detached_symbol}" "${alert}"
 
-	enrich ${has_upstream} "${has_upstream_symbol}"
+	if [[ ${display_has_upstream} == true ]]; then
+	    enrich ${has_upstream} "${has_upstream_symbol}"
+	fi
 
 	if [[ ${detached} == true ]]
 	then
