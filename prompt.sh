@@ -95,7 +95,8 @@ function build_prompt {
 
 	behind_ahead=$(behind_ahead)
 	
-	
+	tag_at_current_commit=$(git describe --tags ${current_commit_hash} 2>/dev/null)
+	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
     fi
 
@@ -131,7 +132,7 @@ function build_prompt {
 	will_merge=true
 	will_rebase=true
 	two_lines=true
-	is_on_a_tag=true
+	
 
 	enrich ${is_on_a_tag} "${is_on_a_tag_symbol}"
 	enrich ${detached} "${detached_symbol}" "${alert}"
@@ -141,6 +142,12 @@ function build_prompt {
 	enrich ${can_fast_forward} "${can_fast_forward_symbol}"
 
 	enrich ${has_upstream} "${has_upstream_symbol}"
+
+	if [[ ${is_on_a_tag} == true ]]; 
+	then
+	    PS1="${PS1} ${alert}[${tag_at_current_commit}]${reset}"
+	fi
+
 	if [[ ${detached} == true ]]
 	then
 	    if [[ ${just_init} == true ]]; then
