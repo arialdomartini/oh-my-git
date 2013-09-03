@@ -11,26 +11,6 @@ function enrich {
     PS1="${PS1}${color}${symbol} "
 }
 
-function behind_ahead {
-    git for-each-ref --format="%(refname:short) %(upstream:short)" refs/heads | \
-	while read local remote
-    do
-	[ -z "$remote" ] && continue
-	delta=$(git rev-list --left-right ${local}...${remote} -- 2>/dev/null || continue)
-	commits_ahead=$(echo $delta|grep -c '^<' )
-	commits_behind=$(echo $delta | grep -c '^>' )
-	if [[ ${commits_ahead} -gt 0 ]]
-	then
-	    echo "+${commits_ahead}"
-	fi
-	if [[ ${commits_behind} -gt 0 ]]
-	then
-	    echo "-${commits_behind}"
-	fi
-    done
-
-}
-
 function build_prompt {
     PS1=""
     # Symbols
@@ -49,12 +29,15 @@ function build_prompt {
     if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
     if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
     if [[ -z "${display_tag_name}" ]]; then display_tag_name=true; fi
+    if [[ -z "${two_lines}" ]]; then two_lines=true; fi
     if [[ -z "${finally}" ]]; then finally="\w ∙ "; fi
 
     # Colors
     on="\[\033[0;37m\]"    
     off="\[\033[1;30m\]"
     alert="\[\033[0;31m\]"
+    green="\[\033[0;32m\]"
+    yellow="\[\033[0;33m\]"
     branch_color="\[\033[0;34m\]"
     blinking="\[\033[1;5;17m\]"
     reset="\[\033[0m\]"
@@ -94,26 +77,13 @@ function build_prompt {
 	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
 	
 
-	behind_ahead=$(behind_ahead)
-	
+	commits_ahead=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^<')
+	commits_behind=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^>')
+
 	tag_at_current_commit=$(git describe --tags ${current_commit_hash} 2>/dev/null)
 	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
     fi
-
-    #    echo "is a git repo:                ${is_a_git_repo}"
-    #    echo "current commit hash:          ${current_commit_hash}"
-    #    echo "current branch:               ${current_branch}"
-    #    echo "is detached:                  ${detached}"
-    #    echo "upstream branch:              ${upstream}"
-    #    echo "Has upstream:                 ${has_upstream}"
-    #    echo "Has mofications:              ${has_modifications}"
-    #    echo "Has mofications_cached:       ${has_modifications_cached}"
-    #    echo "Has untracked files:          ${has_untracked_files}"
-    #    echo "Has deletions:                ${has_deletions}"
-    #    echo "Has adds:                     ${has_adds}"
-    #echo "Just init:                        ${just_init}"
-
 	
 
     if [[ ${is_a_git_repo} == true ]]
@@ -128,12 +98,11 @@ function build_prompt {
 	enrich ${has_modifications} "${has_modifications_symbol}"
 	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}"
 
-	needs_to_merge=true
-	can_fast_forward=true
-	will_merge=true
-	will_rebase=true
-	two_lines=true
-	
+	# XXX fix
+	needs_to_merge=false
+	can_fast_forward=false
+	will_merge=false
+	will_rebase=false
 
 	enrich ${is_on_a_tag} "${is_on_a_tag_symbol}"
 	enrich ${detached} "${detached_symbol}" "${alert}"
@@ -146,7 +115,7 @@ function build_prompt {
 
 	if [ ${display_tag_name} == true -a ${is_on_a_tag} == true ]; 
 	then
-	    PS1="${PS1} ${alert}[${tag_at_current_commit}]${reset}"
+	    PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
 	fi
 
 	if [[ ${detached} == true ]]
@@ -161,12 +130,15 @@ function build_prompt {
 	    then
 		if [[ ${will_rebase} ]]; then type_of_upstream="${rebase_tracking_branch_symbol}"; fi
 		if [[ ${will_merge} ]]; then type_of_upstream="${merge_tracking_branch_symbol}"; fi
-		if [[ -n "${behind_ahead}" ]]; then
-		    behind_ahead="${behind_ahead} "
+		if [[ ${commits_ahead} -gt 0 ]]; then
+		    behind_ahead_value="+${commits_ahead} "
 		fi
-		PS1="${PS1} ${on}(${behind_ahead}${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})"
+		if [[ ${commits_behind} -gt 0 ]]; then
+		    behind_ahead_value="-${commits_behind} "
+		fi
+		PS1="${PS1} ${on}(${behind_ahead_value}${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
 	    else
-		PS1="${PS1} ${on}(${current_branch})"
+		PS1="${PS1} ${on}(${green}${current_branch}${reset})"
 	    fi
 	fi
 
@@ -177,7 +149,6 @@ function build_prompt {
 }
 
 
-#PREVIOUS_PROMPT=$PS1
-display_tag_name=false
+
 PROMPT_COMMAND=build_prompt
 
