@@ -88,6 +88,7 @@ function build_prompt {
 	can_fast_forward=true
 	will_merge=true
 	will_rebase=true
+	two_lines=true
 
 	enrich ${on_a_tag} "⌫"
 	enrich ${detached} "⚯" "${alert}"
@@ -118,7 +119,9 @@ function build_prompt {
 	fi
 
     fi
-    PS1="${PS1}${reset}∙ "
+    if [[ ${two_lines} ]]; then break="\n\r"; fi
+    PS1="${PS1}${reset}${break}∙ \w"
+
 
 }
 
