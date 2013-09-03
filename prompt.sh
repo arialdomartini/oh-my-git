@@ -74,15 +74,29 @@ function build_prompt {
     if [[ ${is_a_git_repo} == true ]]
     then
 	enrich ${is_a_git_repo} "❤"
-	enrich ${detached} "⚯" "${alert}"
-	enrich ${has_modifications} "✎"
+	enrich ${has_untracked_files} "∿"
 	enrich ${has_adds} "+"
+
 	enrich ${has_deletions} "-"
 	enrich ${has_deletions_cached} "✖"
+
+
+	enrich ${has_modifications} "✎"
 	enrich ${has_modifications_cached} "→"
-	enrich ${has_untracked_files} "∿"
+
+	need_to_merge=true
+	can_fast_forward=true
+	will_merge=true
+	will_rebase=true
+
+	enrich ${on_a_tag} "⌫"
+	enrich ${detached} "⚯" "${alert}"
 
 
+	enrich ${need_to_merge} "ᄉ" "${alert}"
+	enrich ${can_fast_forward} "»"
+
+	enrich ${has_upstream} "↕"
 	if [[ ${detached} == true ]]
 	then
 	    if [[ ${just_init} == true ]]; then
@@ -93,7 +107,11 @@ function build_prompt {
 	else
 	    if [[ $has_upstream == true ]]
 	    then
-		PS1="${PS1} ${on}(${current_branch} => ${upstream//\/$current_branch/})"
+
+#		if [[ ${will_rebase} ]]; then type_of_upstream="↶"; fi
+		if [[ ${will_merge} ]]; then type_of_upstream="ᄉ"; fi
+
+		PS1="${PS1} ${on}(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})"
 	    else
 		PS1="${PS1} ${on}(${current_branch})"
 	    fi
