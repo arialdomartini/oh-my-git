@@ -76,12 +76,21 @@ function build_prompt {
 	number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
 	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
 	
-
 	commits_ahead=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^<')
 	commits_behind=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^>')
 
 	tag_at_current_commit=$(git describe --tags ${current_commit_hash} 2>/dev/null)
 	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
+
+
+	commits_from_current_to_remote=$(git log --topo-order --format='%H' ${upstream} | grep ${current_commit_hash}|wc -l)
+	if [[ ${commits_from_current_to_remote} -gt 0 ]]; then
+	    can_fast_forward=true
+	else
+	    can_fast_forward=false
+	fi
+
+
 
     fi
 	
@@ -100,7 +109,6 @@ function build_prompt {
 
 	# XXX fix
 	needs_to_merge=false
-	can_fast_forward=false
 	will_merge=false
 	will_rebase=false
 
@@ -130,6 +138,7 @@ function build_prompt {
 	    then
 		if [[ ${will_rebase} ]]; then type_of_upstream="${rebase_tracking_branch_symbol}"; fi
 		if [[ ${will_merge} ]]; then type_of_upstream="${merge_tracking_branch_symbol}"; fi
+		behind_ahead_value=""
 		if [[ ${commits_ahead} -gt 0 ]]; then
 		    behind_ahead_value="+${commits_ahead} "
 		fi
