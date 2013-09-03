@@ -48,6 +48,7 @@ function build_prompt {
     if [[ -z "${can_fast_forward_symbol}" ]]; then can_fast_forward_symbol="»"; fi
     if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
     if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
+    if [[ -z "${display_tag_name}" ]]; then display_tag_name=true; fi
     if [[ -z "${finally}" ]]; then finally="\w ∙ "; fi
 
     # Colors
@@ -143,7 +144,7 @@ function build_prompt {
 
 	enrich ${has_upstream} "${has_upstream_symbol}"
 
-	if [[ ${is_on_a_tag} == true ]]; 
+	if [ ${display_tag_name} == true -a ${is_on_a_tag} == true ]; 
 	then
 	    PS1="${PS1} ${alert}[${tag_at_current_commit}]${reset}"
 	fi
@@ -177,5 +178,6 @@ function build_prompt {
 
 
 #PREVIOUS_PROMPT=$PS1
+display_tag_name=false
 PROMPT_COMMAND=build_prompt
 
