@@ -174,9 +174,15 @@ function build_prompt {
 	    PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
 	fi
 
+    
+    fi
+    if [ ${two_lines} == true -a ${is_a_git_repo} == true ]; 
+    then 
+	break="\n"; 
+    else 
+	break=""; 
     fi
 
-    if [[ ${two_lines} ]]; then break="\n"; fi
     PS1="${PS1}${reset}${break}${finally}"
 
 }
