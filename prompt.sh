@@ -193,6 +193,5 @@ function build_prompt {
 }
 
 
-detached_symbol="D"
 PROMPT_COMMAND=build_prompt
 
