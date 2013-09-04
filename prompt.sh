@@ -30,6 +30,7 @@ function build_prompt {
     if [[ -z "${has_diverged_symbol}" ]]; then has_diverged_symbol="Ⴤ"; fi
     if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
     if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
+    if [[ -z "${should_push_symbol}" ]]; then should_push_symbol="↑"; fi
 
     # flags
     if [[ -z "${display_has_upstream}" ]]; then display_has_upstream=false; fi
@@ -86,22 +87,26 @@ function build_prompt {
 	number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
 	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
 	
-	commits_ahead=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^<')
-	commits_behind=$(git rev-list --left-right ${current_branch}...${upstream} -- 2>/dev/null | grep -c '^>')
-
-
 	tag_at_current_commit=$(git describe --exact-match --tags ${current_commit_hash} 2>/dev/null)
 	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
-	has_diverged=true
+
+	commits_ahead=0
+	commits_behind=0
+	has_diverged=false
 	can_fast_forward=false
-	if [[ $(git log --topo-order --format='%H' ${current_commit_hash}^..${upstream} | grep -c ${current_commit_hash}) == 1 ]]; then has_diverged=false; fi
-	if [[ ${has_diverged} == false ]];
+	can_fast_forward=false
+
+	commits_ahead=$(git log --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^<" )
+	commits_behind=$(git log --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
+
+	if [ ${commits_ahead} -gt 0 -a ${commits_behind} -gt 0  ];
 	then
-	    commits_from_current_to_remote=$(git log --topo-order --format='%H' ${current_commit_hash}..${upstream} | wc -l )
-	    if [[ ${commits_from_current_to_remote} -gt 0 ]]; then
-		can_fast_forward=true
-	    fi
+	    has_diverged=true
+	fi
+	if [ ${commits_ahead} -eq 0 -a ${commits_behind} -gt 0 ];
+	then
+	    can_fast_forward=true
 	fi
 
 	will_rebase=$(git config --get branch.${current_branch}.rebase 2>/dev/null)
@@ -147,20 +152,20 @@ function build_prompt {
 		else
 		    type_of_upstream="${merge_tracking_branch_symbol}"; 
 		fi
+		
+
 
 		if [[ ${has_diverged} == true ]]; then
-		    PS1="${PS1} ${has_diverged_symbol}"
+		    PS1="${PS1} -${commits_behind} ${has_diverged_symbol} +${commits_ahead}"
 		else
 
-		    behind_ahead_value=""
+		    if [[ ${commits_behind} -gt 0  ]]; then
+			PS1="${PS1} ${on} -${commits_behind} ${can_fast_forward_symbol} "
+		    fi
 		    if [[ ${commits_ahead} -gt 0 ]]; then
-			behind_ahead_value="+${commits_ahead}"
+			PS1="${PS1} ${on} ${should_push_symbol} +${commits_ahead}"
 		    fi
-		    if [[ ${commits_behind} -gt 0 ]]; then
-			behind_ahead_value="-${commits_behind}"
-		    fi
-		    PS1="${PS1} ${on} ${can_fast_forward_symbol} ${behind_ahead_value}"
-		
+
 		fi
 
 		PS1="${PS1} (${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
