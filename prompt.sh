@@ -20,7 +20,8 @@ function build_prompt {
     if [[ -z "${has_deletions_symbol}" ]]; then has_deletions_symbol="-"; fi
     if [[ -z "${has_deletions_cached_symbol}" ]]; then has_deletions_cached_symbol="✖"; fi
     if [[ -z "${has_modifications_symbol}" ]]; then has_modifications_symbol="✎"; fi
-    if [[ -z "${has_modifications_cached_symbol}" ]]; then has_modifications_cached_symbol="→"; fi
+    if [[ -z "${has_modifications_cached_symbol}" ]]; then has_modifications_cached_symbol="M"; fi
+    if [[ -z "${ready_to_commit_symbol}" ]]; then ready_to_commit_symbol="→"; fi
     if [[ -z "${is_on_a_tag_symbol}" ]]; then is_on_a_tag_symbol="⌫"; fi
     if [[ -z "${needs_to_merge_symbol}" ]]; then needs_to_merge_symbol="ᄉ"; fi
     if [[ -z "${has_upstream_symbol}" ]]; then has_upstream_symbol="⇅"; fi
@@ -67,6 +68,8 @@ function build_prompt {
     
 	number_of_modifications=$(git status --short 2> /dev/null|grep --count -e ^\.M)
 	if [[ ${number_of_modifications} -gt 0 ]] ; then  has_modifications=true; else has_modifications=false;  fi
+	number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^M)
+	if [[ ${number_of_modifications_cached} -gt 0 ]] ; then  has_modifications_cached=true; else has_modifications_cached=false;  fi
 	
 	number_of_adds=$(git status --short 2> /dev/null|grep --count -e ^\A)
 	if [[ ${number_of_adds} -gt 0 ]] ; then  has_adds=true; else has_adds=false;  fi
@@ -76,8 +79,9 @@ function build_prompt {
 	number_of_deletions_cached=$(git status --short 2> /dev/null|grep --count -e ^D)
 	if [[ ${number_of_deletions_cached} -gt 0 ]] ; then  has_deletions_cached=true; else has_deletions_cached=false;  fi
 
-	number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^[MA])
-	if [[ ${number_of_modifications_cached} -gt 0 ]] ; then has_modifications_cached=true; else has_modifications_cached=false;  fi
+	numbers_of_files_cached=$(git status --short 2> /dev/null|grep --count -e ^[MAD])
+	numbers_of_files_not_cached=$(git status --short 2> /dev/null|grep --count -e ^.[MAD\?])
+	if [ ${numbers_of_files_cached} -gt 0 -a ${numbers_of_files_not_cached} -eq 0 ] ; then ready_to_commit=true; else ready_to_commit=false;  fi
 
 	number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
 	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
@@ -115,6 +119,7 @@ function build_prompt {
 
 	enrich ${has_modifications} "${has_modifications_symbol}"
 	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}"
+	enrich ${ready_to_commit} "${ready_to_commit_symbol}" "${green}"
 
 
 	if [[ ${display_tag} == true ]]; then
