@@ -31,6 +31,8 @@ function build_prompt {
     if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
     if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
     if [[ -z "${should_push_symbol}" ]]; then should_push_symbol="↑"; fi
+    if [[ -z "${has_stashes_symbol}" ]]; then has_stashes_symbol="★"; fi
+	
 
     # flags
     if [[ -z "${display_has_upstream}" ]]; then display_has_upstream=false; fi
@@ -110,12 +112,16 @@ function build_prompt {
 	fi
 
 	will_rebase=$(git config --get branch.${current_branch}.rebase 2>/dev/null)
+
+	number_of_stashes=$(git stash list | wc -l)
+	if [[ ${number_of_stashes} -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
     fi
 	
 
     if [[ ${is_a_git_repo} == true ]]
     then
 	enrich ${is_a_git_repo} "${is_a_git_repo_symbol}"
+	enrich ${has_stashes} "${has_stashes_symbol}" "${yellow}"
 	enrich ${has_untracked_files} "${has_untracked_files_symbol}"
 	enrich ${has_adds} "${has_adds_symbol}"
 
@@ -191,7 +197,6 @@ function build_prompt {
     PS1="${PS1}${reset}${break}${finally}"
 
 }
-
 
 PROMPT_COMMAND=build_prompt
 
