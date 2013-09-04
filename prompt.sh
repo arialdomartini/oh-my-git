@@ -8,7 +8,7 @@ function enrich {
 	coloron=${on}
     fi
     if [[ $flag == true ]]; then color="${coloron}"; else color="${off}"; fi
-    PS1="${PS1}${color}${symbol}${reset} "
+    PS1="${PS1}${color}${symbol}${reset}  "
 }
 
 function build_prompt {
@@ -44,9 +44,10 @@ function build_prompt {
     # Colors
     on="\[\033[0;37m\]"    
     off="\[\033[1;30m\]"
-    alert="\[\033[0;31m\]"
+    red="\[\033[0;31m\]"
     green="\[\033[0;32m\]"
     yellow="\[\033[0;33m\]"
+    violet="\[\033[0;35m\]"
     branch_color="\[\033[0;34m\]"
     blinking="\[\033[1;5;17m\]"
     reset="\[\033[0m\]"
@@ -120,23 +121,23 @@ function build_prompt {
 
     if [[ ${is_a_git_repo} == true ]]
     then
-	enrich ${is_a_git_repo} "${is_a_git_repo_symbol}"
+	enrich ${is_a_git_repo} "${is_a_git_repo_symbol}" "${violet}"
 	enrich ${has_stashes} "${has_stashes_symbol}" "${yellow}"
-	enrich ${has_untracked_files} "${has_untracked_files_symbol}"
-	enrich ${has_adds} "${has_adds_symbol}"
+	enrich ${has_untracked_files} "${has_untracked_files_symbol}" "${red}"
+	enrich ${has_adds} "${has_adds_symbol}" "${yellow}"
 
-	enrich ${has_deletions} "${has_deletions_symbol}"
-	enrich ${has_deletions_cached} "${has_deletions_cached_symbol}"
+	enrich ${has_deletions} "${has_deletions_symbol}" "${red}"
+	enrich ${has_deletions_cached} "${has_deletions_cached_symbol}" "${yellow}"
 
-	enrich ${has_modifications} "${has_modifications_symbol}"
-	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}"
+	enrich ${has_modifications} "${has_modifications_symbol}" "${red}"
+	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}" "${yellow}"
 	enrich ${ready_to_commit} "${ready_to_commit_symbol}" "${green}"
 
 
 	if [[ ${display_tag} == true ]]; then
-	    enrich ${is_on_a_tag} "${is_on_a_tag_symbol}"
+	    enrich ${is_on_a_tag} "${is_on_a_tag_symbol}" "${yellow}"
 	fi
-	enrich ${detached} "${detached_symbol}" "${alert}"
+	enrich ${detached} "${detached_symbol}" "${red}"
 
 	if [[ ${display_has_upstream} == true ]]; then
 	    enrich ${has_upstream} "${has_upstream_symbol}"
@@ -145,7 +146,7 @@ function build_prompt {
 	if [[ ${detached} == true ]]
 	then
 	    if [[ ${just_init} == true ]]; then
-		PS1="${PS1} ${alert}detached"
+		PS1="${PS1} ${red}detached"
 	    else
 		PS1="${PS1} ${on}(${current_commit_hash_abbrev})"
 	    fi
