@@ -171,12 +171,12 @@ function build_prompt {
 
     fi
 
-    if [[ ${two_lines} ]]; then break="\n\r"; fi
+    if [[ ${two_lines} ]]; then break="\n"; fi
     PS1="${PS1}${reset}${break}${finally}"
 
 }
 
 
-
+detached_symbol="D"
 PROMPT_COMMAND=build_prompt
 
