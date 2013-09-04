@@ -20,7 +20,7 @@ function build_prompt {
     if [[ -z "${has_deletions_symbol}" ]]; then has_deletions_symbol="-"; fi
     if [[ -z "${has_deletions_cached_symbol}" ]]; then has_deletions_cached_symbol="✖"; fi
     if [[ -z "${has_modifications_symbol}" ]]; then has_modifications_symbol="✎"; fi
-    if [[ -z "${has_modifications_cached_symbol}" ]]; then has_modifications_cached_symbol="M"; fi
+    if [[ -z "${has_modifications_cached_symbol}" ]]; then has_modifications_cached_symbol="☲"; fi
     if [[ -z "${ready_to_commit_symbol}" ]]; then ready_to_commit_symbol="→"; fi
     if [[ -z "${is_on_a_tag_symbol}" ]]; then is_on_a_tag_symbol="⌫"; fi
     if [[ -z "${needs_to_merge_symbol}" ]]; then needs_to_merge_symbol="ᄉ"; fi
