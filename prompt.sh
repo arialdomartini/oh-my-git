@@ -133,9 +133,6 @@ function build_prompt {
 	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}" "${yellow}"
 	enrich ${ready_to_commit} "${ready_to_commit_symbol}" "${green}"
 
-	if [[ ${display_tag} == true ]]; then
-	    enrich ${is_on_a_tag} "${is_on_a_tag_symbol}" "${yellow}"
-	fi
 	enrich ${detached} "${detached_symbol}" "${red}"
 
 	if [[ ${display_has_upstream} == true ]]; then
@@ -179,6 +176,9 @@ function build_prompt {
 	    fi
 	fi
 
+	if [[ ${display_tag} == true ]]; then
+	    PS1="${PS1} ${yellow}${is_on_a_tag_symbol}${reset}"
+	fi
 	if [ ${display_tag_name} == true -a ${is_on_a_tag} == true ];
 	then
 	    PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
