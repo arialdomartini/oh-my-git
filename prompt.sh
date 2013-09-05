@@ -49,7 +49,7 @@ function build_prompt {
     yellow="\[\033[0;33m\]"
     violet="\[\033[0;35m\]"
     branch_color="\[\033[0;34m\]"
-    blinking="\[\033[1;5;17m\]"
+#    blinking="\[\033[1;5;17m\]"
     reset="\[\033[0m\]"
 
     # Git info
@@ -64,7 +64,6 @@ function build_prompt {
 
 
     if [ $is_a_git_repo == true -a $number_of_logs == 0 ]; then just_init=true; fi
-
     if [ $is_a_git_repo == true -a $number_of_logs -gt 0 ]; then 
 
 	upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
@@ -91,8 +90,8 @@ function build_prompt {
 	if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false;  fi
 	
 	tag_at_current_commit=$(git describe --exact-match --tags ${current_commit_hash} 2>/dev/null)
-	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
+	if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi;
 
 	commits_ahead=0
 	commits_behind=0
@@ -116,8 +115,9 @@ function build_prompt {
 
 	number_of_stashes=$(git stash list | wc -l)
 	if [[ ${number_of_stashes} -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
+    else
+	is_on_a_tag=false
     fi
-	
 
     if [[ ${is_a_git_repo} == true ]]
     then
@@ -133,7 +133,6 @@ function build_prompt {
 	enrich ${has_modifications_cached} "${has_modifications_cached_symbol}" "${yellow}"
 	enrich ${ready_to_commit} "${ready_to_commit_symbol}" "${green}"
 
-
 	if [[ ${display_tag} == true ]]; then
 	    enrich ${is_on_a_tag} "${is_on_a_tag_symbol}" "${yellow}"
 	fi
@@ -142,7 +141,6 @@ function build_prompt {
 	if [[ ${display_has_upstream} == true ]]; then
 	    enrich ${has_upstream} "${has_upstream_symbol}"
 	fi
-
 	if [[ ${detached} == true ]]
 	then
 	    if [[ ${just_init} == true ]]; then
@@ -153,7 +151,7 @@ function build_prompt {
 	else
 	    if [[ $has_upstream == true ]]
 	    then
-		if [[ ${will_rebase} ]]; 
+		if [[ ${will_rebase} == true ]]; 
 		then 
 		    type_of_upstream="${rebase_tracking_branch_symbol}"; 
 		else
@@ -185,9 +183,8 @@ function build_prompt {
 	then
 	    PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
 	fi
-
-    
     fi
+
     if [ ${two_lines} == true -a ${is_a_git_repo} == true ]; 
     then 
 	break="\n"; 
