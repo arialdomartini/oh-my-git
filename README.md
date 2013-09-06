@@ -16,7 +16,7 @@ oh-my-git!
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/12-stash.jpg)
 
 
-![alt tag](https://raw.github.com/arialdomartini/agile-to-fluff/gh-pages/images/shut-up-and-take-my-money.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/shut-up.gif)
 
 Installation
 ------------
