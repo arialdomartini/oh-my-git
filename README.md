@@ -15,3 +15,24 @@ oh-my-git!
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/11-diverge.jpg)
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/12-stash.jpg)
 
+
+![alt tag](https://raw.github.com/arialdomartini/agile-to-fluff/gh-pages/images/shut-up-and-take-my-money.jpg)
+
+Installation
+------------
+Fork the repo and git clone in your home directory
+Then add
+
+    source $HOME/oh-my-git/prompt.sh
+
+to the bash startup file (~/.profile on Mac, .bash_profile on Linux)
+
+Known bugs
+----------
+It works weird on brand new repositories, before the first commit
+It has been tested on Mac only
+
+zsh version
+-----------
+Coming soon. I'm working on the integration with zsh + oh-my-zsh + antigen
+Wanna help? Great! Fork it! It will be really appreciated!
