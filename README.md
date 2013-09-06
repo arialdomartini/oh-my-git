@@ -20,17 +20,18 @@ oh-my-git!
 
 Installation
 ------------
-Fork the repo and git clone in your home directory
+Fork the repo and git clone it in your home directory
 Then add
 
     source $HOME/oh-my-git/prompt.sh
 
-to the bash startup file (~/.profile on Mac, .bash_profile on Linux)
+to the bash startup file (~/.profile on Mac, .bash_profile or .bashrc on Linux)
 
-Known bugs
-----------
-It works weird on brand new repositories, before the first commit
-It has been tested on Mac only
+Known bugs and limitations
+--------------------------
+* It works weird on brand new repositories, before the first commit
+* It has been tested on Mac only
+* You need an unicode font (like Menlo or Monaco on Mac OS X)
 
 zsh version
 -----------
