@@ -7,6 +7,7 @@ function enrich {
     else
 	coloron=${on}
     fi
+    if [ ${use_color_off} == false -a ${flag} == false ]; then symbol=" "; fi
     if [[ $flag == true ]]; then color="${coloron}"; else color="${off}"; fi
     PS1="${PS1}${color}${symbol}${reset}  "
 }
@@ -40,6 +41,7 @@ function build_prompt {
     if [[ -z "${display_tag_name}" ]]; then display_tag_name=true; fi
     if [[ -z "${two_lines}" ]]; then two_lines=true; fi
     if [[ -z "${finally}" ]]; then finally="\w ∙ "; fi
+    if [[ -z "${use_color_off}" ]]; then use_color_off=false; fi
 
     # Colors
     on="\[\033[0;37m\]"    
