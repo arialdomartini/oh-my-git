@@ -13,7 +13,8 @@ oh-my-git!
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/09-ahead.jpg)
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/10-behind.jpg)
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/11-diverge.jpg)
-![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/12-stash.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/12-detached.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/samples/13-stash.jpg)
 
 
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git/gh-pages/images/shut-up.gif)
