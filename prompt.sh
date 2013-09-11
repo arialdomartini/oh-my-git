@@ -59,7 +59,7 @@ function build_prompt {
     current_commit_hash_abbrev=$(git rev-parse --short HEAD 2> /dev/null)
     if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
-    number_of_logs=$(git log 2>/dev/null| wc -l)
+    number_of_logs=$(git log --pretty=oneline 2>/dev/null| wc -l)
     current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); 
 
     if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
