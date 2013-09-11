@@ -101,8 +101,8 @@ function build_prompt {
 	can_fast_forward=false
 	can_fast_forward=false
 
-	commits_ahead=$(git log --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^<" )
-	commits_behind=$(git log --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
+	commits_ahead=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^<" )
+	commits_behind=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
 
 	if [ ${commits_ahead} -gt 0 -a ${commits_behind} -gt 0  ];
 	then
