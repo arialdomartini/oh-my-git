@@ -21,6 +21,20 @@ oh-my-git!
 
 Installation
 ------------
+
+One liner for Mac:
+
+    cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/oh-my-git/prompt.sh >> .profile
+
+
+One liner for Ubuntu:
+
+    cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/oh-my-git/prompt.sh >> .bashrc
+
+Then, set your Terminal font to Monospace (or edit oh-my-git and change the symbols used)
+
+Manually:
+
 Fork the repo and git clone it in your home directory
 Then add
 
@@ -32,7 +46,7 @@ Known bugs and limitations
 --------------------------
 * It works weird on brand new repositories, before the first commit
 * It has been tested on Mac only
-* You need an unicode font (like Menlo or Monaco on Mac OS X)
+* You need an unicode font (like Menlo or Monaco on Mac OS X, or Monospace on Ubuntu)
 
 zsh version
 -----------
