@@ -40,7 +40,7 @@ Then add
 
     source $HOME/oh-my-git/prompt.sh
 
-to the bash startup file (~/.profile on Mac, .bash_profile or .bashrc on Linux)
+to the bash startup file (~/.profile on Mac, .bashrc on Linux)
 
 Known bugs and limitations
 --------------------------
