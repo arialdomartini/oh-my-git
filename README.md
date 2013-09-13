@@ -33,22 +33,25 @@ One liner for Ubuntu:
 
 Then, set your Terminal font to Monospace (or edit oh-my-git and change the symbols used)
 
-Manually:
+Manual installation
+-------------------
 
 Fork the repo and git clone it in your home directory
+
 Then add
 
     source $HOME/oh-my-git/prompt.sh
 
-to the bash startup file (~/.profile on Mac, .bashrc on Linux)
+to the bash startup file (`~/.profile` on Mac, `~/.bashrc` on Linux)
 
 Known bugs and limitations
 --------------------------
 * It works weird on brand new repositories, before the first commit
-* It has been tested on Mac only
+* It has been tested on Mac and Ubuntu only. I never managed to make it work on Cygwin
 * You need an unicode font (like Menlo or Monaco on Mac OS X, or Monospace on Ubuntu)
+* With the default Ubuntu terminal font, some symbols are not properly displayed. Use Monospace, or edit the `prompt.sh` file and choose other symbols
 
 zsh version
 -----------
-Coming soon. I'm working on the integration with zsh + oh-my-zsh + antigen
+Coming soon. I'm working on the integration with `zsh` + `oh-my-zsh` + `antigen`
 Wanna help? Great! Fork it! It will be really appreciated!
