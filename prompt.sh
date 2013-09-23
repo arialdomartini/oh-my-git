@@ -26,7 +26,7 @@ function build_prompt {
 	if [[ -z "${is_on_a_tag_symbol}" ]]; then is_on_a_tag_symbol="⌫"; fi
 	if [[ -z "${needs_to_merge_symbol}" ]]; then needs_to_merge_symbol="ᄉ"; fi
 	if [[ -z "${has_upstream_symbol}" ]]; then has_upstream_symbol="⇅"; fi
-	if [[ -z "${detached_symbol}" ]]; then detached_symbol="⚯"; fi
+	if [[ -z "${detached_symbol}" ]]; then detached_symbol="⚯ "; fi
 	if [[ -z "${can_fast_forward_symbol}" ]]; then can_fast_forward_symbol="»"; fi
 	if [[ -z "${has_diverged_symbol}" ]]; then has_diverged_symbol="Ⴤ"; fi
 	if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
@@ -34,7 +34,7 @@ function build_prompt {
 	if [[ -z "${should_push_symbol}" ]]; then should_push_symbol="↑"; fi
 	if [[ -z "${has_stashes_symbol}" ]]; then has_stashes_symbol="★"; fi
 
-	# Flags
+	# flags
 	if [[ -z "${display_has_upstream}" ]]; then display_has_upstream=false; fi
 	if [[ -z "${display_tag}" ]]; then display_tag=false; fi
 	if [[ -z "${display_tag_name}" ]]; then display_tag_name=true; fi
@@ -150,13 +150,13 @@ function build_prompt {
 				fi
 
 				if [[ ${has_diverged} == true ]]; then
-					PS1="${PS1} -${commits_behind} ${has_diverged_symbol} +${commits_ahead} "
+					PS1="${PS1}-${commits_behind} ${has_diverged_symbol} +${commits_ahead} "
 				else
 					if [[ ${commits_behind} -gt 0 ]]; then
-						PS1="${PS1} ${on} -${commits_behind} ${can_fast_forward_symbol} "
+						PS1="${PS1}${on} -${commits_behind} ${can_fast_forward_symbol} "
 					fi
 					if [[ ${commits_ahead} -gt 0 ]]; then
-						PS1="${PS1} ${on} ${should_push_symbol} +${commits_ahead} "
+						PS1="${PS1}${on} ${should_push_symbol} +${commits_ahead} "
 					fi
 				fi
 				PS1="${PS1}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
