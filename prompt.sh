@@ -150,13 +150,13 @@ function build_prompt {
 				fi
 
 				if [[ ${has_diverged} == true ]]; then
-					PS1="${PS1} -${commits_behind} ${has_diverged_symbol} +${commits_ahead}"
+					PS1="${PS1} -${commits_behind} ${has_diverged_symbol} +${commits_ahead} "
 				else
 					if [[ ${commits_behind} -gt 0 ]]; then
 						PS1="${PS1} ${on} -${commits_behind} ${can_fast_forward_symbol} "
 					fi
 					if [[ ${commits_ahead} -gt 0 ]]; then
-						PS1="${PS1} ${on} ${should_push_symbol} +${commits_ahead}"
+						PS1="${PS1} ${on} ${should_push_symbol} +${commits_ahead} "
 					fi
 				fi
 				PS1="${PS1}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
