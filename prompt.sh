@@ -8,7 +8,7 @@ function enrich {
 	fi
 	if [ ${use_color_off} == false -a ${flag} == false ]; then symbol=" "; fi
 	if [[ $flag == true ]]; then color="${coloron}"; else color="${off}"; fi
-	PS1="${PS1}${color}${symbol}${reset}  "
+	PS1="${PS1}${color}${symbol}${reset} "
 }
 
 function build_prompt {
@@ -137,9 +137,9 @@ function build_prompt {
 		fi
 		if [[ ${detached} == true ]]; then
 			if [[ ${just_init} == true ]]; then
-				PS1="${PS1} ${red}detached"
+				PS1="${PS1}${red}detached"
 			else
-				PS1="${PS1} ${on}(${current_commit_hash_abbrev})"
+				PS1="${PS1}${on}(${current_commit_hash_abbrev})"
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
@@ -159,17 +159,17 @@ function build_prompt {
 						PS1="${PS1} ${on} ${should_push_symbol} +${commits_ahead}"
 					fi
 				fi
-				PS1="${PS1} (${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
+				PS1="${PS1}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
 			else
-				PS1="${PS1} ${on}(${green}${current_branch}${reset})"
+				PS1="${PS1}${on}(${green}${current_branch}${reset})"
 			fi
 		fi
 
 		if [[ ${display_tag} == true ]]; then
-			PS1="${PS1} ${yellow}${is_on_a_tag_symbol}${reset}"
+			PS1="${PS1}${yellow}${is_on_a_tag_symbol}${reset}"
 		fi
 		if [ ${display_tag_name} == true -a ${is_on_a_tag} == true ]; then
-			PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
+			PS1="${PS1}${yellow}[${tag_at_current_commit}]${reset}"
 		fi
 	fi
 
@@ -181,5 +181,7 @@ function build_prompt {
 
 	PS1="${PS1}${reset}${break}${finally}"
 }
+
+PS2="${yellow}→${reset} "
 
 PROMPT_COMMAND=build_prompt
