@@ -1,3 +1,42 @@
+# Symbols
+: ${is_a_git_repo_symbol:="❤"}
+: ${has_untracked_files_symbol:="∿"}
+: ${has_adds_symbol:="+"}
+: ${has_deletions_symbol:="-"}
+: ${has_deletions_cached_symbol:="✖"}
+: ${has_modifications_symbol:="✎"}
+: ${has_modifications_cached_symbol:="☲"}
+: ${ready_to_commit_symbol:="→"}
+: ${is_on_a_tag_symbol:="⌫"}
+: ${needs_to_merge_symbol:="ᄉ"}
+: ${has_upstream_symbol:="⇅"}
+: ${detached_symbol:="⚯ "}
+: ${can_fast_forward_symbol:="»"}
+: ${has_diverged_symbol:="Ⴤ"}
+: ${rebase_tracking_branch_symbol:="↶"}
+: ${merge_tracking_branch_symbol:="ᄉ"}
+: ${should_push_symbol:="↑"}
+: ${has_stashes_symbol:="★"}
+
+# Flags
+: ${display_has_upstream:=false}
+: ${display_tag:=false}
+: ${display_tag_name:=true}
+: ${two_lines:=true}
+: ${finally:="\w ∙ "}
+: ${use_color_off:=false}
+
+# Colors
+: ${on="\[\033[0;37m\]"}
+: ${off="\[\033[1;30m\]"}
+: ${red="\[\033[0;31m\]"}
+: ${green="\[\033[0;32m\]"}
+: ${yellow="\[\033[0;33m\]"}
+: ${violet="\[\033[0;35m\]"}
+: ${branch_color="\[\033[0;34m\]"}
+#: ${blinking="\[\033[1;5;17m\]"}
+: ${reset="\[\033[0m\]"}
+
 function enrich {
 	flag=$1
 	symbol=$2
@@ -13,45 +52,6 @@ function enrich {
 
 function build_prompt {
 	PS1=""
-
-	# Symbols
-	if [[ -z "${is_a_git_repo_symbol}" ]]; then is_a_git_repo_symbol="❤"; fi
-	if [[ -z "${has_untracked_files_symbol}" ]]; then has_untracked_files_symbol="∿"; fi
-	if [[ -z "${has_adds_symbol}" ]]; then has_adds_symbol="+"; fi
-	if [[ -z "${has_deletions_symbol}" ]]; then has_deletions_symbol="-"; fi
-	if [[ -z "${has_deletions_cached_symbol}" ]]; then has_deletions_cached_symbol="✖"; fi
-	if [[ -z "${has_modifications_symbol}" ]]; then has_modifications_symbol="✎"; fi
-	if [[ -z "${has_modifications_cached_symbol}" ]]; then has_modifications_cached_symbol="☲"; fi
-	if [[ -z "${ready_to_commit_symbol}" ]]; then ready_to_commit_symbol="→"; fi
-	if [[ -z "${is_on_a_tag_symbol}" ]]; then is_on_a_tag_symbol="⌫"; fi
-	if [[ -z "${needs_to_merge_symbol}" ]]; then needs_to_merge_symbol="ᄉ"; fi
-	if [[ -z "${has_upstream_symbol}" ]]; then has_upstream_symbol="⇅"; fi
-	if [[ -z "${detached_symbol}" ]]; then detached_symbol="⚯ "; fi
-	if [[ -z "${can_fast_forward_symbol}" ]]; then can_fast_forward_symbol="»"; fi
-	if [[ -z "${has_diverged_symbol}" ]]; then has_diverged_symbol="Ⴤ"; fi
-	if [[ -z "${rebase_tracking_branch_symbol}" ]]; then rebase_tracking_branch_symbol="↶"; fi
-	if [[ -z "${merge_tracking_branch_symbol}" ]]; then merge_tracking_branch_symbol="ᄉ"; fi
-	if [[ -z "${should_push_symbol}" ]]; then should_push_symbol="↑"; fi
-	if [[ -z "${has_stashes_symbol}" ]]; then has_stashes_symbol="★"; fi
-
-	# flags
-	if [[ -z "${display_has_upstream}" ]]; then display_has_upstream=false; fi
-	if [[ -z "${display_tag}" ]]; then display_tag=false; fi
-	if [[ -z "${display_tag_name}" ]]; then display_tag_name=true; fi
-	if [[ -z "${two_lines}" ]]; then two_lines=true; fi
-	if [[ -z "${finally}" ]]; then finally="\w ∙ "; fi
-	if [[ -z "${use_color_off}" ]]; then use_color_off=false; fi
-
-	# Colors
-	on="\[\033[0;37m\]"
-	off="\[\033[1;30m\]"
-	red="\[\033[0;31m\]"
-	green="\[\033[0;32m\]"
-	yellow="\[\033[0;33m\]"
-	violet="\[\033[0;35m\]"
-	branch_color="\[\033[0;34m\]"
-	#blinking="\[\033[1;5;17m\]"
-	reset="\[\033[0m\]"
 
 	# Git info
 	current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
