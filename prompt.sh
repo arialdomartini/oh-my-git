@@ -59,38 +59,38 @@ function build_prompt {
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
 	number_of_logs=$(git log --pretty=oneline 2> /dev/null | wc -l)
-	current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null);
+	current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
 
 	if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
 
-	if [ $is_a_git_repo == true -a $number_of_logs == 0 ]; then just_init=true; fi
-	if [ $is_a_git_repo == true -a $number_of_logs -gt 0 ]; then 
+	if [[ $is_a_git_repo == true && $number_of_logs == 0 ]]; then just_init=true; fi
+	if [[ $is_a_git_repo == true && $number_of_logs -gt 0 ]]; then 
 		upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
 		if [[ $upstream != "@{upstream}" ]]; then has_upstream=true; else has_upstream=false; upstream=""; fi
 
 		git_status=$(git status --porcelain 2> /dev/null)
 
 		number_of_modifications=$(echo "$git_status" | grep --count -e ^\.M)
-		if [[ $number_of_modifications -gt 0 ]] ; then has_modifications=true; else has_modifications=false; fi
+		if [[ $number_of_modifications -gt 0 ]]; then has_modifications=true; else has_modifications=false; fi
 
 		number_of_modifications_cached=$(echo "$git_status" | grep --count -e ^M)
-		if [[ ${number_of_modifications_cached} -gt 0 ]] ; then has_modifications_cached=true; else has_modifications_cached=false; fi
+		if [[ ${number_of_modifications_cached} -gt 0 ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
 
 		number_of_adds=$(echo "$git_status" | grep --count -e ^\A)
-		if [[ $number_of_adds -gt 0 ]] ; then has_adds=true; else has_adds=false; fi
+		if [[ $number_of_adds -gt 0 ]]; then has_adds=true; else has_adds=false; fi
 
 		number_of_deletions=$(echo "$git_status" | grep --count -e ^.D)
-		if [[ $number_of_deletions -gt 0 ]] ; then has_deletions=true; else has_deletions=false; fi
+		if [[ $number_of_deletions -gt 0 ]]; then has_deletions=true; else has_deletions=false; fi
 
 		number_of_deletions_cached=$(echo "$git_status" | grep --count -e ^D)
-		if [[ $number_of_deletions_cached -gt 0 ]] ; then has_deletions_cached=true; else has_deletions_cached=false; fi
+		if [[ $number_of_deletions_cached -gt 0 ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
 
 		numbers_of_files_cached=$(echo "$git_status" | grep --count -e ^[MAD])
 		numbers_of_files_not_cached=$(echo "$git_status" | grep --count -e ^.[MAD\?])
-		if [ $numbers_of_files_cached -gt 0 -a $numbers_of_files_not_cached -eq 0 ] ; then ready_to_commit=true; else ready_to_commit=false; fi
+		if [[ $numbers_of_files_cached -gt 0 && $numbers_of_files_not_cached -eq 0 ]]; then ready_to_commit=true; else ready_to_commit=false; fi
 
 		number_of_untracked_files=$(echo "$git_status" | grep --count -e ^\?\?)
-		if [[ $number_of_untracked_files -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false; fi
+		if [[ $number_of_untracked_files -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
 
 		tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
 		if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
@@ -103,10 +103,10 @@ function build_prompt {
 		commits_ahead=$(echo "$commits_diff" | grep -c "^<" )
 		commits_behind=$(echo "$commits_diff" | grep -c "^>" )
 
-		if [ $commits_ahead -gt 0 -a $commits_behind -gt 0 ]; then
+		if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
 			has_diverged=true
 		fi
-		if [ $commits_ahead -eq 0 -a $commits_behind -gt 0 ]; then
+		if [[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]]; then
 			can_fast_forward=true
 		fi
 
@@ -169,15 +169,15 @@ function build_prompt {
 		if [[ $display_tag == true ]]; then
 			PS1="${PS1}${yellow}${is_on_a_tag_symbol}${reset}"
 		fi
-		if [ $display_tag_name == true -a $is_on_a_tag == true ]; then
+		if [[ $display_tag_name == true && $is_on_a_tag == true ]]; then
 			PS1="${PS1}${yellow}[${tag_at_current_commit}]${reset}"
 		fi
 	fi
 
-	if [ $two_lines == true -a $is_a_git_repo == true ]; then
-		break="\n";
+	if [[ $two_lines == true && $is_a_git_repo == true ]]; then
+		break="\n"
 	else
-		break="";
+		break=""
 	fi
 
 	PS1="${PS1}${reset}${break}${finally}"
