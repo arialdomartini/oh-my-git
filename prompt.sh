@@ -103,7 +103,7 @@ function build_prompt {
 		commits_behind=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
 
 		if [ ${commits_ahead} -gt 0 -a ${commits_behind} -gt 0 ]; then
-			as_diverged=true
+			has_diverged=true
 		fi
 		if [ ${commits_ahead} -eq 0 -a ${commits_behind} -gt 0 ]; then
 			can_fast_forward=true
