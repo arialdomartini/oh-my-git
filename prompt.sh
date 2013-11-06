@@ -58,8 +58,8 @@ function build_prompt {
 	current_commit_hash_abbrev=$(git rev-parse --short HEAD 2> /dev/null)
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
-	number_of_logs=$(git log --pretty=oneline 2>/dev/null| wc -l)
-	current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null);
+	number_of_logs=$(git log --pretty=oneline 2> /dev/null | wc -l)
+	current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null);
 
 	if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
 
@@ -68,29 +68,31 @@ function build_prompt {
 		upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
 		if [[ $upstream != "@{upstream}" ]]; then has_upstream=true; else has_upstream=false; upstream=""; fi
 
-		number_of_modifications=$(git status --short 2> /dev/null|grep --count -e ^\.M)
+		git_status=$(git status --porcelain 2> /dev/null)
+
+		number_of_modifications=$(echo ${git_status} | grep --count -e ^\.M)
 		if [[ ${number_of_modifications} -gt 0 ]] ; then has_modifications=true; else has_modifications=false; fi
 
-		number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^M)
+		number_of_modifications_cached=$(echo ${git_status} | grep --count -e ^M)
 		if [[ ${number_of_modifications_cached} -gt 0 ]] ; then has_modifications_cached=true; else has_modifications_cached=false; fi
 
-		number_of_adds=$(git status --short 2> /dev/null|grep --count -e ^\A)
+		number_of_adds=$(echo ${git_status} | grep --count -e ^\A)
 		if [[ ${number_of_adds} -gt 0 ]] ; then has_adds=true; else has_adds=false; fi
 
-		number_of_deletions=$(git status --short 2> /dev/null|grep --count -e ^.D)
+		number_of_deletions=$(echo ${git_status} | grep --count -e ^.D)
 		if [[ ${number_of_deletions} -gt 0 ]] ; then has_deletions=true; else has_deletions=false; fi
 
-		number_of_deletions_cached=$(git status --short 2> /dev/null|grep --count -e ^D)
+		number_of_deletions_cached=$(echo ${git_status} | grep --count -e ^D)
 		if [[ ${number_of_deletions_cached} -gt 0 ]] ; then has_deletions_cached=true; else has_deletions_cached=false; fi
 
-		numbers_of_files_cached=$(git status --short 2> /dev/null|grep --count -e ^[MAD])
-		numbers_of_files_not_cached=$(git status --short 2> /dev/null|grep --count -e ^.[MAD\?])
+		numbers_of_files_cached=$(echo ${git_status} | grep --count -e ^[MAD])
+		numbers_of_files_not_cached=$(echo ${git_status} | grep --count -e ^.[MAD\?])
 		if [ ${numbers_of_files_cached} -gt 0 -a ${numbers_of_files_not_cached} -eq 0 ] ; then ready_to_commit=true; else ready_to_commit=false; fi
 
-		number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
+		number_of_untracked_files=$(echo ${git_status} | grep --count -e ^\?\?)
 		if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false; fi
 
-		tag_at_current_commit=$(git describe --exact-match --tags ${current_commit_hash} 2>/dev/null)
+		tag_at_current_commit=$(git describe --exact-match --tags ${current_commit_hash} 2> /dev/null)
 		if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
 
 		commits_ahead=0
@@ -98,9 +100,11 @@ function build_prompt {
 		has_diverged=false
 		can_fast_forward=false
 		can_fast_forward=false
+		
+		commits=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
 
-		commits_ahead=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^<" )
-		commits_behind=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
+		commits_ahead=$(echo ${commits} | grep -c "^<" )
+		commits_behind=$(echo ${commits} | grep -c "^>" )
 
 		if [ ${commits_ahead} -gt 0 -a ${commits_behind} -gt 0 ]; then
 			has_diverged=true
@@ -109,7 +113,7 @@ function build_prompt {
 			can_fast_forward=true
 		fi
 
-		will_rebase=$(git config --get branch.${current_branch}.rebase 2>/dev/null)
+		will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
 
 		number_of_stashes=$(git stash list | wc -l)
 		if [[ ${number_of_stashes} -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
