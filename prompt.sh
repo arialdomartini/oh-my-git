@@ -50,7 +50,7 @@ function build_prompt {
 	yellow="\[\033[0;33m\]"
 	violet="\[\033[0;35m\]"
 	branch_color="\[\033[0;34m\]"
-	# blinking="\[\033[1;5;17m\]"
+	#blinking="\[\033[1;5;17m\]"
 	reset="\[\033[0m\]"
 
 	# Git info
@@ -59,7 +59,7 @@ function build_prompt {
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
 	number_of_logs=$(git log --pretty=oneline 2>/dev/null| wc -l)
-	current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); 
+	current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null);
 
 	if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
 
@@ -73,7 +73,7 @@ function build_prompt {
 
 		number_of_modifications_cached=$(git status --short 2> /dev/null|grep --count -e ^M)
 		if [[ ${number_of_modifications_cached} -gt 0 ]] ; then has_modifications_cached=true; else has_modifications_cached=false; fi
-	
+
 		number_of_adds=$(git status --short 2> /dev/null|grep --count -e ^\A)
 		if [[ ${number_of_adds} -gt 0 ]] ; then has_adds=true; else has_adds=false; fi
 
@@ -89,7 +89,7 @@ function build_prompt {
 
 		number_of_untracked_files=$(git status --short 2> /dev/null|grep --count -e ^\?\?)
 		if [[ ${number_of_untracked_files} -gt 0 ]] ; then has_untracked_files=true; else has_untracked_files=false; fi
-	
+
 		tag_at_current_commit=$(git describe --exact-match --tags ${current_commit_hash} 2>/dev/null)
 		if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
 
@@ -103,10 +103,10 @@ function build_prompt {
 		commits_behind=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
 
 		if [ ${commits_ahead} -gt 0 -a ${commits_behind} -gt 0 ]; then
-		  has_diverged=true
+			as_diverged=true
 		fi
 		if [ ${commits_ahead} -eq 0 -a ${commits_behind} -gt 0 ]; then
-		  can_fast_forward=true
+			can_fast_forward=true
 		fi
 
 		will_rebase=$(git config --get branch.${current_branch}.rebase 2>/dev/null)
@@ -133,7 +133,7 @@ function build_prompt {
 		enrich ${detached} "${detached_symbol}" "${red}"
 
 		if [[ ${display_has_upstream} == true ]]; then
-		  enrich ${has_upstream} "${has_upstream_symbol}"
+			enrich ${has_upstream} "${has_upstream_symbol}"
 		fi
 		if [[ ${detached} == true ]]; then
 			if [[ ${just_init} == true ]]; then
@@ -143,10 +143,10 @@ function build_prompt {
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
-				if [[ ${will_rebase} == true ]]; then 
-					type_of_upstream="${rebase_tracking_branch_symbol}"; 
+				if [[ ${will_rebase} == true ]]; then
+					type_of_upstream="${rebase_tracking_branch_symbol}";
 				else
-					type_of_upstream="${merge_tracking_branch_symbol}"; 
+					type_of_upstream="${merge_tracking_branch_symbol}";
 				fi
 
 				if [[ ${has_diverged} == true ]]; then
@@ -173,10 +173,10 @@ function build_prompt {
 		fi
 	fi
 
-	if [ ${two_lines} == true -a ${is_a_git_repo} == true ]; then 
-		break="\n"; 
-	else 
-		break=""; 
+	if [ ${two_lines} == true -a ${is_a_git_repo} == true ]; then
+		break="\n";
+	else
+		break="";
 	fi
 
 	PS1="${PS1}${reset}${break}${finally}"
