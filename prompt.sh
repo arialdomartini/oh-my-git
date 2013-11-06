@@ -95,16 +95,14 @@ function build_prompt {
 		tag_at_current_commit=$(git describe --exact-match --tags ${current_commit_hash} 2> /dev/null)
 		if [[ -n "${tag_at_current_commit}" ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
 
-		commits_ahead=0
-		commits_behind=0
 		has_diverged=false
 		can_fast_forward=false
 		can_fast_forward=false
 		
-		commits=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
+		commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
 
-		commits_ahead=$(echo ${commits} | grep -c "^<" )
-		commits_behind=$(echo ${commits} | grep -c "^>" )
+		commits_ahead=$(echo ${commits_diff} | grep -c "^<" )
+		commits_behind=$(echo ${commits_diff} | grep -c "^>" )
 
 		if [ ${commits_ahead} -gt 0 -a ${commits_behind} -gt 0 ]; then
 			has_diverged=true
