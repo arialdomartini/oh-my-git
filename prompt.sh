@@ -57,7 +57,7 @@ function build_prompt {
 	current_commit_hash=$(git rev-parse --short HEAD 2> /dev/null)
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
-	number_of_logs=$(git log --pretty=oneline 2> /dev/null | wc -l)
+	number_of_logs=$(git log --pretty=oneline -n1 2> /dev/null | wc -l)
 
 	if [[ $is_a_git_repo == true && $number_of_logs == 0 ]]; then just_init=true; fi
 	if [[ $is_a_git_repo == true && $number_of_logs -gt 0 ]]; then 
