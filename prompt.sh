@@ -57,64 +57,64 @@ function build_prompt {
 	current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
-	number_of_logs=$(git log --pretty=oneline -n1 2> /dev/null | wc -l)
+	if [[ $is_a_git_repo == true ]]; then
+		current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+		if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
 
-	current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-	if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
+		number_of_logs=$(git log --pretty=oneline -n1 2> /dev/null | wc -l)
+		if [[ $number_of_logs -eq 0 ]]; then
+			just_init=true
+		else
+			upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
+			if [[ $upstream != '@{upstream}' ]]; then has_upstream=true; else has_upstream=false; upstream=''; fi
 
-	if [[ $is_a_git_repo == true && $number_of_logs -eq 0 ]]; then just_init=true; fi
-	if [[ $is_a_git_repo == true && $number_of_logs -gt 0 ]]; then
-		upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
-		if [[ $upstream != '@{upstream}' ]]; then has_upstream=true; else has_upstream=false; upstream=''; fi
+			git_status=$(git status --porcelain 2> /dev/null)
 
-		git_status=$(git status --porcelain 2> /dev/null)
+			if [[ $git_status =~ ^.M ]]; then has_modifications=true; else has_modifications=false; fi
 
-		if [[ $git_status =~ ^.M ]]; then has_modifications=true; else has_modifications=false; fi
+			if [[ $git_status =~ ^M ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
 
-		if [[ $git_status =~ ^M ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
+			if [[ $git_status =~ ^A ]]; then has_adds=true; else has_adds=false; fi
 
-		if [[ $git_status =~ ^A ]]; then has_adds=true; else has_adds=false; fi
+			if [[ $git_status =~ ^.D ]]; then has_deletions=true; else has_deletions=false; fi
 
-		if [[ $git_status =~ ^.D ]]; then has_deletions=true; else has_deletions=false; fi
+			if [[ $git_status =~ ^D ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
 
-		if [[ $git_status =~ ^D ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
+			if [[ $git_status =~ ^[MAD] && ! $git_status =~ ^.[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
 
-		if [[ $git_status =~ ^[MAD] && ! $git_status =~ ^.[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
+			if [[ $git_status =~ ^\?\? ]]; then has_untracked_files=true; else has_untracked_files=false; fi
 
-		if [[ $git_status =~ ^\?\? ]]; then has_untracked_files=true; else has_untracked_files=false; fi
+			tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
+			if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
 
-		tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
-		if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
-
-		has_diverged=false
-		can_fast_forward=false
+			has_diverged=false
+			can_fast_forward=false
 		
-		commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
+			commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
 
-		OLD_IFS=$IFS # save ifs
-		IFS=$'\n'
+			OLD_IFS=$IFS # save ifs
+			IFS=$'\n'
 
-		commits_ahead=(${commits_diff//>*/})
-		commits_behind=(${commits_diff//<*/})
+			commits_ahead=(${commits_diff//>*/})
+			commits_behind=(${commits_diff//<*/})
 
-		IFS=$OLD_IFS # restore ifs
+			IFS=$OLD_IFS # restore ifs
 		
-		commits_ahead=${#commits_ahead[@]}
-		commits_behind=${#commits_behind[@]}
+			commits_ahead=${#commits_ahead[@]}
+			commits_behind=${#commits_behind[@]}
 
-		if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
-			has_diverged=true
+			if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
+				has_diverged=true
+			fi
+			if [[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]]; then
+				can_fast_forward=true
+			fi
+
+			will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
+
+			number_of_stashes=$(wc -l 2> /dev/null < .git/refs/stash)
+			if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
 		fi
-		if [[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]]; then
-			can_fast_forward=true
-		fi
-
-		will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
-
-		number_of_stashes=$(cat .git/refs/stash 2> /dev/null | wc -l)
-		if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
-	else
-		is_on_a_tag=false
 	fi
 
 	if [[ $is_a_git_repo == true ]]; then
@@ -165,7 +165,7 @@ function build_prompt {
 			fi
 		fi
 
-		if [[ $display_tag == true ]]; then
+		if [[ $display_tag == true && $is_on_a_tag == true ]]; then
 			PS1="${PS1} ${yellow}${is_on_a_tag_symbol}${reset}"
 		fi
 		if [[ $display_tag_name == true && $is_on_a_tag == true ]]; then
