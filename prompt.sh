@@ -54,17 +54,16 @@ function build_prompt {
 	PS1=""
 
 	# Git info
-	current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
-	current_commit_hash_abbrev=$(git rev-parse --short HEAD 2> /dev/null)
+	current_commit_hash=$(git rev-parse --short HEAD 2> /dev/null)
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
 	number_of_logs=$(git log --pretty=oneline 2> /dev/null | wc -l)
-	current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-
-	if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
 
 	if [[ $is_a_git_repo == true && $number_of_logs == 0 ]]; then just_init=true; fi
 	if [[ $is_a_git_repo == true && $number_of_logs -gt 0 ]]; then 
+		current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+		if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
+
 		upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
 		if [[ $upstream != '@{upstream}' ]]; then has_upstream=true; else has_upstream=false; upstream=''; fi
 
@@ -140,7 +139,7 @@ function build_prompt {
 			if [[ $just_init == true ]]; then
 				PS1="${PS1}${red}detached"
 			else
-				PS1="${PS1}${on}(${current_commit_hash_abbrev})"
+				PS1="${PS1}${on}(${current_commit_hash})"
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
