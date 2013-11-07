@@ -54,7 +54,7 @@ function build_prompt {
 	PS1=""
 
 	# Git info
-	current_commit_hash=$(git rev-parse --short HEAD 2> /dev/null)
+	current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
 	number_of_logs=$(git log --pretty=oneline -n1 2> /dev/null | wc -l)
@@ -111,7 +111,7 @@ function build_prompt {
 
 		will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
 
-		number_of_stashes=$(git stash list 2> /dev/null | wc -l)
+		number_of_stashes=$(cat .git/refs/stash 2> /dev/null | wc -l)
 		if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
 	else
 		is_on_a_tag=false
@@ -139,7 +139,7 @@ function build_prompt {
 			if [[ $just_init == true ]]; then
 				PS1="${PS1}${red}detached"
 			else
-				PS1="${PS1}${on}(${current_commit_hash})"
+				PS1="${PS1}${on}(${current_commit_hash:0:7})"
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
