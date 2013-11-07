@@ -70,27 +70,19 @@ function build_prompt {
 
 		git_status=$(git status --porcelain 2> /dev/null)
 
-		number_of_modifications=$(echo "$git_status" | grep --count -e ^\.M)
-		if [[ $number_of_modifications -gt 0 ]]; then has_modifications=true; else has_modifications=false; fi
+		if [[ $git_status =~ ^.M ]]; then has_modifications=true; else has_modifications=false; fi
 
-		number_of_modifications_cached=$(echo "$git_status" | grep --count -e ^M)
-		if [[ ${number_of_modifications_cached} -gt 0 ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
+		if [[ $git_status =~ ^M ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
 
-		number_of_adds=$(echo "$git_status" | grep --count -e ^\A)
-		if [[ $number_of_adds -gt 0 ]]; then has_adds=true; else has_adds=false; fi
+		if [[ $git_status =~ ^A ]]; then has_adds=true; else has_adds=false; fi
 
-		number_of_deletions=$(echo "$git_status" | grep --count -e ^.D)
-		if [[ $number_of_deletions -gt 0 ]]; then has_deletions=true; else has_deletions=false; fi
+		if [[ $git_status =~ ^.D ]]; then has_deletions=true; else has_deletions=false; fi
 
-		number_of_deletions_cached=$(echo "$git_status" | grep --count -e ^D)
-		if [[ $number_of_deletions_cached -gt 0 ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
+		if [[ $git_status =~ ^D ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
 
-		numbers_of_files_cached=$(echo "$git_status" | grep --count -e ^[MAD])
-		numbers_of_files_not_cached=$(echo "$git_status" | grep --count -e ^.[MAD\?])
-		if [[ $numbers_of_files_cached -gt 0 && $numbers_of_files_not_cached -eq 0 ]]; then ready_to_commit=true; else ready_to_commit=false; fi
+		if [[ $git_status =~ ^[MAD] && ! $git_status =~ ^.[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
 
-		number_of_untracked_files=$(echo "$git_status" | grep --count -e ^\?\?)
-		if [[ $number_of_untracked_files -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
+		if [[ $git_status =~ ^\?\? ]]; then has_untracked_files=true; else has_untracked_files=false; fi
 
 		tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
 		if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
