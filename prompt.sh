@@ -111,7 +111,7 @@ function build_prompt {
 
 		will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
 
-		number_of_stashes=$(git stash list | wc -l)
+		number_of_stashes=$(git stash list 2> /dev/null | wc -l)
 		if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
 	else
 		is_on_a_tag=false
