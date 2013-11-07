@@ -45,7 +45,7 @@ function enrich {
 	else
 		coloron=$on
 	fi
-	if [ $use_color_off == false -a $flag == false ]; then symbol=" "; fi
+	if [[ $use_color_off == false && $flag == false ]]; then symbol=' '; fi
 	if [[ $flag == true ]]; then color=$coloron; else color=$off; fi
 	PS1="${PS1}${color}${symbol}${reset} "
 }
@@ -59,11 +59,11 @@ function build_prompt {
 
 	number_of_logs=$(git log --pretty=oneline -n1 2> /dev/null | wc -l)
 
-	if [[ $is_a_git_repo == true && $number_of_logs == 0 ]]; then just_init=true; fi
-	if [[ $is_a_git_repo == true && $number_of_logs -gt 0 ]]; then 
-		current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-		if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
+	current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+	if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
 
+	if [[ $is_a_git_repo == true && $number_of_logs -eq 0 ]]; then just_init=true; fi
+	if [[ $is_a_git_repo == true && $number_of_logs -gt 0 ]]; then
 		upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
 		if [[ $upstream != '@{upstream}' ]]; then has_upstream=true; else has_upstream=false; upstream=''; fi
 
@@ -105,7 +105,7 @@ function build_prompt {
 		if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
 			has_diverged=true
 		fi
-		if [[ $commits_ahead == 0 && $commits_behind -gt 0 ]]; then
+		if [[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]]; then
 			can_fast_forward=true
 		fi
 
@@ -137,9 +137,9 @@ function build_prompt {
 		fi
 		if [[ $detached == true ]]; then
 			if [[ $just_init == true ]]; then
-				PS1="${PS1}${red}detached"
+				PS1="${PS1} ${red}detached"
 			else
-				PS1="${PS1}${on}(${current_commit_hash:0:7})"
+				PS1="${PS1} ${on}(${current_commit_hash:0:7})"
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
@@ -166,10 +166,10 @@ function build_prompt {
 		fi
 
 		if [[ $display_tag == true ]]; then
-			PS1="${PS1}${yellow}${is_on_a_tag_symbol}${reset}"
+			PS1="${PS1} ${yellow}${is_on_a_tag_symbol}${reset}"
 		fi
 		if [[ $display_tag_name == true && $is_on_a_tag == true ]]; then
-			PS1="${PS1}${yellow}[${tag_at_current_commit}]${reset}"
+			PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
 		fi
 	fi
 
