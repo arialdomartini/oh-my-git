@@ -103,10 +103,10 @@ function build_prompt {
 		commits_ahead=${#commits_ahead[@]}
 		commits_behind=${#commits_behind[@]}
 
-		if [[ $commits_ahead > 0 && $commits_behind > 0 ]]; then
+		if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
 			has_diverged=true
 		fi
-		if [[ $commits_ahead == 0 && $commits_behind > 0 ]]; then
+		if [[ $commits_ahead == 0 && $commits_behind -gt 0 ]]; then
 			can_fast_forward=true
 		fi
 
@@ -153,10 +153,10 @@ function build_prompt {
 				if [[ $has_diverged == true ]]; then
 					PS1="${PS1}-${commits_behind} ${has_diverged_symbol} +${commits_ahead} "
 				else
-					if [[ $commits_behind > 0 ]]; then
+					if [[ $commits_behind -gt 0 ]]; then
 						PS1="${PS1}${on} -${commits_behind} ${can_fast_forward_symbol} "
 					fi
-					if [[ $commits_ahead > 0 ]]; then
+					if [[ $commits_ahead -gt 0 ]]; then
 						PS1="${PS1}${on} ${should_push_symbol} +${commits_ahead} "
 					fi
 				fi
