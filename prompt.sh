@@ -1,41 +1,41 @@
 # Symbols
-: ${is_a_git_repo_symbol:="❤"}
-: ${has_untracked_files_symbol:="∿"}
-: ${has_adds_symbol:="+"}
-: ${has_deletions_symbol:="-"}
-: ${has_deletions_cached_symbol:="✖"}
-: ${has_modifications_symbol:="✎"}
-: ${has_modifications_cached_symbol:="☲"}
-: ${ready_to_commit_symbol:="→"}
-: ${is_on_a_tag_symbol:="⌫"}
-: ${needs_to_merge_symbol:="ᄉ"}
-: ${has_upstream_symbol:="⇅"}
-: ${detached_symbol:="⚯ "}
-: ${can_fast_forward_symbol:="»"}
-: ${has_diverged_symbol:="Ⴤ"}
-: ${rebase_tracking_branch_symbol:="↶"}
-: ${merge_tracking_branch_symbol:="ᄉ"}
-: ${should_push_symbol:="↑"}
-: ${has_stashes_symbol:="★"}
+: ${is_a_git_repo_symbol:='❤'}
+: ${has_untracked_files_symbol:='∿'}
+: ${has_adds_symbol:='+'}
+: ${has_deletions_symbol:='-'}
+: ${has_deletions_cached_symbol:='✖'}
+: ${has_modifications_symbol:='✎'}
+: ${has_modifications_cached_symbol:='☲'}
+: ${ready_to_commit_symbol:='→'}
+: ${is_on_a_tag_symbol:='⌫'}
+: ${needs_to_merge_symbol:='ᄉ'}
+: ${has_upstream_symbol:='⇅'}
+: ${detached_symbol:='⚯ '}
+: ${can_fast_forward_symbol:='»'}
+: ${has_diverged_symbol:='Ⴤ'}
+: ${rebase_tracking_branch_symbol:='↶'}
+: ${merge_tracking_branch_symbol:='ᄉ'}
+: ${should_push_symbol:='↑'}
+: ${has_stashes_symbol:='★'}
 
 # Flags
 : ${display_has_upstream:=false}
 : ${display_tag:=false}
 : ${display_tag_name:=true}
 : ${two_lines:=true}
-: ${finally:="\w ∙ "}
+: ${finally:='\w ∙ '}
 : ${use_color_off:=false}
 
 # Colors
-: ${on="\[\033[0;37m\]"}
-: ${off="\[\033[1;30m\]"}
-: ${red="\[\033[0;31m\]"}
-: ${green="\[\033[0;32m\]"}
-: ${yellow="\[\033[0;33m\]"}
-: ${violet="\[\033[0;35m\]"}
-: ${branch_color="\[\033[0;34m\]"}
-#: ${blinking="\[\033[1;5;17m\]"}
-: ${reset="\[\033[0m\]"}
+: ${on='\[\033[0;37m\]'}
+: ${off='\[\033[1;30m\]'}
+: ${red='\[\033[0;31m\]'}
+: ${green='\[\033[0;32m\]'}
+: ${yellow='\[\033[0;33m\]'}
+: ${violet='\[\033[0;35m\]'}
+: ${branch_color='\[\033[0;34m\]'}
+#: ${blinking='\[\033[1;5;17m\]'}
+: ${reset='\[\033[0m\]'}
 
 function enrich {
 	flag=$1
@@ -45,7 +45,7 @@ function enrich {
 	else
 		coloron=$on
 	fi
-	if [ $use_color_off == false -a $flag == false ]; then symbol=" "; fi
+	if [[ $use_color_off == false && $flag == false ]]; then symbol=' '; fi
 	if [[ $flag == true ]]; then color=$coloron; else color=$off; fi
 	PS1="${PS1}${color}${symbol}${reset} "
 }
@@ -55,67 +55,64 @@ function build_prompt {
 
 	# Git info
 	current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
-	current_commit_hash_abbrev=$(git rev-parse --short HEAD 2> /dev/null)
 	if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
 
-	number_of_logs=$(git log --pretty=oneline 2> /dev/null | wc -l)
-	current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+	if [[ $is_a_git_repo == true ]]; then
+		current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+		if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
 
-	if [[ $current_branch == "HEAD" ]]; then detached=true; else detached=false; fi
+		number_of_logs=$(git log --pretty=oneline -n1 2> /dev/null | wc -l)
+		if [[ $number_of_logs -eq 0 ]]; then
+			just_init=true
+		else
+			upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
+			if [[ -n $upstream ]]; then has_upstream=true; else has_upstream=false; fi
 
-	if [[ $is_a_git_repo == true && $number_of_logs == 0 ]]; then just_init=true; fi
-	if [[ $is_a_git_repo == true && $number_of_logs -gt 0 ]]; then 
-		upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
-		if [[ $upstream != "@{upstream}" ]]; then has_upstream=true; else has_upstream=false; upstream=""; fi
+			git_status=$(git status --porcelain 2> /dev/null)
 
-		git_status=$(git status --porcelain 2> /dev/null)
+			if [[ $git_status =~ ^.M ]]; then has_modifications=true; else has_modifications=false; fi
 
-		number_of_modifications=$(echo "$git_status" | grep --count -e ^\.M)
-		if [[ $number_of_modifications -gt 0 ]]; then has_modifications=true; else has_modifications=false; fi
+			if [[ $git_status =~ ^M ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
 
-		number_of_modifications_cached=$(echo "$git_status" | grep --count -e ^M)
-		if [[ ${number_of_modifications_cached} -gt 0 ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
+			if [[ $git_status =~ ^A ]]; then has_adds=true; else has_adds=false; fi
 
-		number_of_adds=$(echo "$git_status" | grep --count -e ^\A)
-		if [[ $number_of_adds -gt 0 ]]; then has_adds=true; else has_adds=false; fi
+			if [[ $git_status =~ ^.D ]]; then has_deletions=true; else has_deletions=false; fi
 
-		number_of_deletions=$(echo "$git_status" | grep --count -e ^.D)
-		if [[ $number_of_deletions -gt 0 ]]; then has_deletions=true; else has_deletions=false; fi
+			if [[ $git_status =~ ^D ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
 
-		number_of_deletions_cached=$(echo "$git_status" | grep --count -e ^D)
-		if [[ $number_of_deletions_cached -gt 0 ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
+			if [[ $git_status =~ ^[MAD] && ! $git_status =~ ^.[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
 
-		numbers_of_files_cached=$(echo "$git_status" | grep --count -e ^[MAD])
-		numbers_of_files_not_cached=$(echo "$git_status" | grep --count -e ^.[MAD\?])
-		if [[ $numbers_of_files_cached -gt 0 && $numbers_of_files_not_cached -eq 0 ]]; then ready_to_commit=true; else ready_to_commit=false; fi
+			if [[ $git_status =~ ^\?\? ]]; then has_untracked_files=true; else has_untracked_files=false; fi
 
-		number_of_untracked_files=$(echo "$git_status" | grep --count -e ^\?\?)
-		if [[ $number_of_untracked_files -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
+			tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
+			if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
 
-		tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
-		if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
+			has_diverged=false
+			can_fast_forward=false
 
-		has_diverged=false
-		can_fast_forward=false
-		
-		commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
+			commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
+			commits_ahead=0
+			commits_behind=0
 
-		commits_ahead=$(echo "$commits_diff" | grep -c "^<" )
-		commits_behind=$(echo "$commits_diff" | grep -c "^>" )
+			if [[ $commits_diff =~ ^\<(..) ]]; then
+				commits_ahead = ${#BASH_REMATCH[@]}
+			fi
+			if [[ $commits_diff =~ ^\>(..) ]]; then
+				commits_behind = ${#BASH_REMATCH[@]}
+			fi
 
-		if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
-			has_diverged=true
+			if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
+				has_diverged=true
+			fi
+			if [[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]]; then
+				can_fast_forward=true
+			fi
+
+			will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
+
+			number_of_stashes=$(wc -l 2> /dev/null < .git/refs/stash)
+			if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
 		fi
-		if [[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]]; then
-			can_fast_forward=true
-		fi
-
-		will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
-
-		number_of_stashes=$(git stash list | wc -l)
-		if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
-	else
-		is_on_a_tag=false
 	fi
 
 	if [[ $is_a_git_repo == true ]]; then
@@ -138,9 +135,9 @@ function build_prompt {
 		fi
 		if [[ $detached == true ]]; then
 			if [[ $just_init == true ]]; then
-				PS1="${PS1}${red}detached"
+				PS1="${PS1} ${red}detached"
 			else
-				PS1="${PS1}${on}(${current_commit_hash_abbrev})"
+				PS1="${PS1} ${on}(${current_commit_hash:0:7})"
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
@@ -166,18 +163,18 @@ function build_prompt {
 			fi
 		fi
 
-		if [[ $display_tag == true ]]; then
-			PS1="${PS1}${yellow}${is_on_a_tag_symbol}${reset}"
+		if [[ $display_tag == true && $is_on_a_tag == true ]]; then
+			PS1="${PS1} ${yellow}${is_on_a_tag_symbol}${reset}"
 		fi
 		if [[ $display_tag_name == true && $is_on_a_tag == true ]]; then
-			PS1="${PS1}${yellow}[${tag_at_current_commit}]${reset}"
+			PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
 		fi
 	fi
 
 	if [[ $two_lines == true && $is_a_git_repo == true ]]; then
-		break="\n"
+		break='\n'
 	else
-		break=""
+		break=''
 	fi
 
 	PS1="${PS1}${reset}${break}${finally}"
