@@ -89,7 +89,7 @@ function build_prompt {
 
 			has_diverged=false
 			can_fast_forward=false
-		
+
 			commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
 
 			commits_ahead=$(grep -c '^<' <<< "$commits_diff")
