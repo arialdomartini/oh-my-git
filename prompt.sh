@@ -91,9 +91,15 @@ function build_prompt {
 			can_fast_forward=false
 
 			commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
+			commits_ahead=0
+			commits_behind=0
 
-			commits_ahead=$(grep -c '^<' <<< "$commits_diff")
-			commits_behind=$(grep -c '^>' <<< "$commits_diff")
+			if [[ $commits_diff =~ ^\<(..) ]]; then
+				commits_ahead = ${#BASH_REMATCH[@]}
+			fi
+			if [[ $commits_diff =~ ^\>(..) ]]; then
+				commits_behind = ${#BASH_REMATCH[@]}
+			fi
 
 			if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
 				has_diverged=true
