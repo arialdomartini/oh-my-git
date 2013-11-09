@@ -110,7 +110,7 @@ function build_prompt {
 
 			will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
 
-			number_of_stashes=$(wc -l 2> /dev/null < .git/refs/stash)
+			number_of_stashes=$(wc -l 2> /dev/null < ${GIT_DIR:-.git}/refs/stash)
 			if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
 		fi
 	fi
