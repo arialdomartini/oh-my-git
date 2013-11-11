@@ -95,10 +95,10 @@ function build_prompt {
 			commits_behind=0
 
 			if [[ $commits_diff =~ ^\<(..) ]]; then
-				commits_ahead = ${#BASH_REMATCH[@]}
+				commits_ahead=${#BASH_REMATCH[@]}
 			fi
 			if [[ $commits_diff =~ ^\>(..) ]]; then
-				commits_behind = ${#BASH_REMATCH[@]}
+				commits_behind=${#BASH_REMATCH[@]}
 			fi
 
 			if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
