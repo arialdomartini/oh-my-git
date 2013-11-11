@@ -70,37 +70,29 @@ function build_prompt {
 
 			git_status=$(git status --porcelain 2> /dev/null)
 
-			if [[ $git_status =~ ^.M ]]; then has_modifications=true; else has_modifications=false; fi
+			if [[ $(grep -c ^.M <<< "$git_status") -gt 0 ]]; then has_modifications=true; else has_modifications=false; fi
 
-			if [[ $git_status =~ ^M ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
+			if [[ $(grep -c ^M <<< "$git_status") -gt 0 ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
 
-			if [[ $git_status =~ ^A ]]; then has_adds=true; else has_adds=false; fi
+			if [[ $(grep -c ^A <<< "$git_status") -gt 0 ]]; then has_adds=true; else has_adds=false; fi
 
-			if [[ $git_status =~ ^.D ]]; then has_deletions=true; else has_deletions=false; fi
+			if [[ $(grep -c ^.D <<< "$git_status") -gt 0 ]]; then has_deletions=true; else has_deletions=false; fi
 
-			if [[ $git_status =~ ^D ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
+			if [[ $(grep -c ^D <<< "$git_status") -gt 0 ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
 
-			if [[ $git_status =~ ^[MAD] && ! $git_status =~ ^.[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
+			if [[ $(grep -c ^[MAD] <<< "$git_status") -gt 0 && $(grep -c ^.[MAD\?] <<< "$git_status") -eq 0 ]]; then ready_to_commit=true; else ready_to_commit=false; fi
 
-			if [[ $git_status =~ ^\?\? ]]; then has_untracked_files=true; else has_untracked_files=false; fi
+			if [[ $(grep -c ^\?\? <<< "$git_status") -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
 
 			tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
 			if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
 
+			commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
+			commits_ahead=$(grep -c ^\< <<< "$commits_diff")
+			commits_behind=$(grep -c ^\> <<< "$commits_diff")
+
 			has_diverged=false
 			can_fast_forward=false
-
-			commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
-			commits_ahead=0
-			commits_behind=0
-
-			if [[ $commits_diff =~ ^\<(..) ]]; then
-				commits_ahead=${#BASH_REMATCH[@]}
-			fi
-			if [[ $commits_diff =~ ^\>(..) ]]; then
-				commits_behind=${#BASH_REMATCH[@]}
-			fi
-
 			if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
 				has_diverged=true
 			fi
