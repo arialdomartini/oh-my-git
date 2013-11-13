@@ -1,5 +1,5 @@
-oh-my-git!
-=========
+# oh-my-git!
+
 
 
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/01-not in a git repo.jpg)
@@ -19,8 +19,11 @@ oh-my-git!
 
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/shut-up.gif)
 
-Installation for Bash
----------------------
+
+# Bash
+
+
+## Installation
 
 One liner for Mac:
 
@@ -33,8 +36,8 @@ One liner for Ubuntu:
 
 Then, set your Terminal font to Monospace (or edit oh-my-git and change the symbols used)
 
-Manual installation for Bash
-----------------------------
+## Manual installation
+
 
 Fork the repo and git clone it in your home directory
 
@@ -45,8 +48,10 @@ Then add
 to the bash startup file (`~/.profile` on Mac, `~/.bashrc` on Linux)
 
 
-zsh installation
-----------------
+# zsh
+
+## Installation
+
 
 Install `antigen`
 
@@ -56,7 +61,7 @@ Edit your `.zshrc` file including
 
     source "$HOME/.antigen/antigen.zsh"
 
-    antigen-bundle arialdomartini/oh-my-git-tmp
+    antigen-bundle arialdomartini/oh-my-git
     antigen theme arialdomartini/oh-my-git-themes arialdo-granzestyle
 
     antigen-apply
@@ -76,14 +81,9 @@ but they are optional.
 Then, restart zsh. `antigen` will download and install all that's needed.
 
 
-Known bugs and limitations
---------------------------
+# Known bugs and limitations
+
 * It works weird on brand new repositories, before the first commit
 * It has been tested on Mac and Ubuntu only. I never managed to make it work on Cygwin
 * You need an unicode font (like Menlo or Monaco on Mac OS X, or Monospace on Ubuntu)
 * With the default Ubuntu terminal font, some symbols are not properly displayed. Use Monospace, or edit the `prompt.sh` file and choose other symbols
-
-zsh version
------------
-Coming soon. I'm working on the integration with `zsh` + `oh-my-zsh` + `antigen`
-Wanna help? Great! Fork it! It will be really appreciated!
