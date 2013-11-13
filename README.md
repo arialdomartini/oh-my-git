@@ -19,8 +19,8 @@ oh-my-git!
 
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/shut-up.gif)
 
-Installation
-------------
+Installation for Bash
+---------------------
 
 One liner for Mac:
 
@@ -33,8 +33,8 @@ One liner for Ubuntu:
 
 Then, set your Terminal font to Monospace (or edit oh-my-git and change the symbols used)
 
-Manual installation
--------------------
+Manual installation for Bash
+----------------------------
 
 Fork the repo and git clone it in your home directory
 
@@ -43,6 +43,38 @@ Then add
     source $HOME/oh-my-git/prompt.sh
 
 to the bash startup file (`~/.profile` on Mac, `~/.bashrc` on Linux)
+
+
+zsh installation
+----------------
+
+Install `antigen`
+
+    cd ~ && git clone https://github.com/zsh-users/antigen.git .antigen 
+
+Edit your `.zshrc` file including
+
+    source "$HOME/.antigen/antigen.zsh"
+
+    antigen-bundle arialdomartini/oh-my-git-tmp
+    antigen theme arialdomartini/oh-my-git-themes arialdo-granzestyle
+
+    antigen-apply
+
+
+`oh-my-git-themes` includes two themes: `arialdo-granzestyle` which is inspired to the great @granze theme, and `arialdo-pathinline`
+
+I also suggest to include
+
+    antigen-use oh-my-zsh
+    antigen-bundle git
+    antigen-bundle zsh-users/zsh-syntax-highlighting
+    antigen-bundle zsh-users/zsh-history-substring-search
+
+but they are optional.
+
+Then, restart zsh. `antigen` will download and install all that's needed.
+
 
 Known bugs and limitations
 --------------------------
