@@ -51,7 +51,7 @@ to the bash startup file (`~/.profile` on Mac, `~/.bashrc` on Linux)
 
 ## Installation
 
-With `antigen` installed, just add
+With antigen installed, just add
 
     antigen-bundle arialdomartini/oh-my-git
     antigen theme arialdomartini/oh-my-git-themes arialdo-granzestyle
@@ -60,10 +60,10 @@ to your `.zshrc` file.
 
 [`oh-my-git-themes`](https://github.com/arialdomartini/oh-my-git-themes) includes two themes: `arialdo-granzestyle` which is inspired to the great [Granze theme](https://github.com/Granze/G-zsh-theme-2), and `arialdo-pathinline`.
 
-## How to install `antigen`
+## How to install antigen
 
-[`antigen`](https://github.com/zsh-users/antigen) is a plugin manager for `zsh`.
-Installing `antigen` is straightforward:
+[antigen](https://github.com/zsh-users/antigen) is a plugin manager for `zsh`.
+Installing antigen is straightforward:
 
     cd ~ && git clone https://github.com/zsh-users/antigen.git .antigen 
 
@@ -85,7 +85,8 @@ I also strongly suggest to include
 
 which are optional, but very cool.
 
-Then, restart zsh. `antigen` will download and install all that's needed.
+Then, restart zsh. 
+antigen will download and install all that's needed.
 
 # Known bugs and limitations
 
