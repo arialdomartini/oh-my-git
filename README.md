@@ -58,7 +58,7 @@ With `antigen` installed, just add
 
 to your `.zshrc` file.
 
-[`oh-my-git-themes`](https://github.com/arialdomartini/oh-my-git-themes) includes two themes: `arialdo-granzestyle` which is inspired to the great @granze theme, and `arialdo-pathinline`.
+[`oh-my-git-themes`](https://github.com/arialdomartini/oh-my-git-themes) includes two themes: `arialdo-granzestyle` which is inspired to the great [Granze theme](https://github.com/Granze/G-zsh-theme-2), and `arialdo-pathinline`.
 
 ## How to install `antigen`
 
