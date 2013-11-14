@@ -26,7 +26,7 @@ function build_prompt {
             just_init=true
         else
             upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
-            if [ -n $upstream -a "$upstream" != "@upstream}" ]; then has_upstream=true; else has_upstream=false; fi
+            if [ -n $upstream -a "$upstream" != "@{upstream}" ]; then has_upstream=true; else has_upstream=false; fi
         
             git_status=$(git status --porcelain 2> /dev/null)
         
@@ -53,9 +53,10 @@ function build_prompt {
         
             commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
         
-            commits_ahead=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^<" )
-            commits_behind=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
-        
+            if [[ $has_upstream == true ]]; then
+                commits_ahead=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^<" )
+                commits_behind=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
+            fi
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
                 has_diverged=true
             fi
