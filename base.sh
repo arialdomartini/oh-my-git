@@ -26,8 +26,8 @@ function build_prompt {
             just_init=true
         else
             upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
-            if [ -n $upstream -a "$upstream" != "@{upstream}" ]; then has_upstream=true; else has_upstream=false; fi
-        
+            if [[ -n "${upstream}" && "${upstream}" != "@{upstream}" ]]; then has_upstream=true; else has_upstream=false; fi
+
             git_status=$(git status --porcelain 2> /dev/null)
         
             if [[ $git_status =~ ($'\n'|^).M ]]; then has_modifications=true; else has_modifications=false; fi
