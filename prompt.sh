@@ -1,3 +1,5 @@
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 if [ -n "${BASH_VERSION}" ]; then
     # Symbols
     : ${is_a_git_repo_symbol:='❤'}
@@ -39,7 +41,7 @@ if [ -n "${BASH_VERSION}" ]; then
     
     PS2="${yellow}→${reset} "
     
-    source base.sh
+    source ${DIR}/base.sh
     function bash_prompt() {
         PS1="$(build_prompt)"
     }
