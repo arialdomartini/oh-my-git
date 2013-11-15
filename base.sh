@@ -40,7 +40,7 @@ function build_prompt {
         
             if [[ $git_status =~ ($'\n'|^)D ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
         
-            if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ^.[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
+            if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
         
             number_of_untracked_files=`echo $git_status | grep -c "^??"`
             if [[ $number_of_untracked_files -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
@@ -51,11 +51,10 @@ function build_prompt {
             has_diverged=false
             can_fast_forward=false
         
-            commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
-        
             if [[ $has_upstream == true ]]; then
-                commits_ahead=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^<" )
-                commits_behind=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} | grep -c "^>" )
+                commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
+                commits_ahead=$(grep -c "^<" <<< "$commits_diff")
+                commits_behind=$(grep -c "^>" <<< "$commits_diff")
             fi
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
                 has_diverged=true
