@@ -1,6 +1,6 @@
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 if [ -n "${BASH_VERSION}" ]; then
+    DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
     # Symbols
     : ${is_a_git_repo_symbol:='❤'}
     : ${has_untracked_files_symbol:='∿'}
