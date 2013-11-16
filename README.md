@@ -45,7 +45,7 @@ Then add
 
 to the bash startup file (`~/.profile` on Mac, `~/.bashrc` on Linux)
 
-If you prefer to keep oh-my-git repository in a different directory, just modify the startup file according to the chosen position
+If you prefer to keep oh-my-git repository in a different directory, just modify the startup file accordingly to the chosen position
 
     source /wherever-you-want/oh-my-git/prompt.sh
 
