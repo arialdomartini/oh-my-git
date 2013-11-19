@@ -92,6 +92,7 @@ antigen will download and install all that's needed.
 
 # Known bugs and limitations
 
+* git v1.7 or newer is required
 * It works weird on brand new repositories, before the first commit
 * It has been tested on Mac and Ubuntu only. I never managed to make it work on Cygwin
 * You need an unicode font (like Menlo or Monaco on Mac OS X, or Monospace on Ubuntu)
