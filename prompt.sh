@@ -41,9 +41,9 @@ if [ -n "${BASH_VERSION}" ]; then
     
     PS2="${yellow}→${reset} "
     
-    source ${DIR}/base.sh
+    source ${DIR}/git-info.sh
     function bash_prompt() {
-        PS1="$(build_prompt)"
+        PS1="$(oh_my_git_info)"
     }
 
     PROMPT_COMMAND=bash_prompt
