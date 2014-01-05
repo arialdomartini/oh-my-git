@@ -120,7 +120,7 @@ function oh_my_git_info {
             local will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
         
             if [[ -f ${GIT_DIR:-.git}/refs/stash ]]; then
-                local number_of_stashes=$(wc -l 2> /dev/null < ${GIT_DIR:-.git}/refs/stash)
+                local number_of_stashes=$(wc -l 2> /dev/null < ${GIT_DIR:-.git}/refs/stash | tr -d ' ')
             else
                 local number_of_stashes=0
             fi
