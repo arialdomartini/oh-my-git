@@ -1,7 +1,7 @@
 if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-    # Symbols
+   # Symbols
     : ${is_a_git_repo_symbol:='❤'}
     : ${has_untracked_files_symbol:='∿'}
     : ${has_adds_symbol:='+'}
@@ -28,22 +28,28 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${two_lines:=true}
     : ${finally:='\w ∙ '}
     : ${use_color_off:=false}
+	: ${print_unactive_flags_space:=false}
+	: ${display_git_symbol:=true}
 
     # Colors
-    : ${on='\033[0;37m'}
-    : ${off='\033[1;30m'}
-    : ${red='\033[0;31m'}
-    : ${green='\033[0;32m'}
-    : ${yellow='\033[0;33m'}
-    : ${violet='\033[0;35m'}
-    : ${branch_color='\033[0;34m'}
-    : ${reset='\033[0m'}
+	# Bash unprintable characters must be wrapped inside \[ and \]
+	# http://mywiki.wooledge.org/BashFAQ/053
+    : ${omg_on='\[\e[0;37m\]'}
+    : ${omg_off='\[\e[1;30m\]'}
+    : ${omg_red='\[\e[0;31m\]'}
+    : ${omg_green='\[\e[0;32m\]'}
+    : ${omg_yellow='\[\e[0;33m\]'}
+    : ${omg_violet='\[\e[0;35m\]'}
+    : ${omg_branch_color='\e[0;34m\]'}
+    : ${omg_reset='\[\e[0m\]'}
     
-    PS2="${yellow}→${reset} "
+    PS2="${omg_yellow}→${omg_reset} "
     
     source ${DIR}/git-info.sh
+	source ${DIR}/prompt_builder.sh
+	
     function bash_prompt() {
-        PS1="$(oh_my_git_info)"
+        PS1="$(build_prompt)"
     }
 
     PROMPT_COMMAND=bash_prompt
