@@ -28,12 +28,12 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${two_lines:=true}
     : ${finally:='\w ∙ '}
     : ${use_color_off:=false}
-	: ${print_unactive_flags_space:=true}
-	: ${display_git_symbol:=true}
+    : ${print_unactive_flags_space:=true}
+    : ${display_git_symbol:=true}
 
     # Colors
-	# Bash unprintable characters must be wrapped inside \[ and \]
-	# http://mywiki.wooledge.org/BashFAQ/053
+    # Bash unprintable characters must be wrapped inside \[ and \]
+    # http://mywiki.wooledge.org/BashFAQ/053
     : ${omg_on='\[\e[0;37m\]'}
     : ${omg_off='\[\e[1;30m\]'}
     : ${omg_red='\[\e[0;31m\]'}
@@ -46,8 +46,8 @@ if [ -n "${BASH_VERSION}" ]; then
     PS2="${omg_yellow}→${omg_reset} "
     
     source ${DIR}/git-info.sh
-	source ${DIR}/prompt_builder.sh
-	
+    source ${DIR}/prompt_builder.sh
+
     function bash_prompt() {
         PS1="$(build_prompt)"
     }
