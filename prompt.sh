@@ -28,7 +28,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${two_lines:=true}
     : ${finally:='\w ∙ '}
     : ${use_color_off:=false}
-	: ${print_unactive_flags_space:=false}
+	: ${print_unactive_flags_space:=true}
 	: ${display_git_symbol:=true}
 
     # Colors

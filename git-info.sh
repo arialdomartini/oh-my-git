@@ -65,7 +65,7 @@ function oh_my_git_info {
 	if [[ -z "${display_tag}" ]]; then local display_tag=false; fi
 	if [[ -z "${display_tag_name}" ]]; then local display_tag_name=true; fi
 	if [[ -z "${use_color_off}" ]]; then local use_color_off=false; fi
-	if [[ -z "${print_unactive_flags_space}" ]]; then local print_unactive_flags_space=false; fi
+	if [[ -z "${print_unactive_flags_space}" ]]; then local print_unactive_flags_space=true; fi
 	if [[ -z "${display_git_symbol}" ]]; then local display_git_symbol=true; fi
 
 
