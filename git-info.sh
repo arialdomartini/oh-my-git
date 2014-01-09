@@ -157,7 +157,7 @@ function oh_my_git_info {
 			if [[ ${just_init} == true ]]; then
 				oh_my_git_string="${oh_my_git_string}${detached_color}detached${reset}";
 			else
-				oh_my_git_string="${oh_my_git_string}${detached_current_commit_color}(${current_commit_hash_abbrev}\)${reset}";
+				oh_my_git_string="${oh_my_git_string}${detached_current_commit_color}(${current_commit_hash:0:7})${reset}";
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
