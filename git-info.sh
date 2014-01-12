@@ -210,12 +210,6 @@ function oh_my_git_info {
 			oh_my_git_string="${oh_my_git_string} ${tag_name_color}[${tag_at_current_commit}]${reset}";
 		fi
 		
-		if [[ $display_git_current_action == "left" ]]; then
-			oh_my_git_string="$(git_current_action $red $reset) ${oh_my_git_string}";
-		elif [[ $display_git_current_action == "right" ]]; then
-			oh_my_git_string="${oh_my_git_string} $(git_current_action $red $reset)";
-		fi
-		
 		# clean up leading and trailing spaces, (prefix and suffix might add them if wanted)
 		oh_my_git_string="${oh_my_git_string##+([[:space:]])}"
 		oh_my_git_string="${oh_my_git_string%%+([[:space:]])}"
