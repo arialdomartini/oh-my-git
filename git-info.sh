@@ -211,8 +211,7 @@ function oh_my_git_info {
 		fi
 		
 		# clean up leading and trailing spaces, (prefix and suffix might add them if wanted)
-		oh_my_git_string="${oh_my_git_string##+([[:space:]])}"
-		oh_my_git_string="${oh_my_git_string%%+([[:space:]])}"
+		oh_my_git_string=$(trim "$oh_my_git_string");
 		
 		oh_my_git_string="${omg_prefix}${oh_my_git_string}${reset}${omg_suffix}";
 	fi
@@ -220,6 +219,7 @@ function oh_my_git_info {
 	# collapse contiguous spaces including new lines
 	echo $(echo "${oh_my_git_string}")
 }
+
 
 function echo_if_true {
 	flag=$1
@@ -237,4 +237,23 @@ function echo_if_true {
 		echo "${color}${symbol}${reset}";
 	fi
 }
+
+
+if [ -n "$ZSH_VERSION" ]; then
+   function trim() {
+		leading_trimmed="${1##+([[:space:]])}";
+		leading_and_trailing_trimmed="${leading_trimmed%%+([[:space:]])}";
+		echo "$leading_and_trailing_trimmed";
+   }
+elif [ -n "$BASH_VERSION" ]; then
+   function trim() {
+	   leading_trimmed="${1#"${1%%[![:space:]]*}"}";
+	   leading_and_trailing_trimmed="${leading_trimmed%"${leading_trimmed##*[![:space:]]}"}";
+	   echo "$leading_and_trailing_trimmed";
+   }
+else
+   function trim() {
+	   return $1; # do not trim
+   }
+fi
 
