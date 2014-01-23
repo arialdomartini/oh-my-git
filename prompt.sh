@@ -30,17 +30,17 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${use_color_off:=false}
 
     # Colors
-    : ${on='\033[0;37m'}
-    : ${off='\033[1;30m'}
-    : ${red='\033[0;31m'}
-    : ${green='\033[0;32m'}
-    : ${yellow='\033[0;33m'}
-    : ${violet='\033[0;35m'}
-    : ${branch_color='\033[0;34m'}
-    : ${reset='\033[0m'}
-    
+    : ${on='\[\033[1;37m\]'}
+    : ${off='\[\033[0m\]'}
+    : ${red='\[\033[0;31m\]'}
+    : ${green='\[\033[0;32m\]'}
+    : ${yellow='\[\033[1;33m\]'}
+    : ${violet='\[\033[0;35m\]'}
+    : ${branch_color='\[\033[1;34m\]'}
+    : ${reset='\[\033[0m\]'}
+
     PS2="${yellow}→${reset} "
-    
+
     source ${DIR}/base.sh
     function bash_prompt() {
         PS1="$(build_prompt)"
