@@ -67,7 +67,10 @@ function oh_my_git_info {
 	if [[ -z "${use_color_off}" ]]; then local use_color_off=false; fi
 	if [[ -z "${print_unactive_flags_space}" ]]; then local print_unactive_flags_space=true; fi
 	if [[ -z "${display_git_symbol}" ]]; then local display_git_symbol=true; fi
+	if [[ -z "${display_git_current_action}" ]]; then local display_git_current_action=false; fi
 
+	# Early return if git repo is configured to be hidden
+	if [[ "$(git config --get oh-my-zsh.hide-status)" == "1" ]]; then return; fi
 
 	# Git info
 	local current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
@@ -150,14 +153,14 @@ function oh_my_git_info {
 		";
 
 		if [[ ${display_has_upstream} == true ]]; then
-			oh_my_git_string="${oh_my_git_string}$(echo_if_true ${has_upstream} ${has_upstream_symbol} ${has_upstream_color})";
+			oh_my_git_string+="$(echo_if_true ${has_upstream} ${has_upstream_symbol} ${has_upstream_color})";
 		fi
 		
 		if [[ ${detached} == true ]]; then
 			if [[ ${just_init} == true ]]; then
-				oh_my_git_string="${oh_my_git_string}${detached_color}detached${reset}";
+				oh_my_git_string+="${detached_color}detached${reset}";
 			else
-				oh_my_git_string="${oh_my_git_string}${detached_current_commit_color}(${current_commit_hash:0:7})${reset}";
+				oh_my_git_string+="${detached_current_commit_color}(${current_commit_hash:0:7})${reset}";
 			fi
 		else
 			if [[ $has_upstream == true ]]; then
@@ -168,46 +171,47 @@ function oh_my_git_info {
 				fi
 		
 				if [[ ${has_diverged} == true ]]; then
-					oh_my_git_string="
-						${oh_my_git_string}
+					oh_my_git_string+="
 						${commits_behind_color}${commits_behind_symbol}${commits_behind}${reset}
 						${has_diverged_color}${has_diverged_symbol}${reset}
 						${commits_ahead_color}${commits_ahead_symbol}${commits_ahead}${reset}
 					";
 				else
 					if [[ ${commits_behind} -gt 0  ]]; then
-						oh_my_git_string="
-							${oh_my_git_string}
+						oh_my_git_string+="
 							${can_fast_forward_color}${commits_behind_symbol}${commits_behind} ${can_fast_forward_symbol}${reset}
 						";
 					fi
 					if [[ ${commits_ahead} -gt 0 ]]; then
-						oh_my_git_string="
-							${oh_my_git_string}
+						oh_my_git_string+="
 							${should_push_color}${should_push_symbol} ${commits_ahead_symbol}${commits_ahead} ${reset}
 						";
 					fi
 				fi
 		
-				oh_my_git_string="
-					${oh_my_git_string}
+				oh_my_git_string+="
 					(${current_branch_color}${current_branch}${reset}
 						${type_of_upstream}
 						${upstream//\/$current_branch/})";
 		
 			else
-				oh_my_git_string="
-					${oh_my_git_string}
+				oh_my_git_string+="
 					${has_no_upstream_color}(${current_branch_color}${current_branch}${reset}${has_no_upstream_color})${reset}
 				";
 			fi
 		fi
 		
 		if [[ ${display_tag} == true ]]; then
-			oh_my_git_string="${oh_my_git_string} ${is_on_a_tag_color}${is_on_a_tag_symbol}${reset}";
+			oh_my_git_string+=" ${is_on_a_tag_color}${is_on_a_tag_symbol}${reset}";
 		fi
 		if [[ ${display_tag_name} == true && ${is_on_a_tag} == true ]]; then
-			oh_my_git_string="${oh_my_git_string} ${tag_name_color}[${tag_at_current_commit}]${reset}";
+			oh_my_git_string+=" ${tag_name_color}[${tag_at_current_commit}]${reset}";
+		fi
+		
+		if [[ $display_git_current_action == "left" ]]; then
+			oh_my_git_string="$(git_current_action $red $reset) ${oh_my_git_string}";
+		elif [[ $display_git_current_action == "right" ]]; then
+			oh_my_git_string="${oh_my_git_string} $(git_current_action $red $reset)";
 		fi
 		
 		# clean up leading and trailing spaces, (prefix and suffix might add them if wanted)
@@ -218,6 +222,46 @@ function oh_my_git_info {
 
 	# collapse contiguous spaces including new lines
 	echo $(echo "${oh_my_git_string}")
+}
+
+
+# based on bash __git_ps1 to read branch and current action
+function git_current_action () {
+	local info="$(git rev-parse --git-dir 2>/dev/null)"
+	if [ -n "$info" ]; then
+		local action
+		if [ -f "$info/rebase-merge/interactive" ]
+			then
+			action=${is_rebasing_interactively:-"REBASE-i"}
+		elif [ -d "$info/rebase-merge" ]
+			then
+			action=${is_rebasing_merge:-"REBASE-m"}
+		else
+			if [ -d "$info/rebase-apply" ]
+				then
+				if [ -f "$info/rebase-apply/rebasing" ]
+					then
+					action=${is_rebasing:-"REBASE"}
+				elif [ -f "$info/rebase-apply/applying" ]
+					then
+					action=${is_applying_mailbox_patches:-"|AM"}
+				else
+					action=${is_rebasing_mailbox_patches:-"AM/REBASE"}
+				fi
+			elif [ -f "$info/MERGE_HEAD" ]
+				then
+				action=${is_merging:-"MERGING"}
+			elif [ -f "$info/CHERRY_PICK_HEAD" ]
+				then
+				action=${is_cherry_picking:-"CHERRY-PICKING"}
+			elif [ -f "$info/BISECT_LOG" ]
+				then
+				action=${is_bisecting:-"BISECTING"}
+			fi  
+		fi
+		
+		if [[ -n $action ]]; then printf "%s" "${1-}$action${2-}"; fi
+	fi
 }
 
 
@@ -242,18 +286,17 @@ function echo_if_true {
 if [ -n "$ZSH_VERSION" ]; then
    function trim() {
 		leading_trimmed="${1##+([[:space:]])}";
-		leading_and_trailing_trimmed="${leading_trimmed%%+([[:space:]])}";
-		echo "$leading_and_trailing_trimmed";
+		trimmed="${leading_trimmed%%+([[:space:]])}";
+		echo "$trimmed";
    }
 elif [ -n "$BASH_VERSION" ]; then
    function trim() {
 	   leading_trimmed="${1#"${1%%[![:space:]]*}"}";
-	   leading_and_trailing_trimmed="${leading_trimmed%"${leading_trimmed##*[![:space:]]}"}";
-	   echo "$leading_and_trailing_trimmed";
+	   trimmed="${leading_trimmed%"${leading_trimmed##*[![:space:]]}"}";
+	   echo "$trimmed";
    }
 else
    function trim() {
-	   return $1; # do not trim
+	   return $1;
    }
 fi
-
