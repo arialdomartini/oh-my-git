@@ -137,5 +137,6 @@ function build_prompt {
         break=''
     fi
     
-    echo "${PS1}${reset}${break}${finally}"
+    status="STATUS=\$?; if [ \${STATUS} -ne 0 ]; then echo \"${red}[\${STATUS}]${reset} \"; fi"
+    echo "${PS1}${reset}${break}\`${status}\`${finally}"
 }
