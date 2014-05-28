@@ -90,6 +90,15 @@ which are optional, but very cool.
 Then, restart zsh. 
 antigen will download and install all that's needed.
 
+# Disabling oh-my-git
+oh-my-git can be disabled on a per-repository basis. Just add a
+
+    [oh-my-git]
+    enabled = true
+
+in the `.git/config` file of a repo to revert to the original prompt for that particular repo. This could be handy when working with very huge repository, when the git commands invoked by oh-my-git can slow down the prompt.
+
+
 # Known bugs and limitations
 
 * git v1.8.4 or newer is required

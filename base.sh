@@ -12,6 +12,12 @@ function enrich {
 }
 
 function build_prompt {
+    enabled=`git config --local --get oh-my-git.enabled`
+    if [[ ${enabled} == false ]]; then
+        echo "${PSORG}"
+        exit;
+    fi
+
     PS1=""    
     # Git info
     current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
