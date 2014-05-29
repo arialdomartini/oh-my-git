@@ -94,7 +94,7 @@ antigen will download and install all that's needed.
 oh-my-git can be disabled on a per-repository basis. Just add a
 
     [oh-my-git]
-    enabled = true
+    enabled = false
 
 in the `.git/config` file of a repo to revert to the original prompt for that particular repo. This could be handy when working with very huge repository, when the git commands invoked by oh-my-git can slow down the prompt.
 
