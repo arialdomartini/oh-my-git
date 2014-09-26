@@ -17,12 +17,16 @@ function build_prompt {
         echo "${PSORG}"
         exit;
     fi
-
-    PS1=""    
+    PS1=""
     # Git info
     current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
     if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
-    
+
+    if [[ $is_a_git_repo == false ]]; then
+        echo "${PSORG}"
+        exit
+    fi
+
     if [[ $is_a_git_repo == true ]]; then
         current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
         if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
@@ -142,6 +146,5 @@ function build_prompt {
     else
         break=''
     fi
-    
-    echo "${PS1}${reset}${break}${finally}"
+    echo "${PS1}${PSORG}"
 }
