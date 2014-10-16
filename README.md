@@ -104,5 +104,5 @@ in the `.git/config` file of a repo to revert to the original prompt for that pa
 * git v1.8.4 or newer is required
 * It works weird on brand new repositories, before the first commit
 * It has been tested on Mac and Ubuntu only. I never managed to make it work on Cygwin
-* You need an unicode font (like Menlo or Monaco on Mac OS X, or Monospace on Ubuntu)
+* You need an unicode font (like Menlo or Monaco on Mac OS X, or Monospace on Ubuntu; on Windows, with Cygwin, a good choice is [Meslo](https://github.com/andreberg/Meslo-Font) by @andreberg)
 * With the default Ubuntu terminal font, some symbols are not properly displayed. Use Monospace, or edit the `prompt.sh` file and choose other symbols
