@@ -83,7 +83,7 @@ function build_prompt {
     if [[ $is_a_git_repo == true ]]; then
         enrich $is_a_git_repo $omg_is_a_git_repo_symbol $violet
         enrich $has_stashes $has_stashes_symbol $yellow
-        enrich $has_untracked_files $has_untracked_files_symbol $red
+        enrich $has_untracked_files $omg_has_untracked_files_symbol $red
         enrich $has_adds $has_adds_symbol $yellow
     
         enrich $has_deletions $has_deletions_symbol $red

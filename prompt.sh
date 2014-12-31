@@ -5,7 +5,7 @@ if [ -n "${BASH_VERSION}" ]; then
 
     # Symbols
     : ${omg_is_a_git_repo_symbol:='❤'}
-    : ${has_untracked_files_symbol:='∿'}
+    : ${omg_has_untracked_files_symbol:='∿'}
     : ${has_adds_symbol:='+'}
     : ${has_deletions_symbol:='-'}
     : ${has_deletions_cached_symbol:='✖'}
