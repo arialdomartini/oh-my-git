@@ -93,7 +93,7 @@ function build_prompt {
         enrich $has_modifications_cached $omg_has_cached_modifications_symbol $yellow
         enrich $ready_to_commit $omg_ready_to_commit_symbol $green
         
-        enrich $detached $detached_symbol $red
+        enrich $detached $omg_detached_symbol $red
     
         if [[ $display_has_upstream == true ]]; then
             enrich $has_upstream $omg_has_upstream_symbol

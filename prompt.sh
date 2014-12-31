@@ -15,7 +15,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_is_on_a_tag_symbol:='⌫'}
     : ${omg_needs_to_merge_symbol:='ᄉ'}
     : ${omg_has_upstream_symbol:='⇅'}
-    : ${detached_symbol:='⚯ '}
+    : ${omg_detached_symbol:='⚯ '}
     : ${can_fast_forward_symbol:='»'}
     : ${has_diverged_symbol:='Ⴤ'}
     : ${rebase_tracking_branch_symbol:='↶'}
