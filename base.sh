@@ -96,7 +96,7 @@ function build_prompt {
         enrich $detached $detached_symbol $red
     
         if [[ $display_has_upstream == true ]]; then
-            enrich $has_upstream $has_upstream_symbol
+            enrich $has_upstream $omg_has_upstream_symbol
         fi
         if [[ $detached == true ]]; then
             if [[ $just_init == true ]]; then
