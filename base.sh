@@ -109,7 +109,7 @@ function build_prompt {
                 if [[ $will_rebase == true ]]; then
                     type_of_upstream=$omg_rebase_tracking_branch_symbol
                 else
-                    type_of_upstream=$merge_tracking_branch_symbol
+                    type_of_upstream=$omg_merge_tracking_branch_symbol
                 fi
                 
                 if [[ $has_diverged == true ]]; then
