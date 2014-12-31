@@ -91,7 +91,7 @@ function build_prompt {
     
         enrich $has_modifications $omg_has_modifications_symbol $red
         enrich $has_modifications_cached $omg_has_cached_modifications_symbol $yellow
-        enrich $ready_to_commit $ready_to_commit_symbol $green
+        enrich $ready_to_commit $omg_ready_to_commit_symbol $green
         
         enrich $detached $detached_symbol $red
     
