@@ -119,7 +119,7 @@ function build_prompt {
                         PS1="${PS1}${on} -${commits_behind} ${omg_can_fast_forward_symbol} "
                     fi
                     if [[ $commits_ahead -gt 0 ]]; then
-                        PS1="${PS1}${on} ${should_push_symbol} +${commits_ahead} "
+                        PS1="${PS1}${on} ${omg_should_push_symbol} +${commits_ahead} "
                     fi
                 fi
                 PS1="${PS1}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
