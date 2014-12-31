@@ -87,7 +87,7 @@ function build_prompt {
         enrich $has_adds $omg_has_adds_symbol $yellow
     
         enrich $has_deletions $omg_has_deletions_symbol $red
-        enrich $has_deletions_cached $has_deletions_cached_symbol $yellow
+        enrich $has_deletions_cached $omg_has_cached_deletions_symbol $yellow
     
         enrich $has_modifications $has_modifications_symbol $red
         enrich $has_modifications_cached $has_modifications_cached_symbol $yellow
