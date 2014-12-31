@@ -116,7 +116,7 @@ function build_prompt {
                     PS1="${PS1}-${commits_behind} ${has_diverged_symbol} +${commits_ahead} "
                 else
                     if [[ $commits_behind -gt 0 ]]; then
-                        PS1="${PS1}${on} -${commits_behind} ${can_fast_forward_symbol} "
+                        PS1="${PS1}${on} -${commits_behind} ${omg_can_fast_forward_symbol} "
                     fi
                     if [[ $commits_ahead -gt 0 ]]; then
                         PS1="${PS1}${on} ${should_push_symbol} +${commits_ahead} "
