@@ -107,7 +107,7 @@ function build_prompt {
         else
             if [[ $has_upstream == true ]]; then
                 if [[ $will_rebase == true ]]; then
-                    type_of_upstream=$rebase_tracking_branch_symbol
+                    type_of_upstream=$omg_rebase_tracking_branch_symbol
                 else
                     type_of_upstream=$merge_tracking_branch_symbol
                 fi
