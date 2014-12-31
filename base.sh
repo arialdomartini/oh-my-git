@@ -86,7 +86,7 @@ function build_prompt {
         enrich $has_untracked_files $omg_has_untracked_files_symbol $red
         enrich $has_adds $omg_has_adds_symbol $yellow
     
-        enrich $has_deletions $has_deletions_symbol $red
+        enrich $has_deletions $omg_has_deletions_symbol $red
         enrich $has_deletions_cached $has_deletions_cached_symbol $yellow
     
         enrich $has_modifications $has_modifications_symbol $red
