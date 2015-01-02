@@ -27,7 +27,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_display_has_upstream:=false}
     : ${omg_display_tag:=false}
     : ${omg_display_tag_name:=true}
-    : ${two_lines:=true}
+    : ${omg_two_lines:=true}
     : ${finally:='\w ∙ '}
     : ${use_color_off:=false}
 

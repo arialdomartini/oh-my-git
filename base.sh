@@ -137,7 +137,7 @@ function build_prompt {
         PS1="${PS1}      "
     fi
     
-    if [[ $two_lines == true && $is_a_git_repo == true ]]; then
+    if [[ $omg_two_lines == true && $is_a_git_repo == true ]]; then
         break='\n'
     else
         break=''
