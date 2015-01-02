@@ -1,13 +1,11 @@
 function enrich {
     local flag=$1
     local symbol=$2
-    if [[ -n $3 ]]; then
-        local coloron=$3
-    else
-        local coloron=$omg_default_color_on
-    fi
-    if [[ $omg_use_color_off == false && $flag == false ]]; then symbol=' '; fi
-    if [[ $flag == true ]]; then color=$coloron; else color=$omg_off; fi
+
+    local color_on=${3:-$omg_default_color_on}
+
+    if [[ $flag == false && $omg_use_color_off == false ]]; then symbol=' '; fi
+    if [[ $flag == true ]]; then color=$color_on; else color=$omg_off; fi
     echo -n "${prompt}${color}${symbol}${reset} ";
 }
 
