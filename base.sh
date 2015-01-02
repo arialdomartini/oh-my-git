@@ -48,7 +48,7 @@ function build_prompt {
         
             if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
         
-            number_of_untracked_files=`echo $git_status | grep -c "^??"`
+            number_of_untracked_files=`echo "${git_status}" | grep -c "^??"`
             if [[ $number_of_untracked_files -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
         
             tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
