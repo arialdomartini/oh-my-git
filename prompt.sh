@@ -38,7 +38,6 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${green='\[\033[0;32m\]'}
     : ${yellow='\[\033[1;33m\]'}
     : ${violet='\[\033[0;35m\]'}
-    : ${branch_color='\[\033[1;34m\]'}
     : ${reset='\[\033[0m\]'}
 
     PS2="${yellow}→${reset} "
