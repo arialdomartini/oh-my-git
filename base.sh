@@ -4,7 +4,7 @@ function enrich {
     if [[ -n $3 ]]; then
         coloron=$3
     else
-        coloron=$on
+        coloron=$omg_on
     fi
     if [[ $omg_use_color_off == false && $flag == false ]]; then symbol=' '; fi
     if [[ $flag == true ]]; then color=$coloron; else color=$off; fi
@@ -102,7 +102,7 @@ function build_prompt {
             if [[ $just_init == true ]]; then
                 PS1="${PS1} ${red}detached"
             else
-                PS1="${PS1} ${on}(${current_commit_hash:0:7})"
+                PS1="${PS1} ${omg_on}(${current_commit_hash:0:7})"
             fi
         else
             if [[ $has_upstream == true ]]; then
@@ -116,15 +116,15 @@ function build_prompt {
                     PS1="${PS1}-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead} "
                 else
                     if [[ $commits_behind -gt 0 ]]; then
-                        PS1="${PS1}${on} -${commits_behind} ${omg_can_fast_forward_symbol} "
+                        PS1="${PS1}${omg_on} -${commits_behind} ${omg_can_fast_forward_symbol} "
                     fi
                     if [[ $commits_ahead -gt 0 ]]; then
-                        PS1="${PS1}${on} ${omg_should_push_symbol} +${commits_ahead} "
+                        PS1="${PS1}${omg_on} ${omg_should_push_symbol} +${commits_ahead} "
                     fi
                 fi
                 PS1="${PS1}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
             else
-                PS1="${PS1}${on}(${green}${current_branch}${reset})"
+                PS1="${PS1}${omg_on}(${green}${current_branch}${reset})"
             fi
         fi
         
