@@ -28,7 +28,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_display_tag:=false}
     : ${omg_display_tag_name:=true}
     : ${omg_two_lines:=true}
-    : ${finally:='\w ∙ '}
+    : ${omg_finally:='\w ∙ '}
     : ${use_color_off:=false}
 
     # Colors

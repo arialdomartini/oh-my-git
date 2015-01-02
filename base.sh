@@ -143,5 +143,5 @@ function build_prompt {
         break=''
     fi
     
-    echo "${PS1}${reset}${break}${finally}${reset}"
+    echo "${PS1}${reset}${break}${omg_finally}${reset}"
 }
