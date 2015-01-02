@@ -1,10 +1,10 @@
 function enrich {
-    flag=$1
-    symbol=$2
+    local flag=$1
+    local symbol=$2
     if [[ -n $3 ]]; then
-        coloron=$3
+        local coloron=$3
     else
-        coloron=$omg_on
+        local coloron=$omg_on
     fi
     if [[ $omg_use_color_off == false && $flag == false ]]; then symbol=' '; fi
     if [[ $flag == true ]]; then color=$coloron; else color=$omg_off; fi
@@ -12,7 +12,7 @@ function enrich {
 }
 
 function build_prompt {
-    enabled=`git config --local --get oh-my-git.enabled`
+    local enabled=`git config --local --get oh-my-git.enabled`
     if [[ ${enabled} == false ]]; then
         echo "${PSORG}"
         exit;
@@ -20,61 +20,61 @@ function build_prompt {
 
     PS1=""    
     # Git info
-    current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
-    if [[ -n $current_commit_hash ]]; then is_a_git_repo=true; else is_a_git_repo=false; fi
+    local current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
+    if [[ -n $current_commit_hash ]]; then local is_a_git_repo=true; else local is_a_git_repo=false; fi
     
     if [[ $is_a_git_repo == true ]]; then
-        current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-        if [[ $current_branch == 'HEAD' ]]; then detached=true; else detached=false; fi
+        local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+        if [[ $current_branch == 'HEAD' ]]; then local detached=true; else local detached=false; fi
     
-        number_of_logs=$(git log --pretty=oneline -n1 2> /dev/null | wc -l)
+        local number_of_logs="$(git log --pretty=oneline -n1 2> /dev/null | wc -l)"
         if [[ $number_of_logs -eq 0 ]]; then
-            just_init=true
+            local just_init=true
         else
-            upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
-            if [[ -n "${upstream}" && "${upstream}" != "@{upstream}" ]]; then has_upstream=true; else has_upstream=false; fi
+            local upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
+            if [[ -n "${upstream}" && "${upstream}" != "@{upstream}" ]]; then local has_upstream=true; else local has_upstream=false; fi
 
-            git_status=$(git status --porcelain 2> /dev/null)
+            local git_status="$(git status --porcelain 2> /dev/null)"
         
-            if [[ $git_status =~ ($'\n'|^).M ]]; then has_modifications=true; else has_modifications=false; fi
+            if [[ $git_status =~ ($'\n'|^).M ]]; then local has_modifications=true; else local has_modifications=false; fi
         
-            if [[ $git_status =~ ($'\n'|^)M ]]; then has_modifications_cached=true; else has_modifications_cached=false; fi
+            if [[ $git_status =~ ($'\n'|^)M ]]; then local has_modifications_cached=true; else local has_modifications_cached=false; fi
         
-            if [[ $git_status =~ ($'\n'|^)A ]]; then has_adds=true; else has_adds=false; fi
+            if [[ $git_status =~ ($'\n'|^)A ]]; then local has_adds=true; else local has_adds=false; fi
         
-            if [[ $git_status =~ ($'\n'|^).D ]]; then has_deletions=true; else has_deletions=false; fi
+            if [[ $git_status =~ ($'\n'|^).D ]]; then local has_deletions=true; else local has_deletions=false; fi
         
-            if [[ $git_status =~ ($'\n'|^)D ]]; then has_deletions_cached=true; else has_deletions_cached=false; fi
+            if [[ $git_status =~ ($'\n'|^)D ]]; then local has_deletions_cached=true; else local has_deletions_cached=false; fi
         
-            if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
+            if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then local ready_to_commit=true; else local ready_to_commit=false; fi
         
-            number_of_untracked_files=`echo "${git_status}" | $(sh -c 'which grep') -c "^??"`
-            if [[ $number_of_untracked_files -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
+            local number_of_untracked_files=`echo "${git_status}" | $(sh -c 'which grep') -c "^??"`
+            if [[ $number_of_untracked_files -gt 0 ]]; then local has_untracked_files=true; else has_untracked_files=false; fi
         
-            tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
-            if [[ -n $tag_at_current_commit ]]; then is_on_a_tag=true; else is_on_a_tag=false; fi
+            local tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
+            if [[ -n $tag_at_current_commit ]]; then local is_on_a_tag=true; else local is_on_a_tag=false; fi
         
-            has_diverged=false
-            can_fast_forward=false
+            local has_diverged=false
+            local can_fast_forward=false
         
             if [[ $has_upstream == true ]]; then
-                commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
-                commits_ahead=$(`sh -c 'which grep'` -c "^<" <<< "$commits_diff")
-                commits_behind=$(`sh -c 'which grep'` -c "^>" <<< "$commits_diff")
+                local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
+                local commits_ahead=$(`sh -c 'which grep'` -c "^<" <<< "$commits_diff")
+                local commits_behind=$(`sh -c 'which grep'` -c "^>" <<< "$commits_diff")
             fi
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
-                has_diverged=true
+                local has_diverged=true
             fi
             if [[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]]; then
-                can_fast_forward=true
+                local can_fast_forward=true
             fi
         
-            will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
+            local will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
         
             if [[ -f ${GIT_DIR:-.git}/refs/stash ]]; then
-                number_of_stashes=$(wc -l 2> /dev/null < ${GIT_DIR:-.git}/refs/stash)
+                local number_of_stashes="$(wc -l 2> /dev/null < ${GIT_DIR:-.git}/refs/stash)"
             else
-                number_of_stashes=0
+                local number_of_stashes=0
             fi
             if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
     fi
@@ -107,9 +107,9 @@ function build_prompt {
         else
             if [[ $has_upstream == true ]]; then
                 if [[ $will_rebase == true ]]; then
-                    type_of_upstream=$omg_rebase_tracking_branch_symbol
+                    local type_of_upstream=$omg_rebase_tracking_branch_symbol
                 else
-                    type_of_upstream=$omg_merge_tracking_branch_symbol
+                    local type_of_upstream=$omg_merge_tracking_branch_symbol
                 fi
                 
                 if [[ $has_diverged == true ]]; then
