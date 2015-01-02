@@ -128,10 +128,10 @@ function build_prompt {
             fi
         fi
         
-        if [[ $display_tag == true && $is_on_a_tag == true ]]; then
+        if [[ $omg_display_tag == true && $is_on_a_tag == true ]]; then
             PS1="${PS1} ${yellow}${omg_is_on_a_tag_symbol}${reset}"
         fi
-        if [[ $display_tag_name == true && $is_on_a_tag == true ]]; then
+        if [[ $omg_display_tag_name == true && $is_on_a_tag == true ]]; then
             PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
         fi
         PS1="${PS1}      "
