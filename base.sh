@@ -7,7 +7,7 @@ function enrich {
         coloron=$omg_on
     fi
     if [[ $omg_use_color_off == false && $flag == false ]]; then symbol=' '; fi
-    if [[ $flag == true ]]; then color=$coloron; else color=$off; fi
+    if [[ $flag == true ]]; then color=$coloron; else color=$omg_off; fi
     PS1="${PS1}${color}${symbol}${reset} "
 }
 
