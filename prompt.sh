@@ -24,7 +24,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_has_stashes_symbol:='★'}
 
     # Flags
-    : ${display_has_upstream:=false}
+    : ${omg_display_has_upstream:=false}
     : ${display_tag:=false}
     : ${display_tag_name:=true}
     : ${two_lines:=true}
