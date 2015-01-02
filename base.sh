@@ -19,6 +19,7 @@ function build_prompt {
     fi
 
     local prompt=""
+    
     # Git info
     local current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
     if [[ -n $current_commit_hash ]]; then local is_a_git_repo=true; fi
@@ -37,15 +38,10 @@ function build_prompt {
             local git_status="$(git status --porcelain 2> /dev/null)"
         
             if [[ $git_status =~ ($'\n'|^).M ]]; then local has_modifications=true; fi
-        
             if [[ $git_status =~ ($'\n'|^)M ]]; then local has_modifications_cached=true; fi
-        
             if [[ $git_status =~ ($'\n'|^)A ]]; then local has_adds=true; fi
-        
             if [[ $git_status =~ ($'\n'|^).D ]]; then local has_deletions=true; fi
-        
             if [[ $git_status =~ ($'\n'|^)D ]]; then local has_deletions_cached=true; fi
-        
             if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then local ready_to_commit=true; fi
         
             local number_of_untracked_files=`echo "${git_status}" | $(sh -c 'which grep') -c "^??"`
@@ -59,9 +55,8 @@ function build_prompt {
                 local commits_ahead=$(`sh -c 'which grep'` -c "^<" <<< "$commits_diff")
                 local commits_behind=$(`sh -c 'which grep'` -c "^>" <<< "$commits_diff")
             fi
-            if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
-                local has_diverged=true
-            fi
+
+            if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then local has_diverged=true; fi
         
             local will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
         
@@ -105,7 +100,7 @@ function build_prompt {
                 else
                     local type_of_upstream=$omg_merge_tracking_branch_symbol
                 fi
-                
+
                 if [[ $has_diverged == true ]]; then
                     prompt="${prompt}-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead} "
                 else
