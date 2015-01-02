@@ -32,7 +32,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_use_color_off:=false}
 
     # Colors
-    : ${omg_on='\[\033[1;37m\]'}
+    : ${omg_default_color_on='\[\033[1;37m\]'}
     : ${omg_off='\[\033[0m\]'}
     : ${red='\[\033[0;31m\]'}
     : ${green='\[\033[0;32m\]'}

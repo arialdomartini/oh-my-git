@@ -4,7 +4,7 @@ function enrich {
     if [[ -n $3 ]]; then
         local coloron=$3
     else
-        local coloron=$omg_on
+        local coloron=$omg_default_color_on
     fi
     if [[ $omg_use_color_off == false && $flag == false ]]; then symbol=' '; fi
     if [[ $flag == true ]]; then color=$coloron; else color=$omg_off; fi
@@ -91,7 +91,7 @@ function build_prompt {
             if [[ $just_init == true ]]; then
                 prompt="${prompt} ${red}detached"
             else
-                prompt="${prompt} ${omg_on}(${current_commit_hash:0:7})"
+                prompt="${prompt} ${omg_default_color_on}(${current_commit_hash:0:7})"
             fi
         else
             if [[ $has_upstream == true ]]; then
@@ -105,15 +105,15 @@ function build_prompt {
                     prompt="${prompt}-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead} "
                 else
                     if [[ $commits_behind -gt 0 ]]; then
-                        prompt="${prompt}${omg_on} -${commits_behind} ${omg_can_fast_forward_symbol} "
+                        prompt="${prompt}${omg_default_color_on} -${commits_behind} ${omg_can_fast_forward_symbol} "
                     fi
                     if [[ $commits_ahead -gt 0 ]]; then
-                        prompt="${prompt}${omg_on} ${omg_should_push_symbol} +${commits_ahead} "
+                        prompt="${prompt}${omg_default_color_on} ${omg_should_push_symbol} +${commits_ahead} "
                     fi
                 fi
                 prompt="${prompt}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
             else
-                prompt="${prompt}${omg_on}(${green}${current_branch}${reset})"
+                prompt="${prompt}${omg_default_color_on}(${green}${current_branch}${reset})"
             fi
         fi
         
