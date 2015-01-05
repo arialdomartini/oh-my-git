@@ -48,7 +48,7 @@ function build_prompt {
         
             if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then ready_to_commit=true; else ready_to_commit=false; fi
         
-            number_of_untracked_files=`echo "${git_status}" | grep -c "^??"`
+            number_of_untracked_files=`echo "${git_status}" | $(sh -c 'which grep') -c "^??"`
             if [[ $number_of_untracked_files -gt 0 ]]; then has_untracked_files=true; else has_untracked_files=false; fi
         
             tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
@@ -59,8 +59,8 @@ function build_prompt {
         
             if [[ $has_upstream == true ]]; then
                 commits_diff=$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)
-                commits_ahead=$(grep -c "^<" <<< "$commits_diff")
-                commits_behind=$(grep -c "^>" <<< "$commits_diff")
+                commits_ahead=$(`sh -c 'which grep'` -c "^<" <<< "$commits_diff")
+                commits_behind=$(`sh -c 'which grep'` -c "^>" <<< "$commits_diff")
             fi
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then
                 has_diverged=true
