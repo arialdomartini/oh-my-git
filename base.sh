@@ -8,7 +8,7 @@ function enrich {
     fi
     if [[ $omg_use_color_off == false && $flag == false ]]; then symbol=' '; fi
     if [[ $flag == true ]]; then color=$coloron; else color=$omg_off; fi
-    PS1="${PS1}${color}${symbol}${reset} "
+    prompt="${prompt}${color}${symbol}${reset} "
 }
 
 function build_prompt {
@@ -18,7 +18,7 @@ function build_prompt {
         exit;
     fi
 
-    PS1=""    
+    local prompt=""
     # Git info
     local current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
     if [[ -n $current_commit_hash ]]; then local is_a_git_repo=true; else local is_a_git_repo=false; fi
@@ -26,7 +26,7 @@ function build_prompt {
     if [[ $is_a_git_repo == true ]]; then
         local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
         if [[ $current_branch == 'HEAD' ]]; then local detached=true; else local detached=false; fi
-    
+
         local number_of_logs="$(git log --pretty=oneline -n1 2> /dev/null | wc -l)"
         if [[ $number_of_logs -eq 0 ]]; then
             local just_init=true
@@ -76,8 +76,8 @@ function build_prompt {
             else
                 local number_of_stashes=0
             fi
-            if [[ $number_of_stashes -gt 0 ]]; then has_stashes=true; else has_stashes=false; fi
-    fi
+            if [[ $number_of_stashes -gt 0 ]]; then local has_stashes=true; else local has_stashes=false; fi
+        fi
     fi
     
     if [[ $is_a_git_repo == true ]]; then
@@ -100,9 +100,9 @@ function build_prompt {
         fi
         if [[ $detached == true ]]; then
             if [[ $just_init == true ]]; then
-                PS1="${PS1} ${red}detached"
+                prompt="${prompt} ${red}detached"
             else
-                PS1="${PS1} ${omg_on}(${current_commit_hash:0:7})"
+                prompt="${prompt} ${omg_on}(${current_commit_hash:0:7})"
             fi
         else
             if [[ $has_upstream == true ]]; then
@@ -113,28 +113,28 @@ function build_prompt {
                 fi
                 
                 if [[ $has_diverged == true ]]; then
-                    PS1="${PS1}-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead} "
+                    prompt="${prompt}-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead} "
                 else
                     if [[ $commits_behind -gt 0 ]]; then
-                        PS1="${PS1}${omg_on} -${commits_behind} ${omg_can_fast_forward_symbol} "
+                        prompt="${prompt}${omg_on} -${commits_behind} ${omg_can_fast_forward_symbol} "
                     fi
                     if [[ $commits_ahead -gt 0 ]]; then
-                        PS1="${PS1}${omg_on} ${omg_should_push_symbol} +${commits_ahead} "
+                        prompt="${prompt}${omg_on} ${omg_should_push_symbol} +${commits_ahead} "
                     fi
                 fi
-                PS1="${PS1}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
+                prompt="${prompt}(${green}${current_branch}${reset} ${type_of_upstream} ${upstream//\/$current_branch/})"
             else
-                PS1="${PS1}${omg_on}(${green}${current_branch}${reset})"
+                prompt="${prompt}${omg_on}(${green}${current_branch}${reset})"
             fi
         fi
         
         if [[ $omg_display_tag == true && $is_on_a_tag == true ]]; then
-            PS1="${PS1} ${yellow}${omg_is_on_a_tag_symbol}${reset}"
+            prompt="${prompt} ${yellow}${omg_is_on_a_tag_symbol}${reset}"
         fi
         if [[ $omg_display_tag_name == true && $is_on_a_tag == true ]]; then
-            PS1="${PS1} ${yellow}[${tag_at_current_commit}]${reset}"
+            prompt="${prompt} ${yellow}[${tag_at_current_commit}]${reset}"
         fi
-        PS1="${PS1}      "
+        prompt="${prompt}      "
     fi
     
     if [[ $omg_two_lines == true && $is_a_git_repo == true ]]; then
@@ -143,5 +143,5 @@ function build_prompt {
         break=''
     fi
     
-    echo "${PS1}${reset}${break}${omg_finally}${reset}"
+    echo "${prompt}${reset}${break}${omg_finally}${reset}"
 }
