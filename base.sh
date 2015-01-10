@@ -8,7 +8,7 @@ function enrich {
     fi
     if [[ $omg_use_color_off == false && $flag == false ]]; then symbol=' '; fi
     if [[ $flag == true ]]; then color=$coloron; else color=$omg_off; fi
-    prompt="${prompt}${color}${symbol}${reset} "
+    echo -n "${prompt}${color}${symbol}${reset} ";
 }
 
 function build_prompt {
