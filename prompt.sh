@@ -72,8 +72,9 @@ if [ -n "${BASH_VERSION}" ]; then
         local commits_ahead=${18}
         local commits_behind=${19}
         local has_diverged=${20}
-        local will_rebase=${21}
-        local has_stashes=${22}
+        local should_push=${21}
+        local will_rebase=${22}
+        local has_stashes=${23}
 
 
         local prompt=""
