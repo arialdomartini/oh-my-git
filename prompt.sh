@@ -103,7 +103,7 @@ if [ -n "${BASH_VERSION}" ]; then
         # Flags
         local omg_default_color_on="${black_on_white}"
 
-        local current_path="~"
+        local current_path="\w"
 
         if [[ $is_a_git_repo == true ]]; then
             # on filesystem
