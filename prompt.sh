@@ -129,7 +129,7 @@ if [ -n "${BASH_VERSION}" ]; then
             prompt="${prompt} ${white_on_red} ${black_on_red}"
             if [[ $detached == true ]]; then
                 prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
-                prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${white_on_red}")
+                prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${black_on_red}")
             else            
                 if [[ $has_upstream == false ]]; then
                     prompt+=$(enrich_append true "-- ${omg_not_tracked_branch_symbol}  --  (${current_branch})" "${black_on_red}")
