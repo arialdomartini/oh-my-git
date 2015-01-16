@@ -28,7 +28,7 @@ Then, configure your terminal to use it.
 
 ## Bash
 
-One liner for Mac:
+One liner for OS X:
 
     cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/oh-my-git/prompt.sh >> .profile
 
