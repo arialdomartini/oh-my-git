@@ -54,9 +54,7 @@ If you prefer to keep oh-my-git repository in a different directory, just modify
 
     source /wherever-you-want/oh-my-git/prompt.sh
 
-# zsh
-
-## Installation
+## zsh
 
 With antigen installed, just add
 
