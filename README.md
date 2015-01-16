@@ -17,7 +17,7 @@
 
 
 # Installation
-## The Font
+## <a name="install-the-font"></a>The Font
 
 oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-style](https://github.com/arialdomartini/oh-my-git-themes/blob/oppa-lana-style/oppa-lana-style.zsh-theme). It's based on the font [Source Code Pro](https://github.com/adobe/Source-Code-Pro) by Adobe pathed to include additional glyphs from Powerline and the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) by @gabrielelana.
 
@@ -101,6 +101,13 @@ oh-my-git can be disabled on a per-repository basis. Just add a
 
 in the `.git/config` file of a repo to revert to the original prompt for that particular repo. This could be handy when working with very huge repository, when the git commands invoked by oh-my-git can slow down the prompt.
 
+# Troubleshooting
+
+**Q**: "Help, I installed oh-my-git but this is what I see:"
+
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/bad-font.png)
+
+**A**: It's likely that you forgot to [install the font](#install-the-font).
 
 # Known bugs and limitations
 
