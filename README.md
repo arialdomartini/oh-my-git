@@ -1,6 +1,3 @@
-# oh-my-git!
-
-
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/01-ordinary-prompt.jpg)
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/02-bang.jpg)
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/03-useful-information.jpg)
@@ -19,20 +16,29 @@
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/shut-up.gif)
 
 
-# Bash
+# Installation
+## The Font
 
-## Installation
+oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-style](https://github.com/arialdomartini/oh-my-git-themes/blob/oppa-lana-style/oppa-lana-style.zsh-theme). It's based on the font [Source Code Pro](https://github.com/adobe/Source-Code-Pro) by Adobe pathed to include additional glyphs from Powerline and the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) by @gabrielelana.
+
+You can [download](https://github.com/gabrielelana/awesome-terminal-fonts/blob/patching-strategy/fonts/Sauce%20Code%20Powerline%20Regular.otf) it freely.
+
+Install the font, or apply the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) fallback strategy.
+Then, configure your terminal to use it.
+
+## Bash
 
 One liner for Mac:
 
     cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/oh-my-git/prompt.sh >> .profile
 
-
 One liner for Ubuntu:
 
     cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/oh-my-git/prompt.sh >> .bashrc
 
-Then, set your Terminal font to Monospace (or edit oh-my-git and change the symbols used)
+Then, set your Terminal font to [SourceCodePro+Powerline+Awesome Regular](https://github.com/gabrielelana/awesome-terminal-fonts/blob/patching-strategy/fonts/Sauce%20Code%20Powerline%20Regular.otf) or use [Awesome-Terminal-Fonts]((https://github.com/gabrielelana/awesome-terminal-fonts))) fallback strategy.
+
+You can also edit oh-my-git, change the symbols used and choose whatever font you like.
 
 ## Manual installation
 
@@ -55,11 +61,11 @@ If you prefer to keep oh-my-git repository in a different directory, just modify
 With antigen installed, just add
 
     antigen-bundle arialdomartini/oh-my-git
-    antigen theme arialdomartini/oh-my-git-themes arialdo-granzestyle
+    antigen theme arialdomartini/oh-my-git-themes oppa-lana-style
 
 to your `.zshrc` file.
 
-[`oh-my-git-themes`](https://github.com/arialdomartini/oh-my-git-themes) includes two themes: `arialdo-granzestyle` which is inspired to the great [Granze theme](https://github.com/Granze/G-zsh-theme-2), and `arialdo-pathinline`.
+[`oh-my-git-themes`](https://github.com/arialdomartini/oh-my-git-themes) still includes the old 2 themes: [arialdo-granzestyle](https://github.com/arialdomartini/oh-my-git-themes/blob/master/arialdo-granzestyle.zsh-theme)  (which is inspired to the great [Granze theme](https://github.com/Granze/G-zsh-theme-2)), and [arialdo-pathinline](https://github.com/arialdomartini/oh-my-git-themes/blob/master/arialdo-pathinline.zsh-theme). If you want to use them, edit accordingly your ```.zshrc``` file.
 
 ## How to install antigen
 
@@ -103,5 +109,4 @@ in the `.git/config` file of a repo to revert to the original prompt for that pa
 * git v1.8.4 or newer is required
 * It works weird on brand new repositories, before the first commit
 * It has been tested on Mac and Ubuntu only. I never managed to make it work on Cygwin
-* You need an unicode font (like Menlo or Monaco on Mac OS X, or Monospace on Ubuntu; on Windows, with Cygwin, a good choice is [Meslo](https://github.com/andreberg/Meslo-Font) by [André Berg](https://github.com/andreberg))
-* With the default Ubuntu terminal font, some symbols are not properly displayed. Use Monospace, or edit the `prompt.sh` file and choose other symbols
+* Depending on the theme selected, you need an unicode font (like Sauce Code Pro, Menlo or Monaco on Mac OS X, or Monospace on Ubuntu; on Windows, with Cygwin, a good choice is [Meslo](https://github.com/andreberg/Meslo-Font) by [André Berg](https://github.com/andreberg), but I didn't tested the ooppa-lana-style theme)
