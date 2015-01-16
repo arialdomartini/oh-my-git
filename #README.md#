@@ -1,19 +1,35 @@
 # oh-my-git!
 
+    :42 01-ordinary-prompt.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   277K Jan 16 14:42 02-bang.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   213K Jan 16 14:42 03-useful-information-with-local.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   225K Jan 16 14:42 03-useful-information.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   371K Jan 16 14:42 04-untracked-files-with-colors.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   354K Jan 16 14:42 04-untracked-files.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   392K Jan 16 14:42 06-rm-commit.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   357K Jan 16 14:42 06-tris-colors.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   511K Jan 16 14:42 07-tracking-branches.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   359K Jan 16 14:42 08-push-rebase-and-remote-branch-names.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   394K Jan 16 14:42 09-you-can-push.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   317K Jan 16 14:42 10-you-are-behind-fast-forward.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   295K Jan 16 14:42 11-diverged.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   216K Jan 16 14:42 12-detached.jpg
+    -rwxr-xr-x   1 arialdomartini  staff   309K Jan 16 14:42 13-stash-and-tag.jpg
 
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/01-ordinary-prompt.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/02-bang.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/03-useful-information.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/04-untracked-files.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/06-rm-commit.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/06-tris-colors.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/07-tracking-branches.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/08-push-rebase-and-remote-branch-names.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/09-you-can-push.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/10-you-are-behind-fast-forward.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/11-diverged.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/12-detached.jpg	Oppa-lana-style)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/13-stash-and-tag.jpg)
+
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/01-not in a git repo.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/02-in a git repo.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/03-on master.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/04-untracked-add-commit.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/05-rm.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/06-a typical session.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/07-tracking branch.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/08-explicit upstream.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/09-ahead.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/10-behind.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/11-diverge.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/12-detached.jpg)
+![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/samples/13-stash.jpg)
 
 
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/shut-up.gif)
