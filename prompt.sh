@@ -19,7 +19,6 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_can_fast_forward_symbol:=''}
     : ${omg_has_diverged_symbol:=''}               #   
     : ${omg_not_tracked_branch_symbol:=''}
-    : ${omg_should_sync_symbol:=''}                #     
     : ${omg_rebase_tracking_branch_symbol:=''}     #   
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
@@ -123,11 +122,7 @@ if [ -n "${BASH_VERSION}" ]; then
             
             # next operation
 
-            if [[ $has_diverged == true || $commits_behind -gt 0 ]]; then
-                local should_sync=true
-            fi
             prompt+=$(enrich_append $ready_to_commit $omg_ready_to_commit_symbol "${red_on_white}")
-            prompt+=$(enrich_append $should_sync ${omg_should_sync_symbol} "${red_on_white}")
 
             # where
 
@@ -149,10 +144,10 @@ if [ -n "${BASH_VERSION}" ]; then
                         prompt+=$(enrich_append true "-${commits_behind} ${omg_has_diverged_symbol} +${commits_ahead}" "${white_on_red}")
                     else
                         if [[ $commits_behind -gt 0 ]]; then
-                            prompt+=$(enrich_append true "-${commits_behind} ${omg_can_fast_forward_symbol} --" "${black_on_red}")
+                            prompt+=$(enrich_append true "-${commits_behind} ${white_on_red}${omg_can_fast_forward_symbol}${black_on_red} --" "${black_on_red}")
                         fi
                         if [[ $commits_ahead -gt 0 ]]; then
-                            prompt+=$(enrich_append true "-- ${omg_should_push_symbol}  +${commits_ahead}" "${black_on_red}")
+                            prompt+=$(enrich_append true "-- ${white_on_red}${omg_should_push_symbol}${black_on_red}  +${commits_ahead}" "${black_on_red}")
                         fi
                         if [[ $commits_ahead == 0 && $commits_behind == 0 ]]; then
                             prompt+=$(enrich_append true " --   -- " "${black_on_red}")
