@@ -88,7 +88,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local background_cyan='\e[46m'
         local background_white='\e[47m'
         
-        reset='\e[0m'     # Text Reset]'
+        local reset='\e[0m'     # Text Reset]'
 
         local black_on_white="${black}${background_white}"
         local yellow_on_white="${yellow}${background_white}"
