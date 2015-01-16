@@ -19,7 +19,7 @@
 # Installation
 ## <a name="install-the-font"></a>The Font
 
-oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-style](https://github.com/arialdomartini/oh-my-git-themes/blob/oppa-lana-style/oppa-lana-style.zsh-theme). It's based on the font [Source Code Pro](https://github.com/adobe/Source-Code-Pro) by Adobe pathed to include additional glyphs from Powerline and the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) by @gabrielelana.
+oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-style](https://github.com/arialdomartini/oh-my-git-themes/blob/oppa-lana-style/oppa-lana-style.zsh-theme). It's based on the font [Source Code Pro](https://github.com/adobe/Source-Code-Pro) by Adobe pathed to include additional glyphs from Powerline and the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) by [@gabrielelana](https://github.com/gabrielelana).
 
 You can [download](https://github.com/gabrielelana/awesome-terminal-fonts/blob/patching-strategy/fonts/Sauce%20Code%20Powerline%20Regular.otf) it freely.
 
