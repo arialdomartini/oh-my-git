@@ -37,7 +37,7 @@ One liner for Ubuntu:
 
     cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/oh-my-git/prompt.sh >> .bashrc
 
-Then, set your Terminal font to [SourceCodePro+Powerline+Awesome Regular](https://github.com/gabrielelana/awesome-terminal-fonts/blob/patching-strategy/fonts/Sauce%20Code%20Powerline%20Regular.otf) or use [Awesome-Terminal-Fonts]((https://github.com/gabrielelana/awesome-terminal-fonts))) fallback strategy.
+Then, set your Terminal font to any of the Awesome-Terminal-Fonts or use the fallback strategy.
 
 You can also edit oh-my-git, change the symbols used and choose whatever font you like.
 
