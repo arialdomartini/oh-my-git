@@ -10,6 +10,44 @@ function enrich {
     echo -n "${prompt}${color}${symbol}${reset} "
 }
 
+function get_current_action () {
+    local info="$(git rev-parse --git-dir 2>/dev/null)"
+    if [ -n "$info" ]; then
+        local action
+        if [ -f "$info/rebase-merge/interactive" ]
+        then
+            action=${is_rebasing_interactively:-"rebase -i"}
+        elif [ -d "$info/rebase-merge" ]
+        then
+            action=${is_rebasing_merge:-"rebase -m"}
+        else
+            if [ -d "$info/rebase-apply" ]
+            then
+                if [ -f "$info/rebase-apply/rebasing" ]
+                then
+                    action=${is_rebasing:-"rebase"}
+                elif [ -f "$info/rebase-apply/applying" ]
+                then
+                    action=${is_applying_mailbox_patches:-"am"}
+                else
+                    action=${is_rebasing_mailbox_patches:-"am/rebase"}
+                fi
+            elif [ -f "$info/MERGE_HEAD" ]
+            then
+                action=${is_merging:-"merge"}
+            elif [ -f "$info/CHERRY_PICK_HEAD" ]
+            then
+                action=${is_cherry_picking:-"cherry-pick"}
+            elif [ -f "$info/BISECT_LOG" ]
+            then
+                action=${is_bisecting:-"bisect"}
+            fi
+        fi
+
+        if [[ -n $action ]]; then printf "%s" "${1-}$action${2-}"; fi
+    fi
+}
+
 function build_prompt {
     local enabled=`git config --local --get oh-my-git.enabled`
     if [[ ${enabled} == false ]]; then
@@ -35,7 +73,8 @@ function build_prompt {
             if [[ -n "${upstream}" && "${upstream}" != "@{upstream}" ]]; then local has_upstream=true; fi
 
             local git_status="$(git status --porcelain 2> /dev/null)"
-        
+            local action="$(get_current_action)"
+
             if [[ $git_status =~ ($'\n'|^).M ]]; then local has_modifications=true; fi
             if [[ $git_status =~ ($'\n'|^)M ]]; then local has_modifications_cached=true; fi
             if [[ $git_status =~ ($'\n'|^)A ]]; then local has_adds=true; fi
@@ -69,6 +108,6 @@ function build_prompt {
         fi
     fi
     
-    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false})"
+    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false} ${action})"
     
 }
