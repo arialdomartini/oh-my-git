@@ -11,6 +11,7 @@
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/11-diverged.jpg)
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/12-detached.jpg	Oppa-lana-style)
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/13-stash-and-tag.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/14-action-in-progress.jpg)
 
 
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/shut-up.gif)
