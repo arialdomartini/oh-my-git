@@ -20,11 +20,11 @@
 # Installation
 ## <a name="install-the-font"></a>The Font
 
-oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-style](https://github.com/arialdomartini/oh-my-git-themes/blob/oppa-lana-style/oppa-lana-style.zsh-theme). It's based on the font [Source Code Pro](https://github.com/adobe/Source-Code-Pro) by Adobe pathed to include additional glyphs from [Powerline](https://github.com/powerline/powerline) and the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) by [@gabrielelana](https://github.com/gabrielelana).
+oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-style](https://github.com/arialdomartini/oh-my-git-themes/blob/oppa-lana-style/oppa-lana-style.zsh-theme). It's based on the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) by [@gabrielelana](https://github.com/gabrielelana). The screenshots above use the font [Source Code Pro](https://github.com/adobe/Source-Code-Pro) by Adobe pathed to include additional glyphs from [Powerline](https://github.com/powerline/powerline) and from Awesome-Terminal-Fonts .
 
-You can [download](https://github.com/gabrielelana/awesome-terminal-fonts/blob/patching-strategy/fonts/Sauce%20Code%20Powerline%20Regular.otf) it freely.
+You can [download](https://github.com/gabrielelana/awesome-terminal-fonts/tree/patching-strategy/patched) the fonts freely.
 
-Install the font, or apply the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) fallback strategy.
+Install one of the fonts, or apply the Awesome-Terminal-Fonts [fallback strategy](https://github.com/gabrielelana/awesome-terminal-fonts/blob/master/README.md#patching-vs-fallback).
 Then, configure your terminal to use it.
 
 ## Bash
