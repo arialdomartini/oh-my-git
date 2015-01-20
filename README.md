@@ -91,8 +91,7 @@ I also strongly suggest to include
 
 which are optional, but very cool. It's important to include those lines before ```antigen-apply```. You could take [this zsh configuration file](https://github.com/arialdomartini/dotfiles/blob/4a2e8e0df36275274d8f94a9a25aea364d656174/.zshrc) as a reference.
 
-Then, restart zsh. 
-antigen will download and install all that's needed.
+When you restart zsh, antigen will download and install all that's needed.
 
 # Disabling oh-my-git
 oh-my-git can be disabled on a per-repository basis. Just add a
