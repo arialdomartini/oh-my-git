@@ -4,6 +4,7 @@ if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
     : ${omg_ungit_prompt:=$PS1}
+    : ${omg_second_line:='\w • '}
 
     : ${omg_is_a_git_repo_symbol:=''}
     : ${omg_has_untracked_files_symbol:=''}        #                ?    
@@ -102,8 +103,6 @@ if [ -n "${BASH_VERSION}" ]; then
         # Flags
         local omg_default_color_on="${black_on_white}"
 
-        local current_path="\w"
-
         if [[ $is_a_git_repo == true ]]; then
             # on filesystem
             prompt="${black_on_white} "
@@ -159,7 +158,7 @@ if [ -n "${BASH_VERSION}" ]; then
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
             prompt+="${red_on_black}${reset}
-${current_path} • "
+${omg_second_line}"
         else
             prompt="${omg_ungit_prompt}"
         fi
