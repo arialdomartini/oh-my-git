@@ -114,7 +114,7 @@ in the `.git/config` file of a repo to revert to the original prompt for that pa
 
 **Q**: "I don't want to install a new font!"
 
-**A**: "No prob. You may select another theme, or you can even customize symbols. Take a look to the [prompt.sh](https://github.com/arialdomartini/oh-my-git/blob/master/prompt.sh) file. It contains a list of pre-defined symbols, similar to:
+**A**: "No prob. You may select [another theme](https://github.com/arialdomartini/oh-my-git-themes), or you can customize symbols. Take a look to the [prompt.sh](https://github.com/arialdomartini/oh-my-git/blob/master/prompt.sh) file. It contains a list of pre-defined symbols, similar to:
 
     # Symbols
     : ${omg_is_a_git_repo_symbol:='❤'}
