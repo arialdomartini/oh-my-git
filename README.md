@@ -128,6 +128,28 @@ Those are just default values. If you wish to use another glyph for untracked fi
 
 in your shell startup file.
 
+**Q**: Help! On Linux I can't install the font!
+
+**A**: You should refer to the documentation of [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts). Anyway, this is how I personally setup the prompt on Ubuntu
+
+    # Copy the awesome fonts to ~/.fonts
+    cd /tmp
+    git clone http://github.com/gabrielelana/awesome-terminal-fonts
+    cd awesome-terminal-fonts
+    git checkout patching-strategy
+    mkdir -p ~/.fonts
+    cp patched/*.ttf ~/.fonts
+
+    # update the font-info cache
+    sudo fc-cache -fv ~/.fonts
+
+Then, run ```gnome-terminal``` (or whatever terminal you like) and select one of the awesome-fonts
+
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/gnome-terminal.png)
+
+Finally, install oh-my-zsh with the one-liner (if you use Bash) or with Antigen if you love zsh, and restart the Terminal.
+
+
 **Q**: When I'm not in a git repo, I want to use my old, beloved prompt...
 
 **A**: Sure! Use the variable `omg_ungit_prompt`. Store there your old prompt: it will be used when you are not in a git repo.
