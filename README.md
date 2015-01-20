@@ -1,17 +1,17 @@
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/01-ordinary-prompt.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/02-bang.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/03-useful-information.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/04-untracked-files.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/06-rm-commit.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/06-tris-colors.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/07-tracking-branches.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/08-push-rebase-and-remote-branch-names.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/09-you-can-push.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/10-you-are-behind-fast-forward.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/11-diverged.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/12-detached.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/13-stash-and-tag.jpg)
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/14-action-in-progress.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/01-ordinary-prompt.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/02-bang.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/03-useful-information.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/04-untracked-files.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/06-rm-commit.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/06-tris-colors.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/07-tracking-branches.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/08-push-rebase-and-remote-branch-names.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/09-you-can-push.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/10-you-are-behind-fast-forward.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/11-diverged.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/12-detached.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/13-stash-and-tag.jpg)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/14-action-in-progress.jpg)
 
 
 ![alt tag](https://raw.github.com/arialdomartini/oh-my-git-gh-pages/gh-pages/images/shut-up.gif)
@@ -106,7 +106,7 @@ in the `.git/config` file of a repo to revert to the original prompt for that pa
 
 **Q**: "Help, I installed oh-my-git but this is what I see:"
 
-![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/oppa-lana-style/images/samples/bad-font.png)
+![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/bad-font.png)
 
 **A**: It's likely that you forgot to [install the font](#install-the-font).
 
