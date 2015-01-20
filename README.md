@@ -110,6 +110,25 @@ in the `.git/config` file of a repo to revert to the original prompt for that pa
 
 **A**: It's likely that you forgot to [install the font](#install-the-font).
 
+
+
+**Q**: "I don't want to install a new font!"
+
+**A**: "No prob. You may select another theme, or you can even customize symbols. Take a look to the [prompt.sh](https://github.com/arialdomartini/oh-my-git/blob/master/prompt.sh) file. It contains a list of pre-defined symbols, similar to:
+
+    # Symbols
+    : ${omg_is_a_git_repo_symbol:='❤'}
+    : ${omg_has_untracked_files_symbol:='∿'}
+    : ${omg_has_adds_symbol:='+'}
+    : ${omg_has_deletions_symbol:='-'}
+    : ${omg_has_modifications_symbol:='✎'}
+
+Those are just default values. If you wish to use another glyph for untracked file, just define a
+
+    omg_has_untracked_files_symbol="whatever"
+
+in your shell startup file.
+
 # Known bugs and limitations
 
 * git v1.8.4 or newer is required
