@@ -128,6 +128,11 @@ Those are just default values. If you wish to use another glyph for untracked fi
 
 in your shell startup file.
 
+**Q**: When I'm not in a git repo, I want to use my old, beloved prompt...
+
+**A**: Sure! Use the variable `omg_ungit_prompt`. Store there your old prompt: it will be used when you are not in a git repo.
+
+
 # Known bugs and limitations
 
 * git v1.8.4 or newer is required
