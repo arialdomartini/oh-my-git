@@ -22,10 +22,11 @@
 
 oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-style](https://github.com/arialdomartini/oh-my-git-themes/blob/oppa-lana-style/oppa-lana-style.zsh-theme). It's based on the [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts) by [@gabrielelana](https://github.com/gabrielelana). The screenshots above use the font [Source Code Pro](https://github.com/adobe/Source-Code-Pro) by Adobe patched to include additional glyphs from [Powerline](https://github.com/powerline/powerline) and from Awesome-Terminal-Fonts .
 
-You can [download](https://github.com/gabrielelana/awesome-terminal-fonts/tree/patching-strategy/patched) the fonts freely.
+You can freely [download](https://github.com/gabrielelana/awesome-terminal-fonts/tree/patching-strategy/patched) the fonts from the original repo.
 
-Install one of the fonts, or apply the Awesome-Terminal-Fonts [fallback strategy](https://github.com/gabrielelana/awesome-terminal-fonts/blob/master/README.md#patching-vs-fallback).
-Then, configure your terminal to use it.
+To install one of the fonts, on OS X just double click on the corresponding ```ttf``` file and click on ```Install font```; on Linux you can either [install the patched font](#install-the-patched-font) or you can apply the Awesome-Terminal-Fonts [fallback strategy](https://github.com/gabrielelana/awesome-terminal-fonts/blob/master/README.md#patching-vs-fallback).
+    
+Then, configure your terminal with the desider font, and restart it.
 
 ## Bash
 
@@ -128,7 +129,7 @@ Those are just default values. If you wish to use another glyph for untracked fi
 
 in your shell startup file.
 
-**Q**: Help! On Linux I can't install the font!
+<a name="install-the-patched-font"></a>**Q**: Help! On Linux I can't install the font!
 
 **A**: You should refer to the documentation of [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts). Anyway, this is how I personally setup the prompt on Ubuntu
 
