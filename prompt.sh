@@ -2,6 +2,7 @@ PSORG=$PS1;
 
 if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    source ${DIR}/base.sh
 
     : ${omg_ungit_prompt:=$PS1}
     : ${omg_second_line:='\w • '}
@@ -167,19 +168,9 @@ if [ -n "${BASH_VERSION}" ]; then
 
         echo "${prompt}"
     }
-
-    function_exists() {
-        declare -f -F $1 > /dev/null
-        return $?
-    }
-
-    function eval_prompt_callback_if_present {
-        function_exists omg_prompt_callback && echo "$(omg_prompt_callback)"
-    }
     
     PS2="${yellow}→${reset} "
 
-    source ${DIR}/base.sh
     function bash_prompt() {
         PS1="$(build_prompt)"
     }
