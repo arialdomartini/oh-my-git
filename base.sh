@@ -91,8 +91,8 @@ function build_prompt {
         
             if [[ $has_upstream == true ]]; then
                 local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
-                local commits_ahead=$(`sh -c 'which grep'` -c "^<" <<< "$commits_diff")
-                local commits_behind=$(`sh -c 'which grep'` -c "^>" <<< "$commits_diff")
+                local commits_ahead=$($grep -c "^<" <<< "$commits_diff")
+                local commits_behind=$($grep -c "^>" <<< "$commits_diff")
             fi
 
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then local has_diverged=true; fi
