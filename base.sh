@@ -81,8 +81,9 @@ function build_prompt {
             if [[ $git_status =~ ($'\n'|^).D ]]; then local has_deletions=true; fi
             if [[ $git_status =~ ($'\n'|^)D ]]; then local has_deletions_cached=true; fi
             if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then local ready_to_commit=true; fi
-        
-            local number_of_untracked_files=`echo "${git_status}" | $(sh -c 'which grep') -c "^??"`
+
+            local grep=`sh -c 'which grep'`
+            local number_of_untracked_files=$($grep -c "^??" <<< "${git_status}")
             if [[ $number_of_untracked_files -gt 0 ]]; then local has_untracked_files=true; fi
         
             local tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
@@ -90,8 +91,8 @@ function build_prompt {
         
             if [[ $has_upstream == true ]]; then
                 local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
-                local commits_ahead=$(`sh -c 'which grep'` -c "^<" <<< "$commits_diff")
-                local commits_behind=$(`sh -c 'which grep'` -c "^>" <<< "$commits_diff")
+                local commits_ahead=$($grep -c "^<" <<< "$commits_diff")
+                local commits_behind=$($grep -c "^>" <<< "$commits_diff")
             fi
 
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then local has_diverged=true; fi
