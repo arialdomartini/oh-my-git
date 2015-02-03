@@ -2,6 +2,7 @@ PSORG=$PS1;
 
 if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    source ${DIR}/base.sh
 
     : ${omg_ungit_prompt:=$PS1}
     : ${omg_second_line:='\w • '}
@@ -157,18 +158,19 @@ if [ -n "${BASH_VERSION}" ]; then
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
-            prompt+="${red_on_black}${reset}
-${omg_second_line}"
+            prompt+="${red_on_black}${reset}\n"
+            prompt+="$(eval_prompt_callback_if_present)"
+            prompt+="${omg_second_line}"
         else
-            prompt="${omg_ungit_prompt}"
+            prompt+="$(eval_prompt_callback_if_present)"
+            prompt+="${omg_ungit_prompt}"
         fi
-        
+
         echo "${prompt}"
     }
-
+    
     PS2="${yellow}→${reset} "
 
-    source ${DIR}/base.sh
     function bash_prompt() {
         PS1="$(build_prompt)"
     }
