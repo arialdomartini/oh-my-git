@@ -88,6 +88,33 @@ Then, edit your `.zshrc` file including
 
 When you restart zsh, antigen will download and install all that's needed.
 
+# Customizing symbols
+
+You can easily change any symbols used by the prompt. Take a look to the file [prompt.sh](https://github.com/arialdomartini/oh-my-git/blob/master/prompt.sh) (or to [oppa-lana-style.zsh-theme](https://github.com/arialdomartini/oh-my-git-themes/blob/master/oppa-lana-style.zsh-theme) if you use zsh). You will find a bunch or variables, each of them with its default value. The variables names should be auto-explanatory. Something like
+
+```
+: ${omg_is_a_git_repo_symbol:='❤'}
+: ${omg_has_untracked_files_symbol:='∿'}
+: ${omg_omg_has_adds_symbol:='+'}
+: ${omg_has_deletions_symbol:='-'}
+: ${omg_has_cached_deletions_symbol:='✖'}
+: ${omg_has_modifications_symbol:='✎'}
+: ${omg_has_cached_modifications_symbol:='☲'}
+: ${omg_ready_to_commit_symbol:='→'}
+: ${omg_is_on_a_tag_symbol:='⌫'}
+```
+
+You can override any of those variables in your shell startup file.
+
+For example, just add a
+
+```
+omg_is_on_a_tag_symbol='#'
+```
+
+to your `.bashrc` file, and oh-my-git will use `#` when you are on a tag.
+
+
 # Disabling oh-my-git
 oh-my-git can be disabled on a per-repository basis. Just add a
 
