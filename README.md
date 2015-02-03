@@ -169,6 +169,37 @@ or just move the startup command
 
 from ```.profile``` to ```.bash_profile```
 
+**Q**: Hey, where's my current virtualenv name? It disappeared from the prompt! Or it appears like this
+
+![virtualenv badly rendered](https://cloud.githubusercontent.com/assets/150719/5852434/06933e88-a217-11e4-81a0-153c5a300b0a.png)
+
+**A**: Yes, actually the virtualenv's approach with prompts is pretty disappointing (see [Virtualenv's bin/activate is Doing It Wrong](https://gist.github.com/datagrok/2199506)): in fact, the script ```activate``` performs a
+
+```
+PS1="(`basename \"$VIRTUAL_ENV\"`)$PS1"
+```
+
+that arrogantly prepends the virtualenv name to the current ```PS1```, leaving you no opportunity to customise the output.
+
+You can solve this problem disabling the standart virtualenv prompt injection and using the callback function `omg_prompt_callback`.
+
+Add
+
+```
+VIRTUAL_ENV_DISABLE_PROMPT=true
+function omg_prompt_callback() {
+    if [ -n "${VIRTUAL_ENV}" ]; then
+        echo "\e[0;31m(`basename ${VIRTUAL_ENV}`)\e[0m "
+    fi
+}
+```
+
+to your shell startup script. It should render the prompt inside an active virtualenv like this
+
+![a proper virtualenv rendering](https://cloud.githubusercontent.com/assets/150719/5852429/e50d18a6-a216-11e4-9b0e-c902f47a1ca4.png)]
+
+You can use the call back function to inject whatever you want at the beginning of the second line.
+
 # Known bugs and limitations
 
 * git v1.8.4 or newer is required
