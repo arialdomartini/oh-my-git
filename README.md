@@ -154,7 +154,7 @@ in your shell startup file.
 ---
 #### On OS X, I configured iTerm2 with the patched font, but the prompt is still broken.
 
-**A**: iTerm2 preferences have 2 settings for setting the font: one for `Regular Font` and one for `Non ASCII Font`.
+**A**: iTerm2 preferences have 2 sections for setting the font: one for `Regular Font` and one for `Non-ASCII Font`.
 The font should be set on both the sections, like showed in the following screenshot:
 
 ![iTerm2 Preferences Page](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/iterm2.png)
