@@ -98,15 +98,16 @@ in the `.git/config` file of a repo to revert to the original prompt for that pa
 
 # Troubleshooting
 
-**Q**: "Help, I installed oh-my-git but this is what I see:"
+#### Help, I installed oh-my-git but this is what I see:
+
 
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/bad-font.png)
 
 **A**: It's likely that you forgot to [install the font](#install-the-font).
 
+---
 
-
-**Q**: "I don't want to install a new font!"
+#### I don't want to install a new font!
 
 **A**: "No prob. You may select [another theme](https://github.com/arialdomartini/oh-my-git-themes), or you can customize symbols. Take a look to the [prompt.sh](https://github.com/arialdomartini/oh-my-git/blob/master/prompt.sh) file. It contains a list of pre-defined symbols, similar to:
 
@@ -123,7 +124,10 @@ Those are just default values. If you wish to use another glyph for untracked fi
 
 in your shell startup file.
 
-<a name="install-the-patched-font"></a>**Q**: Help! On Linux I can't install the font!
+
+---
+
+#### <a name="install-the-patched-font"></a>Help! On Linux I can't install the font!
 
 **A**: You should refer to the documentation of [Awesome-Terminal-Fonts](https://github.com/gabrielelana/awesome-terminal-fonts). Anyway, this is how I personally setup the prompt on Ubuntu
 
@@ -144,12 +148,15 @@ Then, run ```gnome-terminal``` (or whatever terminal you like) and select one of
 
 Finally, install oh-my-zsh with the one-liner (if you use Bash) or with Antigen if you love zsh, and restart the Terminal.
 
+---
 
-**Q**: When I'm not in a git repo, I want to use my old, beloved prompt...
+#### When I'm not in a git repo, I want to use my old, beloved prompt...
 
 **A**: Sure! Use the variable `omg_ungit_prompt`. Store there your old prompt: it will be used when you are not in a git repo.
 
-**Q**: Help! I used the one-liner for OS X, but the prompt doesn't start!
+---
+
+#### Help! I used the one-liner for OS X, but the prompt doesn't start!
 
 **A**: The one-liner for OS X adds the startup command in ```~/.profile```, which is the startup file for generic login shells. If a ```~/.bash_profile``` is present, this is used in place of ```.profile```, and ```.profile``` itself is ignored. To solve your issue, use this alternative one-liner
 
@@ -161,7 +168,9 @@ or just move the startup command
 
 from ```.profile``` to ```.bash_profile```
 
-**Q**: Hey, where's my current virtualenv name? It disappeared from the prompt! Or it appears like this
+---
+
+#### Hey, where's my current virtualenv name? It disappeared from the prompt! Or it appears like this
 
 ![virtualenv badly rendered](https://cloud.githubusercontent.com/assets/150719/5852434/06933e88-a217-11e4-81a0-153c5a300b0a.png)
 
