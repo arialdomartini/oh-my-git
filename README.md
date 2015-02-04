@@ -152,6 +152,18 @@ Those are just default values. If you wish to use another glyph for untracked fi
 in your shell startup file.
 
 ---
+#### With Bash the last arrow looks very bad, like this
+
+![oh-my-git](https://cloud.githubusercontent.com/assets/6009528/6031476/0b9bfe2c-ac00-11e4-898a-324a71be6cb5.png)
+
+**A**: Unfortunately, I yet haven't find a way to tell bash "print the next symbol using the background color currently used by the terminal" and as far as I know [there's no way to achieve this result](http://unix.stackexchange.com/questions/1755/change-the-ps1-color-based-on-the-background-color#tab-top). Zsh is not affected by this issue.
+As a consequence, when printing the last arrow , the foreground and background colors must be explicitly set. This is unfortunate, because if the terminal is using a different background color, the result is bad, as showed in the above screenshot.
+
+Luckily, you can override the colors used to render the last arrow, using the variable `omg_last_arrow_color`.
+
+For example, if the termina
+
+---
 #### On OS X, I configured iTerm2 with the patched font, but the prompt is still broken.
 
 **A**: iTerm2 preferences have 2 sections for setting the font: one for `Regular Font` and one for `Non-ASCII Font`.
