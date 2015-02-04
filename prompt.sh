@@ -78,7 +78,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local blue='\e[0;34m'
         local purple='\e[0;35m'
         local cyan='\e[0;36m'
-        local white='\e[0;37m'
+        local white='\e[1;30;47m'
 
         #background
         local background_black='\e[40m'
@@ -88,7 +88,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local background_blue='\e[44m'
         local background_purple='\e[45m'
         local background_cyan='\e[46m'
-        local background_white='\e[47m'
+        local background_white='\e[100m'
         
         local reset='\e[0m'     # Text Reset]'
         local default_background='\e[0;31m\e[49m'
