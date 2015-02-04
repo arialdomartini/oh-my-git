@@ -90,7 +90,7 @@ When you restart zsh, antigen will download and install all that's needed.
 
 # Customizing symbols
 
-You can easily change any symbols used by the prompt. Take a look to the file [prompt.sh](https://github.com/arialdomartini/oh-my-git/blob/master/prompt.sh) (or to [oppa-lana-style.zsh-theme](https://github.com/arialdomartini/oh-my-git-themes/blob/master/oppa-lana-style.zsh-theme) if you use zsh). You will find a bunch or variables, each of them with its default value. The variables names should be auto-explanatory. Something like
+You can easily change any symbols used by the prompt. Take a look to the file [prompt.sh](https://github.com/arialdomartini/oh-my-git/blob/master/prompt.sh) (or to [oppa-lana-style.zsh-theme](https://github.com/arialdomartini/oh-my-git-themes/blob/master/oppa-lana-style.zsh-theme) if you use zsh). You will find a bunch of variables, each of them with its default value. The variables names should be auto-explanatory. Something like
 
 ```
 : ${omg_is_a_git_repo_symbol:='❤'}
