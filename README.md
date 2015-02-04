@@ -160,7 +160,14 @@ in your shell startup file.
 
 As a consequence, when printing the last symbol, oh-my-git has no choice but setting explicitly the foreground and background colors. Currently, the standard background color is black. This is unfortunate, because if the terminal uses a different background color than black, the result is bad, as showed in the above screenshot.
 
-Luckily, you can override the colors used to render the last symbol with the variable `omg_last_symbol_color`.
+A smart solution is the one proposed by [@Sgiath](https://github.com/Sgiath): in the color palette set the first color (the one in the top-left corner) same as background color, like this
+
+![oh-my-git](https://cloud.githubusercontent.com/assets/6009528/6039646/454c965e-ac69-11e4-8f80-37425181d04b.png)
+
+This in fact sets the "black" color to the same color used as the terminal background.
+
+
+If for any reasons you cannot change the palette, you can override the colors used to render the last symbol with the variable `omg_last_symbol_color`.
 
 For example, if the terminal is using a gray background, you can add a
 
