@@ -5,7 +5,7 @@ if [ -n "${BASH_VERSION}" ]; then
     source ${DIR}/base.sh
 
     : ${omg_ungit_prompt:=$PS1}
-    : ${omg_second_line:='\w • '}
+    : ${omg_second_line:=$PS1}
 
     : ${omg_is_a_git_repo_symbol:=''}
     : ${omg_has_untracked_files_symbol:=''}        #                ?    
