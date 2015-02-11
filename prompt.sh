@@ -29,7 +29,8 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_default_color_on:='\[\033[1;37m\]'}
     : ${omg_default_color_off:='\[\033[0m\]'}
     : ${omg_last_symbol_color:='\e[0;31m\e[40m'}
-    
+    : ${omg_last_symbol:=''}
+
     PROMPT='$(build_prompt)'
     RPROMPT='%{$reset_color%}%T %{$fg_bold[white]%} %n@%m%{$reset_color%}'
 
@@ -90,7 +91,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local background_purple='\e[45m'
         local background_cyan='\e[46m'
         local background_white='\e[47m'
-        
+
         local reset='\e[0m'     # Text Reset]'
 
         local black_on_white="${black}${background_white}"
@@ -114,13 +115,13 @@ if [ -n "${BASH_VERSION}" ]; then
             prompt+=$(enrich_append $has_untracked_files $omg_has_untracked_files_symbol "${red_on_white}")
             prompt+=$(enrich_append $has_modifications $omg_has_modifications_symbol "${red_on_white}")
             prompt+=$(enrich_append $has_deletions $omg_has_deletions_symbol "${red_on_white}")
-            
+
 
             # ready
             prompt+=$(enrich_append $has_adds $omg_has_adds_symbol "${black_on_white}")
             prompt+=$(enrich_append $has_modifications_cached $omg_has_cached_modifications_symbol "${black_on_white}")
             prompt+=$(enrich_append $has_deletions_cached $omg_has_cached_deletions_symbol "${black_on_white}")
-            
+
             # next operation
 
             prompt+=$(enrich_append $ready_to_commit $omg_ready_to_commit_symbol "${red_on_white}")
@@ -131,7 +132,7 @@ if [ -n "${BASH_VERSION}" ]; then
             if [[ $detached == true ]]; then
                 prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
                 prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${black_on_red}")
-            else            
+            else
                 if [[ $has_upstream == false ]]; then
                     prompt+=$(enrich_append true "-- ${omg_not_tracked_branch_symbol}  --  (${current_branch})" "${black_on_red}")
                 else
@@ -153,13 +154,13 @@ if [ -n "${BASH_VERSION}" ]; then
                         if [[ $commits_ahead == 0 && $commits_behind == 0 ]]; then
                             prompt+=$(enrich_append true " --   -- " "${black_on_red}")
                         fi
-                        
+
                     fi
                     prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_red}")
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
-            prompt+="${omg_last_symbol_color}${reset}\n"
+            prompt+="${omg_last_symbol_color}${omg_last_symbol}${reset}\n"
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_second_line}"
         else
@@ -169,7 +170,7 @@ if [ -n "${BASH_VERSION}" ]; then
 
         echo "${prompt}"
     }
-    
+
     PS2="${yellow}→${reset} "
 
     function bash_prompt() {
