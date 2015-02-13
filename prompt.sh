@@ -15,6 +15,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_has_modifications_symbol:=''}
     : ${omg_has_cached_modifications_symbol:=''}
     : ${omg_ready_to_commit_symbol:=''}            #   →
+    : ${omg_local_remote_separator:=''}            #   →
     : ${omg_is_on_a_tag_symbol:=''}                #   
     : ${omg_needs_to_merge_symbol:='ᄉ'}
     : ${omg_detached_symbol:=''}
@@ -128,7 +129,7 @@ if [ -n "${BASH_VERSION}" ]; then
 
             # where
 
-            prompt="${prompt} ${white_on_red} ${black_on_red}"
+            prompt="${prompt} ${white_on_red}${omg_local_remote_separator} ${black_on_red}"
             if [[ $detached == true ]]; then
                 prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
                 prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${black_on_red}")
