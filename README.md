@@ -28,7 +28,7 @@ To install one of the fonts, on OS X just double click on the corresponding ```t
 
 On Linux you can either [install the patched font](#install-the-patched-font) or you can apply the Awesome-Terminal-Fonts [fallback strategy](https://github.com/gabrielelana/awesome-terminal-fonts/blob/master/README.md#patching-vs-fallback).
     
-Then, configure your terminal with the desider font, and restart it.
+Then, configure your terminal with the desired font, and restart it.
 
 ## Bash
 
