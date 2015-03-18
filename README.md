@@ -1,3 +1,4 @@
+
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/01-ordinary-prompt.jpg)
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/02-bang.jpg)
 ![alt tag](https://raw.githubusercontent.com/arialdomartini/oh-my-git-gh-pages/master/images/samples/03-useful-information.jpg)
@@ -122,6 +123,23 @@ oh-my-git can be disabled on a per-repository basis. Just add a
     enabled = false
 
 in the `.git/config` file of a repo to revert to the original prompt for that particular repo. This could be handy when working with very huge repository, when the git commands invoked by oh-my-git can slow down the prompt.
+
+# Uninstall
+
+## Bash
+* Remove the line `source ~/.oh-my-git/prompt.sh` from the terminal boot script (`.profile` or `.bash_rc`)
+* Delete the oh-my-git repo with a `rm -fr ~/.oh-my-git`
+
+## zsh
+Remove the lines
+
+```
+antigen-use oh-my-zsh
+antigen-bundle arialdomartini/oh-my-git
+antigen theme arialdomartini/oh-my-git-themes oppa-lana-style
+```
+
+from your `.zshrc` file
 
 # Troubleshooting
 
