@@ -174,7 +174,7 @@ if [ -n "${BASH_VERSION}" ]; then
     PS2="${yellow}→${reset} "
 
     function bash_prompt() {
-        PS1="$(build_prompt)"
+        PS1="$PS1$(build_prompt)"
     }
 
     PROMPT_COMMAND=bash_prompt
