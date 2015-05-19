@@ -96,7 +96,7 @@ You can easily change any symbols used by the prompt. Take a look to the file [p
 ```
 : ${omg_is_a_git_repo_symbol:='❤'}
 : ${omg_has_untracked_files_symbol:='∿'}
-: ${omg_omg_has_adds_symbol:='+'}
+: ${omg_has_adds_symbol:='+'}
 : ${omg_has_deletions_symbol:='-'}
 : ${omg_has_cached_deletions_symbol:='✖'}
 : ${omg_has_modifications_symbol:='✎'}
