@@ -148,7 +148,7 @@ if [ -n "${BASH_VERSION}" ]; then
                             prompt+=$(enrich_append true "-${commits_behind} ${white_on_red}${omg_can_fast_forward_symbol}${black_on_red} --" "${black_on_red}")
                         fi
                         if [[ $commits_ahead -gt 0 ]]; then
-                            prompt+=$(enrich_append true "-- ${white_on_red}${omg_should_push_symbol}${black_on_red}  +${commits_ahead}" "${black_on_red}")
+                            prompt+=$(enrich_append true "-- ${white_on_red}${omg_should_push_symbol} ${black_on_red} +${commits_ahead}" "${black_on_red}")
                         fi
                         if [[ $commits_ahead == 0 && $commits_behind == 0 ]]; then
                             prompt+=$(enrich_append true " --   -- " "${black_on_red}")
