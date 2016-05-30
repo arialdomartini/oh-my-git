@@ -1,4 +1,5 @@
 PSORG=$PS1;
+PROMPT_COMMAND_ORG=$PROMPT_COMMAND;
 
 if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -176,6 +177,6 @@ if [ -n "${BASH_VERSION}" ]; then
         PS1="$(build_prompt)"
     }
 
-    PROMPT_COMMAND=bash_prompt
+    PROMPT_COMMAND="bash_prompt; $PROMPT_COMMAND_ORG"
 
 fi
