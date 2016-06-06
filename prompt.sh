@@ -23,6 +23,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_has_diverged_symbol:=''}               #   
     : ${omg_not_tracked_branch_symbol:=''}
     : ${omg_rebase_tracking_branch_symbol:=''}     #   
+    : ${omg_rebase_interactive_symbol:=''}
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
     : ${omg_has_stashes_symbol:=''}
@@ -67,6 +68,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local should_push=${21}
         local will_rebase=${22}
         local has_stashes=${23}
+        local action=${24}
 
         local prompt=""
         local original_prompt=$PS1
@@ -130,7 +132,11 @@ if [ -n "${BASH_VERSION}" ]; then
 
             prompt="${prompt} ${white_on_red} ${black_on_red}"
             if [[ $detached == true ]]; then
-                prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
+                if [[ "${action}" = "rebase" ]]; then
+                    prompt+=$(enrich_append $detached $omg_rebase_interactive_symbol "${white_on_red}")
+                else
+                    prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
+                fi
                 prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${black_on_red}")
             else            
                 if [[ $has_upstream == false ]]; then
