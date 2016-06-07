@@ -101,10 +101,21 @@ function build_prompt {
         
             local number_of_stashes="$(git stash list -n1 2> /dev/null | wc -l)"
             if [[ $number_of_stashes -gt 0 ]]; then local has_stashes=true; fi
+
+            if [ "${action}" = "bisect" ]; then
+                local bisect_log=$(git bisect log)
+                local bisect_first=$(grep 'git bisect good' <<< "${bisect_log}" | head -n1 | cut -d' ' -f4)
+                local bisect_last=$(grep 'git bisect bad' <<< "${bisect_log}" | head -n1 | cut -d' ' -f4)
+                local bisect_total=$(git log --pretty=oneline ${bisect_first}..${bisect_last} 2> /dev/null | wc -l)
+                local bisect_total=$(bc <<< "${bisect_total} - 1")
+                local bisect_remain=$(git bisect view --pretty=oneline 2> /dev/null | wc -l)
+                local bisect_remain=$(bc <<< "${bisect_remain} / 2")
+                local bisect_tested=$(bc <<< "${bisect_total} - ${bisect_remain}")
+            fi
         fi
     fi
     
-    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false} ${action})"
+    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false} ${bisect_tested:-""} ${bisect_total:-""} ${action})"
     
 }
 
