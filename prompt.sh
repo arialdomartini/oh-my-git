@@ -71,7 +71,8 @@ if [ -n "${BASH_VERSION}" ]; then
         local has_stashes=${23}
         local bisect_remain=${24}
         local bisect_total=${25}
-        local action=${26}
+        local bisect_steps=${26}
+        local action=${27}
 
         local prompt=""
         local original_prompt=$PS1
@@ -138,7 +139,7 @@ if [ -n "${BASH_VERSION}" ]; then
                 if [[ "${action}" = "rebase" ]]; then
                     prompt+=$(enrich_append $detached $omg_rebase_interactive_symbol "${white_on_red}")
                 elif [[ "${action}" = "bisect" ]]; then
-                    prompt+=$(enrich_append $detached "${bisect_tested}/${bisect_total} $omg_bisect_symbol" "${white_on_red}")
+                    prompt+=$(enrich_append $detached "${bisect_tested}/${bisect_total} $omg_bisect_symbol  ${bisect_steps}" "${white_on_red}")
                 else
                     prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
                 fi
