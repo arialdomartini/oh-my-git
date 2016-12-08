@@ -25,6 +25,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_rebase_tracking_branch_symbol:=''}     #   
     : ${omg_rebase_interactive_symbol:=''}
     : ${omg_bisect_symbol:=''}
+    : ${omg_bisect_done_symbol:=''}
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
     : ${omg_has_stashes_symbol:=''}
@@ -138,6 +139,8 @@ if [ -n "${BASH_VERSION}" ]; then
             if [[ $detached == true ]]; then
                 if [[ "${action}" = "rebase" ]]; then
                     prompt+=$(enrich_append $detached $omg_rebase_interactive_symbol "${white_on_red}")
+                elif [[ "${action}" = "bisect" ]] && [[ "${bisect_steps}" = "0" ]]; then
+                    prompt+=$(enrich_append $detached "$omg_bisect_done_symbol" "${white_on_red}")
                 elif [[ "${action}" = "bisect" ]]; then
                     prompt+=$(enrich_append $detached "${bisect_tested}/${bisect_total} $omg_bisect_symbol  ${bisect_steps}" "${white_on_red}")
                 else
