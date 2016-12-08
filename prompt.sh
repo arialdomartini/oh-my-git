@@ -24,7 +24,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_not_tracked_branch_symbol:=''}
     : ${omg_rebase_tracking_branch_symbol:=''}     #   
     : ${omg_rebase_interactive_symbol:=''}
-    : ${omg_bisect_symbol:=''}
+    : ${omg_bisect_symbol:=''}
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
     : ${omg_has_stashes_symbol:=''}
