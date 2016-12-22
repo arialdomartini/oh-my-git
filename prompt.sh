@@ -127,8 +127,18 @@ if [ -n "${BASH_VERSION}" ]; then
             prompt+=$(enrich_append $ready_to_commit $omg_ready_to_commit_symbol "${red_on_white}")
 
             # where
+            
+            # Get Virtual Env
+	        if [[ $VIRTUAL_ENV != "" ]]
+    		    then
+      	    # Strip out the path and just leave the env name
+      		    venv="(pyenv:${VIRTUAL_ENV##*/})"
+	        else
+      	    # In case you don't have one activated
+      		    venv=''
+	        fi
 
-            prompt="${prompt} ${white_on_red} ${black_on_red}"
+            prompt="${prompt} $venv ${white_on_red} ${black_on_red}"
             if [[ $detached == true ]]; then
                 prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
                 prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${black_on_red}")
