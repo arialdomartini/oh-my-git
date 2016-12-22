@@ -99,6 +99,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local red_on_white="${red}${background_white}"
         local red_on_black="${red}${background_black}"
         local black_on_red="${black}${background_red}"
+        local blue_on_red="${blue}${background_red}"
         local white_on_red="${white}${background_red}"
         local yellow_on_red="${yellow}${background_red}"
 
@@ -156,7 +157,7 @@ if [ -n "${BASH_VERSION}" ]; then
                         fi
                         
                     fi
-                    prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_red}")
+                    prompt+=$(enrich_append true "(${blue_on_red}${current_branch}${black_on_red} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_red}")
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
