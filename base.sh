@@ -89,7 +89,7 @@ function build_prompt {
             if [[ -n $tag_at_current_commit ]]; then local is_on_a_tag=true; fi
         
             if [[ $has_upstream == true ]]; then
-                local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
+                local commits_diff="$(git log --no-color --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
                 local commits_ahead=$(\grep -c "^<" <<< "$commits_diff")
                 local commits_behind=$(\grep -c "^>" <<< "$commits_diff")
             fi
