@@ -26,10 +26,9 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
     : ${omg_has_stashes_symbol:=''}
-
+    
     : ${omg_default_color_on:='\[\033[1;37m\]'}
     : ${omg_default_color_off:='\[\033[0m\]'}
-    : ${omg_last_symbol_color:='\e[0;31m\e[40m'}
     
     PROMPT='$(build_prompt)'
     RPROMPT='%{$reset_color%}%T %{$fg_bold[white]%} %n@%m%{$reset_color%}'
@@ -80,7 +79,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local blue='\e[0;34m'
         local purple='\e[0;35m'
         local cyan='\e[0;36m'
-        local white='\e[0;37m'
+        local white='\e[1;30;47m'
 
         #background
         local background_black='\e[40m'
@@ -90,9 +89,10 @@ if [ -n "${BASH_VERSION}" ]; then
         local background_blue='\e[44m'
         local background_purple='\e[45m'
         local background_cyan='\e[46m'
-        local background_white='\e[47m'
+        local background_white='\e[100m'
         
         local reset='\e[0m'     # Text Reset]'
+        local default_background='\e[0;31m\e[49m'
 
         local black_on_white="${black}${background_white}"
         local yellow_on_white="${yellow}${background_white}"
@@ -160,7 +160,7 @@ if [ -n "${BASH_VERSION}" ]; then
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
-            prompt+="${omg_last_symbol_color}${reset}\n"
+            prompt+="${reset}${red}${default_background}${reset}\n"
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_second_line}"
         else
