@@ -174,7 +174,12 @@ if [ -n "${BASH_VERSION}" ]; then
     PS2="${yellow}→${reset} "
 
     function bash_prompt() {
-        PS1="$(build_prompt)"
+    	local tmpfile="${TMPDIR-/tmp}/oh-my-git~"
+	local old=$(cat "$tmpfile" 2>/dev/null)
+	local new=$(history 1 | head -1 | cut -d' ' -f3 | tee "$tmpfile" 2>/dev/null)
+	if [ "$new" != "$old" ]; then
+        	PS1="$(build_prompt)"
+	fi
     }
 
     PROMPT_COMMAND="bash_prompt; $PROMPT_COMMAND_ORG"
