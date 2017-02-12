@@ -29,7 +29,6 @@ if [ -n "${BASH_VERSION}" ]; then
 
     : ${omg_default_color_on:='\[\033[1;37m\]'}
     : ${omg_default_color_off:='\[\033[0m\]'}
-    : ${omg_last_symbol_color:='\e[0;31m\e[40m'}
     
     PROMPT='$(build_prompt)'
     RPROMPT='%{$reset_color%}%T %{$fg_bold[white]%} %n@%m%{$reset_color%}'
@@ -160,7 +159,7 @@ if [ -n "${BASH_VERSION}" ]; then
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
-            prompt+="${omg_last_symbol_color}${reset}\n"
+            prompt+="${reset}${red}${reset}\n"
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_second_line}"
         else
