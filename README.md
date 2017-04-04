@@ -174,6 +174,8 @@ in your shell startup file.
 
 ![oh-my-git](https://cloud.githubusercontent.com/assets/6009528/6031476/0b9bfe2c-ac00-11e4-898a-324a71be6cb5.png)
 
+This issue is fixed for most clients using bash version 2.53 and above. The default macOS X Terminal.app is a client for which the fix does not work correctly. Terminal uses the default background color as it should but a brighter red for the foreground color - it simply ignores the setting that the dark red should be used. If your client shows similar problems you have to use one of the workarounds from below.
+
 **A**: Unfortunately, I haven't find a way to tell bash "*print the next symbol using the background color currently used by the terminal*" and as far as I know [there's no way to achieve this result](http://unix.stackexchange.com/questions/1755/change-the-ps1-color-based-on-the-background-color#tab-top). Zsh is not affected by this issue, but bash is.
 
 As a consequence, when printing the last symbol, oh-my-git has no choice but setting explicitly the foreground and background colors. Currently, the standard background color is black. This is unfortunate, because if the terminal uses a different background color than black, the result is bad, as showed in the above screenshot.
