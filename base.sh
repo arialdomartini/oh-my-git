@@ -63,7 +63,8 @@ function build_prompt {
     
     if [[ $is_a_git_repo == true ]]; then
         local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-        if [[ $current_branch == 'HEAD' ]]; then local detached=true; fi
+        local current_branch_sanitized=${current_branch//\$/💩}
+        if [[ $current_branch_sanitized == 'HEAD' ]]; then local detached=true; fi
 
         local number_of_logs="$(git log --pretty=oneline -n1 2> /dev/null | wc -l)"
         if [[ $number_of_logs -eq 0 ]]; then
@@ -97,14 +98,14 @@ function build_prompt {
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then local has_diverged=true; fi
             if [[ $has_diverged == false && $commits_ahead -gt 0 ]]; then local should_push=true; fi
         
-            local will_rebase=$(git config --get branch.${current_branch}.rebase 2> /dev/null)
+            local will_rebase=$(git config --get branch.${current_branch_sanitized}.rebase 2> /dev/null)
         
             local number_of_stashes="$(git stash list -n1 2> /dev/null | wc -l)"
             if [[ $number_of_stashes -gt 0 ]]; then local has_stashes=true; fi
         fi
     fi
     
-    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false} ${action})"
+    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch_sanitized:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false} ${action})"
     
 }
 
