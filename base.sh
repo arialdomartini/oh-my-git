@@ -118,10 +118,28 @@ function build_prompt {
                     local bisect_steps="0"
                 fi
             fi
+
+            local toplevel=$(git rev-parse --show-toplevel)
+            local modules=$(git -C ${toplevel} config --file .gitmodules --name-only --get-regexp path | sed 's/\.path$//')
+            local submodules_outdated=false
+            local module=''
+            for module in ${modules}; do
+                # obtain the module configuration
+                local module_path=$(git -C "${toplevel}" config --file .gitmodules ${module}.path)
+                local module_branch=$(git -C "${toplevel}" config --file .gitmodules ${module}.branch)
+                # spawn a background update of our cached information
+                (git -C "${toplevel}/${module_path}" remote update &) 1>/dev/null 2>/dev/null
+                # determine whether the branch is out of date (with cached data)
+                local branch_rev=$(git -C "${toplevel}/${module_path}" rev-parse origin/${module_branch})
+                local head_rev=$(git -C "${toplevel}/${module_path}" rev-parse HEAD)
+                if [[ "${head_rev}" != "${branch_rev}" ]]; then
+                    submodules_outdated=true;
+                fi
+            done
         fi
     fi
     
-    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false} ${bisect_tested:-""} ${bisect_total:-""} ${bisect_steps:-""} ${action})"
+    echo "$(custom_build_prompt ${enabled:-true} ${current_commit_hash:-""} ${is_a_git_repo:-false} ${current_branch:-""} ${detached:-false} ${just_init:-false} ${has_upstream:-false} ${has_modifications:-false} ${has_modifications_cached:-false} ${has_adds:-false} ${has_deletions:-false} ${has_deletions_cached:-false} ${has_untracked_files:-false} ${ready_to_commit:-false} ${tag_at_current_commit:-""} ${is_on_a_tag:-false} ${has_upstream:-false} ${commits_ahead:-false} ${commits_behind:-false} ${has_diverged:-false} ${should_push:-false} ${will_rebase:-false} ${has_stashes:-false} ${bisect_tested:-""} ${bisect_total:-""} ${bisect_steps:-""} ${submodules_outdated:-false} ${action})"
     
 }
 
