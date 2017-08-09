@@ -8,7 +8,8 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_ungit_prompt:=$PS1}
     : ${omg_second_line:=$PS1}
 
-    : ${omg_is_a_git_repo_symbol:=''}
+    : ${omg_is_a_git_repo_symbol:=''}
+    : ${omg_submodules_outdated_symbol:=''}
     : ${omg_has_untracked_files_symbol:=''}        #                ?    
     : ${omg_has_adds_symbol:=''}
     : ${omg_has_deletions_symbol:=''}
@@ -23,6 +24,10 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_has_diverged_symbol:=''}               #   
     : ${omg_not_tracked_branch_symbol:=''}
     : ${omg_rebase_tracking_branch_symbol:=''}     #   
+    : ${omg_rebase_interactive_symbol:=''}
+    : ${omg_bisect_symbol:=''}
+    : ${omg_bisect_close_symbol:=''}
+    : ${omg_bisect_done_symbol:=''}
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
     : ${omg_has_stashes_symbol:=''}
@@ -66,6 +71,11 @@ if [ -n "${BASH_VERSION}" ]; then
         local should_push=${21}
         local will_rebase=${22}
         local has_stashes=${23}
+        local bisect_remain=${24}
+        local bisect_total=${25}
+        local bisect_steps=${26}
+        local submodules_outdated=${27}
+        local action=${28}
 
         local prompt=""
         local original_prompt=$PS1
@@ -107,8 +117,13 @@ if [ -n "${BASH_VERSION}" ]; then
 
         if [[ $is_a_git_repo == true ]]; then
             # on filesystem
+            if [[ $submodules_outdated == true ]]; then
+                repo_status_symbol=$omg_submodules_outdated_symbol
+            else
+                repo_status_symbol=$omg_is_a_git_repo_symbol
+            fi
             prompt="${black_on_white} "
-            prompt+=$(enrich_append $is_a_git_repo $omg_is_a_git_repo_symbol "${black_on_white}")
+            prompt+=$(enrich_append $is_a_git_repo $repo_status_symbol "${black_on_white}")
             prompt+=$(enrich_append $has_stashes $omg_has_stashes_symbol "${yellow_on_white}")
 
             prompt+=$(enrich_append $has_untracked_files $omg_has_untracked_files_symbol "${red_on_white}")
@@ -129,7 +144,17 @@ if [ -n "${BASH_VERSION}" ]; then
 
             prompt="${prompt} ${white_on_red} ${black_on_red}"
             if [[ $detached == true ]]; then
-                prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
+                if [[ "${action}" = "rebase" ]]; then
+                    prompt+=$(enrich_append $detached $omg_rebase_interactive_symbol "${white_on_red}")
+                elif [[ "${action}" = "bisect" ]] && [[ "${bisect_steps}" = "0" ]]; then
+                    prompt+=$(enrich_append $detached "$omg_bisect_done_symbol" "${white_on_red}")
+                elif [[ "${action}" = "bisect" ]] && [[ "${bisect_steps}" = "~0" ]]; then
+                    prompt+=$(enrich_append $detached "${bisect_tested}/${bisect_total} $omg_bisect_close_symbol  ${bisect_steps}" "${white_on_red}")
+                elif [[ "${action}" = "bisect" ]]; then
+                    prompt+=$(enrich_append $detached "${bisect_tested}/${bisect_total} $omg_bisect_symbol  ${bisect_steps}" "${white_on_red}")
+                else
+                    prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
+                fi
                 prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${black_on_red}")
             else            
                 if [[ $has_upstream == false ]]; then
