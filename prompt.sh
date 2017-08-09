@@ -63,8 +63,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local has_deletions_cached=${1}; shift 1;
         local has_untracked_files=${1}; shift 1;
         local ready_to_commit=${1}; shift 1;
-        local tag_at_current_commit=${1}; shift 1;
-        local is_on_a_tag=${1}; shift 1;
+        local tags_at_current_commit=${1}; shift 1;
         local has_upstream=${1}; shift 1;
         local commits_ahead=${1}; shift 1;
         local commits_behind=${1}; shift 1;
@@ -194,7 +193,9 @@ if [ -n "${BASH_VERSION}" ]; then
                     prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_red}")
                 fi
             fi
-            prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
+            for tag in ${tags_at_current_commit}; do
+                prompt+=$(enrich_append true "${omg_is_on_a_tag_symbol} ${tag}" "${black_on_red}")
+            done
             prompt+="${reset}${red}${omg_arrow_symbol}${reset}\n"
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_second_line}"

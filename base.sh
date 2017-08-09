@@ -87,8 +87,7 @@ function build_prompt {
             local number_of_untracked_files=$(\grep -c "^??" <<< "${git_status}")
             if [[ $number_of_untracked_files -gt 0 ]]; then local has_untracked_files=true; fi
         
-            local tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
-            if [[ -n $tag_at_current_commit ]]; then local is_on_a_tag=true; fi
+            local tags_at_current_commit=$(git tag --points-at $current_commit_hash 2> /dev/null)
         
             if [[ $has_upstream == true ]]; then
                 local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
@@ -156,8 +155,7 @@ function build_prompt {
         ${has_deletions_cached:-false} \
         ${has_untracked_files:-false} \
         ${ready_to_commit:-false} \
-        ${tag_at_current_commit:-""} \
-        ${is_on_a_tag:-false} \
+        "${tags_at_current_commit:-""}" \
         ${has_upstream:-false} \
         ${commits_ahead:-false} \
         ${commits_behind:-false} \
