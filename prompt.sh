@@ -29,7 +29,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_bisect_done_symbol:=''}
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
-    : ${omg_has_stashes_symbol:=''}
+    : ${omg_has_stashes_symbol:=''}
 
     : ${omg_default_color_on:='\[\033[1;37m\]'}
     : ${omg_default_color_off:='\[\033[0m\]'}
