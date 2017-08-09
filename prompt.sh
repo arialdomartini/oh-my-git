@@ -30,6 +30,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
     : ${omg_has_stashes_symbol:=''}
+    : ${omg_arrow_symbol:=''}
 
     : ${omg_default_color_on:='\[\033[1;37m\]'}
     : ${omg_default_color_off:='\[\033[0m\]'}
@@ -141,7 +142,7 @@ if [ -n "${BASH_VERSION}" ]; then
 
             # where
 
-            prompt="${prompt} ${white_on_red} ${black_on_red}"
+            prompt="${prompt} ${white_on_red}${omg_arrow_symbol} ${black_on_red}"
             if [[ $detached == true ]]; then
                 if [[ "${action}" = "rebase" ]]; then
                     prompt+=$(enrich_append $detached $omg_rebase_interactive_symbol "${white_on_red}")
@@ -183,7 +184,7 @@ if [ -n "${BASH_VERSION}" ]; then
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
-            prompt+="${reset}${red}${reset}\n"
+            prompt+="${reset}${red}${omg_arrow_symbol}${reset}\n"
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_second_line}"
         else
