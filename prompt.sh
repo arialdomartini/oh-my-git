@@ -21,7 +21,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_detached_symbol:=''}                  #   
     : ${omg_can_fast_forward_symbol:=''}
     : ${omg_has_diverged_symbol:=''}               #   
-    : ${omg_not_tracked_branch_symbol:=''}
+    : ${omg_not_tracked_branch_symbol:=''}        #   
     : ${omg_rebase_tracking_branch_symbol:=''}     #   
     : ${omg_rebase_interactive_symbol:=''}
     : ${omg_bisect_symbol:=''}
