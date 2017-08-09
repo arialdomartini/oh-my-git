@@ -1,5 +1,4 @@
-PSORG=$PS1;
-PROMPT_COMMAND_ORG=$PROMPT_COMMAND;
+PSORG=$PS1;PROMPT_COMMAND_ORG=$PROMPT_COMMAND;
 
 if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -124,7 +123,7 @@ if [ -n "${BASH_VERSION}" ]; then
             fi
             prompt="${black_on_white} "
             prompt+=$(enrich_append $is_a_git_repo $repo_status_symbol "${black_on_white}")
-            prompt+=$(enrich_append $has_stashes $omg_has_stashes_symbol "${yellow_on_white}")
+            prompt+=$(enrich_append $has_stashes $omg_has_stashes_symbol "${black_on_white}")
 
             prompt+=$(enrich_append $has_untracked_files $omg_has_untracked_files_symbol "${red_on_white}")
             prompt+=$(enrich_append $has_modifications $omg_has_modifications_symbol "${red_on_white}")
