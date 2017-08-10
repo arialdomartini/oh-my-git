@@ -4,6 +4,7 @@ if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
     source ${DIR}/base.sh
 
+    : ${omg_condensed:=false}
     : ${omg_ungit_prompt:=$PS1}
     : ${omg_second_line:=$PS1}
 
@@ -132,9 +133,19 @@ if [ -n "${BASH_VERSION}" ]; then
             
 
             # ready
-            prompt+=$(enrich_append $has_adds $omg_has_adds_symbol "${black_on_white}")
+            if [[ ${omg_condensed} == true && ${has_adds} == true ]]; then
+                has_modifications_cached=true
+            fi
+            if [[ ${omg_condensed} == true && ${has_deletions_cached} == true ]]; then
+                has_modifications_cached=true
+            fi
+            if [[ ${omg_condensed} == false ]]; then
+                prompt+=$(enrich_append $has_adds $omg_has_adds_symbol "${black_on_white}")
+            fi
             prompt+=$(enrich_append $has_modifications_cached $omg_has_cached_modifications_symbol "${black_on_white}")
-            prompt+=$(enrich_append $has_deletions_cached $omg_has_cached_deletions_symbol "${black_on_white}")
+            if [[ ${omg_condensed} == false ]]; then
+                prompt+=$(enrich_append $has_deletions_cached $omg_has_cached_deletions_symbol "${black_on_white}")
+            fi
             
             # next operation
 
