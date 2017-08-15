@@ -9,19 +9,19 @@ if [ -n "${BASH_VERSION}" ]; then
 
     : ${omg_is_a_git_repo_symbol:=''}
     : ${omg_submodules_outdated_symbol:=''}
-    : ${omg_has_untracked_files_symbol:=''}        #                ?    
+    : ${omg_has_untracked_files_symbol:=''}        #                ?    
     : ${omg_has_adds_symbol:=''}
     : ${omg_has_deletions_symbol:=''}
     : ${omg_has_cached_deletions_symbol:=''}
     : ${omg_has_modifications_symbol:=''}
-    : ${omg_has_cached_modifications_symbol:=''}
-    : ${omg_ready_to_commit_symbol:=''}            #   →
-    : ${omg_is_on_a_tag_symbol:=''}                #   
-    : ${omg_needs_to_merge_symbol:='ᄉ'}
-    : ${omg_detached_symbol:=''}
+    : ${omg_has_cached_modifications_symbol:=''}
+    : ${omg_ready_to_commit_symbol:=''}            #   →
+    : ${omg_is_on_a_tag_symbol:=''}                #       
+    : ${omg_needs_to_merge_symbol:=''}             # ᄉ
+    : ${omg_detached_symbol:=''}                  #   
     : ${omg_can_fast_forward_symbol:=''}
     : ${omg_has_diverged_symbol:=''}               #   
-    : ${omg_not_tracked_branch_symbol:=''}
+    : ${omg_not_tracked_branch_symbol:=''}        #   
     : ${omg_rebase_tracking_branch_symbol:=''}     #   
     : ${omg_rebase_interactive_symbol:=''}
     : ${omg_bisect_symbol:=''}
@@ -29,7 +29,8 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_bisect_done_symbol:=''}
     : ${omg_merge_tracking_branch_symbol:=''}      #  
     : ${omg_should_push_symbol:=''}                #    
-    : ${omg_has_stashes_symbol:=''}
+    : ${omg_has_stashes_symbol:=''}
+    : ${omg_arrow_symbol:=''}
 
     : ${omg_default_color_on:='\[\033[1;37m\]'}
     : ${omg_default_color_off:='\[\033[0m\]'}
@@ -141,7 +142,7 @@ if [ -n "${BASH_VERSION}" ]; then
 
             # where
 
-            prompt="${prompt} ${white_on_red} ${black_on_red}"
+            prompt="${prompt} ${white_on_red}${omg_arrow_symbol} ${black_on_red}"
             if [[ $detached == true ]]; then
                 if [[ "${action}" = "rebase" ]]; then
                     prompt+=$(enrich_append $detached $omg_rebase_interactive_symbol "${white_on_red}")
@@ -183,7 +184,7 @@ if [ -n "${BASH_VERSION}" ]; then
                 fi
             fi
             prompt+=$(enrich_append ${is_on_a_tag} "${omg_is_on_a_tag_symbol} ${tag_at_current_commit}" "${black_on_red}")
-            prompt+="${reset}${red}${reset}\n"
+            prompt+="${reset}${red}${omg_arrow_symbol}${reset}\n"
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_second_line}"
         else
