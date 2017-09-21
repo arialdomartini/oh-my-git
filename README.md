@@ -35,11 +35,11 @@ Then, configure your terminal with the desired font, and restart it.
 
 One liner for OS X:
 
-    git clone https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.profile
+    git clone --depth=1 https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.profile
 
 One liner for Ubuntu:
 
-    git clone https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.bashrc
+    git clone --depth=1 https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.bashrc
 
 Then restart your Terminal.
 

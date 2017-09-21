@@ -10,16 +10,16 @@ if [ -n "${BASH_VERSION}" ]; then
 
     : ${omg_is_a_git_repo_symbol:=''}
     : ${omg_submodules_outdated_symbol:=''}
-    : ${omg_has_untracked_files_symbol:=''}        #                ?    
+    : ${omg_has_untracked_files_symbol:=''}        #                ?    
     : ${omg_has_adds_symbol:=''}
     : ${omg_has_deletions_symbol:=''}
     : ${omg_has_cached_deletions_symbol:=''}
     : ${omg_has_modifications_symbol:=''}
     : ${omg_has_cached_modifications_symbol:=''}
-    : ${omg_ready_to_commit_symbol:=''}            #   →
+    : ${omg_ready_to_commit_symbol:=''}            #   →
     : ${omg_is_on_a_tag_symbol:=''}                #       
     : ${omg_needs_to_merge_symbol:=''}             # ᄉ
-    : ${omg_detached_symbol:=''}                  #   
+    : ${omg_detached_symbol:=''}                  #   
     : ${omg_can_fast_forward_symbol:=''}
     : ${omg_has_diverged_symbol:=''}               #   
     : ${omg_not_tracked_branch_symbol:=''}        #   
@@ -32,10 +32,11 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_should_push_symbol:=''}                #    
     : ${omg_has_stashes_symbol:=''}
     : ${omg_arrow_symbol:=''}
+    : ${omg_is_virtualenv_symbol:=''}
 
     : ${omg_default_color_on:='\[\033[1;37m\]'}
     : ${omg_default_color_off:='\[\033[0m\]'}
-    
+
     PROMPT='$(build_prompt)'
     RPROMPT='%{$reset_color%}%T %{$fg_bold[white]%} %n@%m%{$reset_color%}'
 
@@ -80,6 +81,11 @@ if [ -n "${BASH_VERSION}" ]; then
         local prompt=""
         local original_prompt=$PS1
 
+        local is_virtualenv="${VIRTUAL_ENV:-false}"
+        if [[ $is_virtualenv != false ]]; then
+            local virtualenv=$(basename $VIRTUAL_ENV)
+        fi
+
 
         # foreground
         local black='\e[0;30m'
@@ -100,7 +106,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local background_purple='\e[45m'
         local background_cyan='\e[46m'
         local background_white='\e[47m'
-        
+
         local reset='\e[0m'     # Text Reset]'
 
         local black_on_white="${black}${background_white}"
@@ -129,7 +135,7 @@ if [ -n "${BASH_VERSION}" ]; then
             prompt+=$(enrich_append $has_untracked_files $omg_has_untracked_files_symbol "${red_on_white}")
             prompt+=$(enrich_append $has_modifications $omg_has_modifications_symbol "${red_on_white}")
             prompt+=$(enrich_append $has_deletions $omg_has_deletions_symbol "${red_on_white}")
-            
+
 
             # ready
             if [[ ${omg_condensed} == true && ${has_adds} == true ]]; then
@@ -145,7 +151,7 @@ if [ -n "${BASH_VERSION}" ]; then
             if [[ ${omg_condensed} == false ]]; then
                 prompt+=$(enrich_append $has_deletions_cached $omg_has_cached_deletions_symbol "${black_on_white}")
             fi
-            
+
             # next operation
 
             prompt+=$(enrich_append $ready_to_commit $omg_ready_to_commit_symbol "${red_on_white}")
@@ -166,7 +172,7 @@ if [ -n "${BASH_VERSION}" ]; then
                     prompt+=$(enrich_append $detached $omg_detached_symbol "${white_on_red}")
                 fi
                 prompt+=$(enrich_append $detached "(${current_commit_hash:0:7})" "${black_on_red}")
-            else            
+            else
                 if [[ $has_upstream == false ]]; then
                     prompt+=$(enrich_append true "-- ${omg_not_tracked_branch_symbol}  --  (${current_branch})" "${black_on_red}")
                 else
@@ -188,7 +194,7 @@ if [ -n "${BASH_VERSION}" ]; then
                         if [[ $commits_ahead == 0 && $commits_behind == 0 ]]; then
                             prompt+=$(enrich_append true " --   -- " "${black_on_red}")
                         fi
-                        
+
                     fi
                     prompt+=$(enrich_append true "(${current_branch} ${type_of_upstream} ${upstream//\/$current_branch/})" "${black_on_red}")
                 fi
@@ -196,17 +202,21 @@ if [ -n "${BASH_VERSION}" ]; then
             for tag in ${tags_at_current_commit}; do
                 prompt+=$(enrich_append true "${omg_is_on_a_tag_symbol} ${tag}" "${black_on_red}")
             done
+            prompt+=$(enrich_append ${is_virtualenv} "${omg_is_virtualenv_symbol}  ${virtualenv}" "${white_on_red}")
             prompt+="${reset}${red}${omg_arrow_symbol}${reset}\n"
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_second_line}"
         else
             prompt+="$(eval_prompt_callback_if_present)"
             prompt+="${omg_ungit_prompt}"
+            if [[ $is_virtualenv != false ]]; then
+                prompt+="${virtualenv}${omg_is_virtualenv_symbol}  "
+            fi
         fi
 
         echo "${prompt}"
     }
-    
+
     PS2="${yellow}→${reset} "
 
     function bash_prompt() {

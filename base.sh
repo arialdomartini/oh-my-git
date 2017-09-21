@@ -6,13 +6,13 @@ function enrich {
     local color_on=${3:-$omg_default_color_on}
 
     if [[ $flag != true && $omg_use_color_off == false ]]; then symbol=' '; fi
-    if [[ $flag == true ]]; then local color=$color_on; else local color=$omg_default_color_off; fi    
+    if [[ $flag == true ]]; then local color=$color_on; else local color=$omg_default_color_off; fi
 
     echo -n "${prompt}${color}${symbol}${reset} "
 }
 
 function get_current_action () {
-    local info="$(git rev-parse --git-dir 2>/dev/null)"
+    local info="$(git rev-parse --git-dir 2> /dev/null)"
     if [ -n "$info" ]; then
         local action
         if [ -f "$info/rebase-merge/interactive" ]
@@ -50,18 +50,18 @@ function get_current_action () {
 }
 
 function build_prompt {
-    local enabled=`git config --get oh-my-git.enabled`
+    local enabled=`git config --get oh-my-git.enabled 2> /dev/null`
     if [[ ${enabled} == false ]]; then
         echo "${PSORG}"
         exit;
     fi
 
     local prompt=""
-    
+
     # Git info
     local current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
     if [[ -n $current_commit_hash ]]; then local is_a_git_repo=true; fi
-    
+
     if [[ $is_a_git_repo == true ]]; then
         local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
         local current_branch_sanitized=${current_branch//\$/💩}
@@ -86,9 +86,9 @@ function build_prompt {
 
             local number_of_untracked_files=$(\grep -c "^??" <<< "${git_status}")
             if [[ $number_of_untracked_files -gt 0 ]]; then local has_untracked_files=true; fi
-        
+
             local tags_at_current_commit=$(git tag --points-at $current_commit_hash 2> /dev/null)
-        
+
             if [[ $has_upstream == true ]]; then
                 local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
                 local commits_ahead=$(\grep -c "^<" <<< "$commits_diff")
@@ -97,9 +97,9 @@ function build_prompt {
 
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then local has_diverged=true; fi
             if [[ $has_diverged == false && $commits_ahead -gt 0 ]]; then local should_push=true; fi
-        
+
             local will_rebase=$(git config --get branch.${current_branch_sanitized}.rebase 2> /dev/null)
-        
+
             local number_of_stashes="$(git stash list -n1 2> /dev/null | wc -l)"
             if [[ $number_of_stashes -gt 0 ]]; then local has_stashes=true; fi
 
@@ -139,7 +139,7 @@ function build_prompt {
             done
         fi
     fi
-    
+
     echo "$(custom_build_prompt \
         ${enabled:-true} \
         ${current_commit_hash:-""} \
@@ -169,7 +169,7 @@ function build_prompt {
         ${submodules_outdated:-false} \
         ${action} \
     )"
-    
+
 }
 
 function_exists() {
