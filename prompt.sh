@@ -1,5 +1,5 @@
 PSORG=$PS1;
-PROMPT_COMMAND_ORG=$PROMPT_COMMAND;
+PROMPT_COMMAND_ORG=${PROMPT_COMMAND##*bash_prompt; };
 
 if [ -n "${BASH_VERSION}" ]; then
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
