@@ -62,8 +62,8 @@ If you prefer to keep oh-my-git repository in a different directory, just modify
 
 With antigen installed, just add
 
-    antigen-use oh-my-zsh
-    antigen-bundle arialdomartini/oh-my-git
+    antigen use oh-my-zsh
+    antigen bundle arialdomartini/oh-my-git
     antigen theme arialdomartini/oh-my-git-themes oppa-lana-style
 
 to your `.zshrc` file.
@@ -81,11 +81,11 @@ Then, edit your `.zshrc` file including
 
     source "$HOME/.antigen/antigen.zsh"
 
-    antigen-use oh-my-zsh
-    antigen-bundle arialdomartini/oh-my-git
+    antigen use oh-my-zsh
+    antigen bundle arialdomartini/oh-my-git
     antigen theme arialdomartini/oh-my-git-themes oppa-lana-style
 
-    antigen-apply
+    antigen apply
 
 When you restart zsh, antigen will download and install all that's needed.
 
@@ -134,8 +134,8 @@ in the `.git/config` file of a repo to revert to the original prompt for that pa
 Remove the lines
 
 ```
-antigen-use oh-my-zsh
-antigen-bundle arialdomartini/oh-my-git
+antigen use oh-my-zsh
+antigen bundle arialdomartini/oh-my-git
 antigen theme arialdomartini/oh-my-git-themes oppa-lana-style
 ```
 
