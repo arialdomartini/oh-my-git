@@ -35,11 +35,11 @@ Then, configure your terminal with the desired font, and restart it.
 
 One liner for OS X:
 
-    git clone https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.profile
+    git clone --depth=1 https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.profile
 
 One liner for Ubuntu:
 
-    git clone https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.bashrc
+    git clone --depth=1 https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.bashrc
 
 Then restart your Terminal.
 
@@ -168,46 +168,6 @@ Those are just default values. If you wish to use another glyph for untracked fi
     omg_has_untracked_files_symbol="whatever"
 
 in your shell startup file.
-
----
-#### With Bash the last symbol looks very bad, like this
-
-![oh-my-git](https://cloud.githubusercontent.com/assets/6009528/6031476/0b9bfe2c-ac00-11e4-898a-324a71be6cb5.png)
-
-**A**: Unfortunately, I haven't find a way to tell bash "*print the next symbol using the background color currently used by the terminal*" and as far as I know [there's no way to achieve this result](http://unix.stackexchange.com/questions/1755/change-the-ps1-color-based-on-the-background-color#tab-top). Zsh is not affected by this issue, but bash is.
-
-As a consequence, when printing the last symbol, oh-my-git has no choice but setting explicitly the foreground and background colors. Currently, the standard background color is black. This is unfortunate, because if the terminal uses a different background color than black, the result is bad, as showed in the above screenshot.
-
-A smart solution is the one proposed by [@Sgiath](https://github.com/Sgiath): in the color palette set the first color (the one in the top-left corner) same as background color, like this
-
-![oh-my-git](https://cloud.githubusercontent.com/assets/6009528/6039646/454c965e-ac69-11e4-8f80-37425181d04b.png)
-
-This in fact sets the "black" color to the same color used as the terminal background.
-
-
-If for any reasons you cannot change the palette, you can override the colors used to render the last symbol with the variable `omg_last_symbol_color`.
-
-For example, if the terminal is using a gray background, you can add a
-
-```
-background=240
-red='\e[0;31m'
-omg_last_symbol_color="${red}\[\033[48;5;${background}m\]"
-```
-
-to your `.bashrc` and fix the issue by choosing the right value for `background`.
-
-You can use
-
-```
-foreground=160
-background=240
-omg_last_symbol_color="\[\033[38;5;${foreground}m\]\[\033[48;5;${background}m\]"
-```
-
-if you want a more detailed control on the colors.
-
-Finding the right value is not trivial. Please, refer to [this page](http://bitmote.com/index.php?post/2012/11/19/Using-ANSI-Color-Codes-to-Colorize-Your-Bash-Prompt-on-Linux) for a the 256 colors code table.
 
 ---
 
