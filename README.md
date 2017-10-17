@@ -283,7 +283,7 @@ Add
 VIRTUAL_ENV_DISABLE_PROMPT=true
 function omg_prompt_callback() {
     if [ -n "${VIRTUAL_ENV}" ]; then
-        echo "\e[0;31m(`basename ${VIRTUAL_ENV}`)\e[0m "
+        echo "\[\e[0;31m\](`basename ${VIRTUAL_ENV}`)\[\e[0m\] "
     fi
 }
 ```
