@@ -290,7 +290,7 @@ function omg_prompt_callback() {
 
 to your shell startup script. It should render the prompt inside an active virtualenv like this
 
-![a proper virtualenv rendering](https://cloud.githubusercontent.com/assets/150719/5852429/e50d18a6-a216-11e4-9b0e-c902f47a1ca4.png)]
+![a proper virtualenv rendering](https://cloud.githubusercontent.com/assets/150719/5852429/e50d18a6-a216-11e4-9b0e-c902f47a1ca4.png)
 
 You can use the call back function to inject whatever you want at the beginning of the second line.
 
