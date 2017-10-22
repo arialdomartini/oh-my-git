@@ -14,6 +14,7 @@ if [ -n "${BASH_VERSION}" ]; then
     : ${omg_has_adds_symbol:=''}
     : ${omg_has_deletions_symbol:=''}
     : ${omg_has_cached_deletions_symbol:=''}
+    : ${omg_has_renames_symbol:=''}                # 
     : ${omg_has_modifications_symbol:=''}
     : ${omg_has_cached_modifications_symbol:=''}
     : ${omg_ready_to_commit_symbol:=''}            #   →
@@ -62,6 +63,7 @@ if [ -n "${BASH_VERSION}" ]; then
         local has_adds=${1}; shift 1;
         local has_deletions=${1}; shift 1;
         local has_deletions_cached=${1}; shift 1;
+        local has_renames=${1}; shift 1;
         local has_untracked_files=${1}; shift 1;
         local ready_to_commit=${1}; shift 1;
         local tags_at_current_commit=${1}; shift 1;
@@ -144,8 +146,11 @@ if [ -n "${BASH_VERSION}" ]; then
             if [[ ${omg_condensed} == true && ${has_deletions_cached} == true ]]; then
                 has_modifications_cached=true
             fi
+            if [[ ${omg_condensed} == true && ${has_renames} == true ]]; then
+                has_modifications_cached=true
+            fi
             if [[ ${omg_condensed} == false ]]; then
-                prompt+=$(enrich_append $has_adds $omg_has_adds_symbol "${black_on_white}")
+                prompt+=$(enrich_append $has_adds $omg_has_adds_symbol $omg_has_renames_symbol "${black_on_white}")
             fi
             prompt+=$(enrich_append $has_modifications_cached $omg_has_cached_modifications_symbol "${black_on_white}")
             if [[ ${omg_condensed} == false ]]; then

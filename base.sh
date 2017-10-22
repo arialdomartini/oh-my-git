@@ -82,6 +82,7 @@ function build_prompt {
             if [[ $git_status =~ ($'\n'|^)A ]]; then local has_adds=true; fi
             if [[ $git_status =~ ($'\n'|^).D ]]; then local has_deletions=true; fi
             if [[ $git_status =~ ($'\n'|^)D ]]; then local has_deletions_cached=true; fi
+            if [[ $git_status =~ ($'\n'|^)R ]]; then local has_renames=true; fi
             if [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]]; then local ready_to_commit=true; fi
 
             local number_of_untracked_files=$(\grep -c "^??" <<< "${git_status}")
@@ -153,6 +154,7 @@ function build_prompt {
         ${has_adds:-false} \
         ${has_deletions:-false} \
         ${has_deletions_cached:-false} \
+        ${has_renames:-false} \
         ${has_untracked_files:-false} \
         ${ready_to_commit:-false} \
         "${tags_at_current_commit:-""}" \
