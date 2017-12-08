@@ -150,7 +150,8 @@ if [ -n "${BASH_VERSION}" ]; then
                 has_modifications_cached=true
             fi
             if [[ ${omg_condensed} == false ]]; then
-                prompt+=$(enrich_append $has_adds $omg_has_adds_symbol $omg_has_renames_symbol "${black_on_white}")
+                prompt+=$(enrich_append $has_adds $omg_has_adds_symbol "${black_on_white}")
+                prompt+=$(enrich_append $has_renames $omg_has_renames_symbol "${black_on_white}")
             fi
             prompt+=$(enrich_append $has_modifications_cached $omg_has_cached_modifications_symbol "${black_on_white}")
             if [[ ${omg_condensed} == false ]]; then
