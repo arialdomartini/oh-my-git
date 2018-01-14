@@ -129,6 +129,7 @@ function build_prompt {
                 # obtain the module configuration
                 local module_path=$(git -C "${toplevel}" config --file .gitmodules ${module}.path)
                 local module_branch=$(git -C "${toplevel}" config --file .gitmodules ${module}.branch)
+                if [ -z "${module_branch}" ]; then continue; fi
                 # spawn a background update of our cached information
                 (git -C "${toplevel}/${module_path}" remote update &) 1>/dev/null 2>/dev/null
                 # determine whether the branch is out of date (with cached data)
