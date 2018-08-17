@@ -275,7 +275,7 @@ PS1="(`basename \"$VIRTUAL_ENV\"`)$PS1"
 
 that arrogantly prepends the virtualenv name to the current ```PS1```, leaving you no opportunity to customise the output.
 
-You can solve this problem disabling the standart virtualenv prompt injection and using the callback function `omg_prompt_callback`.
+You can solve this problem disabling the standard virtualenv prompt injection and using the callback function `omg_prompt_callback`.
 
 Add
 
