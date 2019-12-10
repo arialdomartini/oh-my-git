@@ -105,12 +105,13 @@ function build_prompt {
             if [[ $number_of_stashes -gt 0 ]]; then local has_stashes=true; fi
 
             if [ "${action}" = "bisect" ]; then
-                local bisect_log=$(git bisect log)
+                local bisect_toplevel=$(git rev-parse --show-toplevel)
+                local bisect_log=$(git -C ${bisect_toplevel} bisect log)
                 local bisect_first=$(grep 'git bisect good' <<< "${bisect_log}" | head -n1 | cut -d' ' -f4)
                 local bisect_last=$(grep 'git bisect bad' <<< "${bisect_log}" | head -n1 | cut -d' ' -f4)
                 local bisect_total=$(git log --pretty=oneline ${bisect_first}..${bisect_last} 2> /dev/null | wc -l)
                 local bisect_total=$(bc <<< "${bisect_total} - 1")
-                local bisect_remain=$(git bisect view --pretty=oneline 2> /dev/null | wc -l)
+                local bisect_remain=$(git -C ${bisect_toplevel} bisect view --pretty=oneline 2> /dev/null | wc -l)
                 local bisect_remain=$(bc <<< "${bisect_remain} / 2")
                 local bisect_tested=$(bc <<< "${bisect_total} - ${bisect_remain}")
                 if [[ ${bisect_remain} -ne 0 ]]; then
