@@ -78,6 +78,7 @@ function build_prompt {
             local action="$(get_current_action)"
 
             if [[ $git_status =~ ($'\n'|^).M ]]; then local has_modifications=true; fi
+            if [[ $git_status =~ ($'\n'|^)UU ]]; then local has_modifications=true; fi
             if [[ $git_status =~ ($'\n'|^)M ]]; then local has_modifications_cached=true; fi
             if [[ $git_status =~ ($'\n'|^)A ]]; then local has_adds=true; fi
             if [[ $git_status =~ ($'\n'|^).D ]]; then local has_deletions=true; fi
