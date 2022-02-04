@@ -25,7 +25,7 @@ oh-my-git is shipped with 3 themes. The one showed above is called [oppa-lana-st
 
 You can freely [download](https://github.com/gabrielelana/awesome-terminal-fonts/tree/patching-strategy/patched) the fonts from the original repo.
 
-To install one of the fonts, on OS X just double click on the corresponding ```ttf``` file and click on ```Install font```. So far, I didn't find a way to make the fallback strategy work on OS X.
+To install one of the fonts, on macOS just double click on the corresponding ```ttf``` file and click on ```Install font```. So far, I didn't find a way to make the fallback strategy work on macOS.
 
 On Linux you can either [install the patched font](#install-the-patched-font) or you can apply the Awesome-Terminal-Fonts [fallback strategy](https://github.com/gabrielelana/awesome-terminal-fonts/blob/master/README.md#patching-vs-fallback).
     
@@ -33,7 +33,7 @@ Then, configure your terminal with the desired font, and restart it.
 
 ## Bash
 
-One liner for OS X:
+One liner for macOS:
 
     git clone https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && echo source ~/.oh-my-git/prompt.sh >> ~/.profile
 
