@@ -89,9 +89,8 @@ function build_prompt {
             if [[ -n $tag_at_current_commit ]]; then local is_on_a_tag=true; fi
         
             if [[ $has_upstream == true ]]; then
-                local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
-                local commits_ahead=$(\grep -c "^<" <<< "$commits_diff")
-                local commits_behind=$(\grep -c "^>" <<< "$commits_diff")
+                local commits_ahead commits_behind
+                read -r commits_behind commits_ahead <<<$(git rev-list --left-right --count ${current_commit_hash}...${upstream} 2> /dev/null)
             fi
 
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then local has_diverged=true; fi
