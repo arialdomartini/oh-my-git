@@ -253,7 +253,7 @@ Finally, install oh-my-zsh with the one-liner (if you use Bash) or with Antigen 
 
 **A**: The one-liner for OS X adds the startup command in ```~/.profile```, which is the startup file for generic login shells. If a ```~/.bash_profile``` is present, this is used in place of ```.profile```, and ```.profile``` itself is ignored. To solve your issue, use this alternative one-liner
 
-    cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/oh-my-git/prompt.sh >> .bash_profile
+    cd ~ && git clone https://github.com/arialdomartini/oh-my-git.git && echo source $HOME/.oh-my-git/prompt.sh >> .bash_profile
 
 or just move the startup command
 
