@@ -90,7 +90,7 @@ function build_prompt {
         
             if [[ $has_upstream == true ]]; then
                 local commits_ahead commits_behind
-                read -r commits_behind commits_ahead <<<$(git rev-list --left-right --count ${current_commit_hash}...${upstream} 2> /dev/null)
+                read -r commits_ahead commits_behind <<<$(git rev-list --left-right --count ${current_commit_hash}...${upstream} 2> /dev/null)
             fi
 
             if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then local has_diverged=true; fi
