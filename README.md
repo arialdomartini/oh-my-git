@@ -76,7 +76,7 @@ to your `.zshrc` file.
 
 Install `oh-my-git` in just one click.
 
-<a href="https://fig.io/plugins/other/oh-my-git" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a
+<a href="https://fig.io/plugins/other/oh-my-git" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a>
 
 ## How to install antigen
 
