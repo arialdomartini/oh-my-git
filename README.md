@@ -70,6 +70,14 @@ to your `.zshrc` file.
 
 [`oh-my-git-themes`](https://github.com/arialdomartini/oh-my-git-themes) still includes the old 2 themes [arialdo-granzestyle](https://github.com/arialdomartini/oh-my-git-themes/blob/master/arialdo-granzestyle.zsh-theme)  (which is inspired to the great [Granze theme](https://github.com/Granze/G-zsh-theme-2)) by [@granze](https://github.com/granze), and [arialdo-pathinline](https://github.com/arialdomartini/oh-my-git-themes/blob/master/arialdo-pathinline.zsh-theme). If you want to use them, edit accordingly your ```.zshrc``` file.
 
+## Fig
+
+[Fig](https://fig.io) adds apps, shortcuts, and autocomplete to your existing terminal.
+
+Install `oh-my-git` in just one click.
+
+<a href="https://fig.io/plugins/other/oh-my-git" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a
+
 ## How to install antigen
 
 [antigen](https://github.com/zsh-users/antigen) is a plugin manager for `zsh`.
