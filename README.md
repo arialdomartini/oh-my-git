@@ -58,6 +58,29 @@ If you prefer to keep oh-my-git repository in a different directory, just modify
 
     source /wherever-you-want/oh-my-git/prompt.sh
 
+## Change colors in bash
+
+You can easily change theme colors in bash. For example to change the red background to green just put OMG_THEME variable with overridden colors into ~/.bashrc before including prompt.sh:    
+    
+    declare -A OMG_THEME=(["right_side_bg"]='green')
+    source $HOME/oh-my-git/prompt.sh
+
+**List of color variables**
+
+| OMG_THEME key  | default value |
+| -------------- | ------------- |
+|left_side_color |     black     |
+|left_side_bg    |     white     |
+|left_icon_color |     red       |
+|stash_color     |     yellow    |
+|right_side_color|     black     |
+|right_side_bg   |     red       |
+|right_icon_color|     white     |
+|default_bg      |     black     |
+
+**Possible colors:** "black", "red", "green", "yellow", "blue", "purple", "cyan" and "white".  
+
+
 ## zsh
 
 With antigen installed, just add
