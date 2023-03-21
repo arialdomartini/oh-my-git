@@ -174,7 +174,9 @@ if [ -n "${BASH_VERSION}" ]; then
     PS2="${yellow}→${reset} "
 
     function bash_prompt() {
+        local oldrc=$?
         PS1="$(build_prompt)"
+        return $oldrc
     }
 
     PROMPT_COMMAND="bash_prompt; $PROMPT_COMMAND_ORG"
